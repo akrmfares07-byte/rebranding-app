@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<title>Rebranding</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/FaresAkramm/photo/main/re-branding.jpg"/>
+<meta name="apple-mobile-web-app-title" content="Rebranding"/>
+<meta name="description" content="Rebranding Data Mod — لوحة تحكم"/>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(r=>console.log('SW registered')).catch(e=>console.log('SW error',e));
+  });
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="module">
+  import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import{getFirestore,collection,doc,setDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit,getDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  const app=initializeApp({apiKey:"AIzaSyDyw9pT5tkE6Jz8_aamc1oK8NZk69R3sBo",authDomain:"rebranding-data-mod-56340.firebaseapp.com",projectId:"rebranding-data-mod-56340",storageBucket:"rebranding-data-mod-56340.firebasestorage.app",messagingSenderId:"696496503983",appId:"1:696496503983:web:144e09ee144d518fa2e85a"});
+  const db=getFirestore(app);
+  window.__fb={db,collection,doc,setDoc,deleteDoc,onSnapshot,getDocs,query,orderBy,limit,getDoc};
+  window.__fbReady=true;
+  window.dispatchEvent(new Event("fbReady"));
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Work+Sans:wght@300;400;500;600;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--primary:#0a0a0a;--hl:#d4a574;--hld:#b8915f;--text:#e8e8e8;--dim:#a8a8a8;--card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-top:env(safe-area-inset-top,0px);}
+
+/* ── Base ── */
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{font-family:'Cairo','Work Sans',sans-serif;direction:rtl;background:var(--primary);min-height:100vh;min-height:-webkit-fill-available;color:var(--text);position:relative;overflow-x:hidden;cursor:none;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 50%,rgba(212,165,116,0.05),transparent 50%),radial-gradient(circle at 80% 80%,rgba(212,165,116,0.03),transparent 50%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;opacity:0.022;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;}
+
+/* ── Custom Cursor (desktop only) ── */
+#cursor,#cursor-ring{display:none;}
+@media(pointer:fine){
+  body{cursor:none;}
+  a,button,label,[role="button"]{cursor:none;}
+  input,select,textarea{cursor:text;}
+  #cursor{display:block;position:fixed;width:10px;height:10px;background:var(--hl);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .18s,height .18s;mix-blend-mode:difference;}
+  #cursor-ring{display:block;position:fixed;width:32px;height:32px;border:1.5px solid rgba(212,165,116,0.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+  #cursor.ck{width:7px;height:7px;}
+  #cursor-ring.ck{width:24px;height:24px;}
+}
+@media(pointer:coarse){body{cursor:auto;}}
+
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:#0a0a0a;}::-webkit-scrollbar-thumb{background:rgba(212,165,116,0.25);border-radius:2px;}
+.bh{transition:opacity .18s;}.bh:hover{opacity:.8;}
+input,select,textarea{outline:none;font-family:'Cairo',sans-serif;-webkit-appearance:none;border-radius:6px;}
+
+/* ── Animations ── */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInBg{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 28px rgba(212,165,116,0.2),0 0 56px rgba(212,165,116,0.05)}50%{box-shadow:0 0 46px rgba(212,165,116,0.32),0 0 90px rgba(212,165,116,0.09)}}
+@keyframes floatUp{from{opacity:0;transform:translateY(36px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes skelPulse{0%,100%{opacity:.35}50%{opacity:.6}}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes accordOpen{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes waBounce{0%,100%{transform:scale(1)}30%{transform:scale(1.12)}60%{transform:scale(0.95)}}
+
+/* ── Page transitions ── */
+.page-enter{animation:pageIn .32s ease both;}
+
+/* ── Cards ── */
+.card{transition:transform .22s,box-shadow .22s,border-color .22s;}
+@media(hover:hover){.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.52);border-color:var(--hl)!important;}}
+
+/* ── Skeleton ── */
+.skel{background:rgba(255,255,255,0.05);border-radius:6px;animation:skelPulse 1.5s ease-in-out infinite;}
+
+/* ── Upload ── */
+.upbtn{display:flex;align-items:center;justify-content:center;gap:.45rem;width:100%;padding:.56rem 1rem;border-radius:8px;border:1.5px dashed rgba(212,165,116,0.3);background:rgba(212,165,116,0.03);color:var(--hl);font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:600;margin-bottom:.5rem;transition:all .2s;min-height:44px;}
+.upbtn:hover{border-color:var(--hl);background:rgba(212,165,116,0.07);}
+.pbar{width:100%;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:.55rem;overflow:hidden;}
+.pbar-in{height:100%;background:var(--hl);transition:width .3s;}
+
+/* ── Copy btn ── */
+.cpbtn{display:inline-flex;align-items:center;gap:.28rem;padding:.32rem .8rem;border-radius:6px;border:1px solid rgba(212,165,116,0.22);background:rgba(212,165,116,0.05);color:var(--hl);font-family:'Cairo',sans-serif;font-size:.74rem;font-weight:600;transition:all .18s;min-height:36px;white-space:nowrap;}
+.cpbtn:hover{border-color:var(--hl);background:rgba(212,165,116,0.12);}
+.cpbtn.done{border-color:#4ade80;color:#4ade80;background:rgba(74,222,128,0.07);}
+.cpbtn.sm{padding:.22rem .58rem;font-size:.68rem;min-height:30px;}
+
+/* ── Gallery ── */
+.gimg{width:100%;height:110px;object-fit:cover;border-radius:6px;border:1px solid var(--border);transition:transform .2s,border-color .2s;}
+@media(hover:hover){.gimg:hover{transform:scale(1.03);border-color:var(--hl);}}
+.exp-urgent{animation:pulse 1.5s ease-in-out infinite;}
+
+/* ── Search ── */
+.search-wrap{position:relative;flex:1;max-width:340px;}
+.search-wrap input{width:100%;padding:0.48rem 1rem 0.48rem 2.4rem;border-radius:22px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--text);font-family:'Cairo',sans-serif;font-size:0.85rem;direction:rtl;min-height:42px;transition:border-color .2s;}
+.search-wrap input:focus{border-color:rgba(212,165,116,0.42);}
+.search-icon{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:.8rem;pointer-events:none;}
+
+/* ── FAB ── */
+.explain-fab{position:fixed;bottom:calc(1.2rem + var(--safe-bottom));left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:.48rem;padding:.58rem 1.3rem;border-radius:30px;border:1px solid rgba(212,165,116,0.3);background:rgba(10,10,10,0.94);color:var(--hl);font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:700;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 4px 24px rgba(0,0,0,.5);transition:all .22s;white-space:nowrap;min-height:42px;}
+.explain-fab:hover{background:rgba(212,165,116,0.1);border-color:var(--hl);}
+
+/* ── Explain modal ── */
+.explain-section{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem;margin-bottom:.75rem;}
+.explain-section h3{color:var(--hl);font-size:.82rem;font-weight:700;margin-bottom:.55rem;letter-spacing:.05em;}
+.explain-section p,.explain-section li{font-size:.82rem;color:var(--dim);line-height:1.75;}
+.explain-section ul{padding-right:1.2rem;}
+.explain-section li{margin-bottom:.28rem;}
+
+/* ── Undo toast ── */
+.undo-toast{position:fixed;bottom:calc(4.5rem + var(--safe-bottom));left:50%;transform:translateX(-50%);background:#181818;border:1px solid rgba(212,165,116,0.22);color:var(--text);padding:.55rem 1rem;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.8rem;display:flex;align-items:center;gap:.65rem;z-index:998;animation:slideUp .22s ease;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;}
+
+/* ── Made by ── */
+.made-by{font-family:'Playfair Display',serif;font-size:.8rem;font-weight:600;background:linear-gradient(90deg,#b8915f,#d4a574,#f0dbb5,#d4a574,#b8915f);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em;animation:shimmer 3s linear infinite;}
+
+/* ── Landing ── */
+.land-logo{animation:glowPulse 3s ease-in-out infinite;}
+.land-ring{position:absolute;border-radius:50%;border:1px solid rgba(212,165,116,0.06);pointer-events:none;}
+.land-btn-primary{padding:.85rem 2rem;border-radius:10px;border:none;font-weight:700;font-family:'Cairo',sans-serif;font-size:1rem;background:var(--hl);color:#0a0a0a;transition:all .22s;letter-spacing:.03em;min-height:50px;}
+@media(hover:hover){.land-btn-primary:hover{background:var(--hld);transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,165,116,0.35);}}
+.land-btn-ghost{padding:.82rem 2rem;border-radius:10px;font-weight:600;font-family:'Cairo',sans-serif;font-size:1rem;background:transparent;color:var(--dim);border:1px solid rgba(255,255,255,0.11);transition:all .22s;min-height:50px;}
+@media(hover:hover){.land-btn-ghost:hover{border-color:rgba(212,165,116,0.4);color:var(--hl);transform:translateY(-2px);}}
+
+/* ── Accordion offer ── */
+.ocard{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s;margin-bottom:.5rem;}
+@media(hover:hover){.ocard:hover{border-color:rgba(212,165,116,0.2);}}
+.ocard-head{display:flex;align-items:center;gap:.65rem;padding:.8rem 1rem;user-select:none;min-height:56px;}
+@media(hover:hover){.ocard-head:hover{background:rgba(255,255,255,0.02);}}
+.ocard-body{animation:accordOpen .2s ease both;}
+.ocard.urgent{border-color:rgba(251,191,36,0.32);}
+.ocard.expired{border-color:rgba(239,68,68,0.18);opacity:.65;}
+
+/* ── Modal ── */
+.modal-box{animation:modalIn .26s ease both;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:300;padding:1rem;animation:fadeInBg .18s ease;overflow-y:auto;}
+
+/* ── Nav ── */
+.nav-bar{background:rgba(8,8,8,0.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid rgba(255,255,255,0.05);padding:0 1.2rem;padding-top:var(--safe-top);display:flex;align-items:center;justify-content:space-between;height:calc(58px + var(--safe-top));position:sticky;top:0;z-index:50;}
+
+/* ── Tabs ── */
+.tab-bar{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.6rem;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tab-btn{padding:.5rem 1.1rem;border:none;background:transparent;color:var(--dim);font-weight:600;font-size:.78rem;font-family:'Cairo',sans-serif;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;min-height:44px;}
+.tab-btn.on{color:var(--hl);border-bottom-color:var(--hl);}
+
+/* ── WA error btn ── */
+.wa-error-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:10px;border:none;background:#25D366;color:#fff;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;min-height:48px;animation:waBounce 1s ease 1;transition:all .2s;}
+@media(hover:hover){.wa-error-btn:hover{background:#1da851;transform:translateY(-1px);}}
+
+/* ── Reminder banner ── */
+.reminder-banner{display:flex;align-items:center;gap:.7rem;padding:.8rem 1rem;background:rgba(212,165,116,0.07);border:1px solid rgba(212,165,116,0.2);border-radius:10px;margin-bottom:1.2rem;font-size:.8rem;color:var(--dim);}
+.reminder-banner strong{color:var(--hl);}
+
+/* ── Expired admin card ── */
+.exp-admin-card{border-color:rgba(239,68,68,0.25)!important;background:rgba(239,68,68,0.03)!important;}
+
+/* ── Multi-reply item ── */
+.reply-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:.75rem;margin-bottom:.5rem;}
+.reply-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;}
+
+
+/* ── Hover Preview ── */
+.acc-preview{position:absolute;top:calc(100% + 8px);right:0;width:260px;background:#111;border:1px solid rgba(212,165,116,.22);border-radius:10px;padding:.85rem;z-index:200;box-shadow:0 12px 36px rgba(0,0,0,.7);animation:fadeIn .18s ease;pointer-events:none;}
+.acc-preview::before{content:'';position:absolute;top:-6px;right:14px;width:10px;height:10px;background:#111;border-top:1px solid rgba(212,165,116,.22);border-right:1px solid rgba(212,165,116,.22);transform:rotate(-45deg);}
+
+/* ── Pin badge ── */
+.pin-badge{position:absolute;top:8px;right:8px;background:var(--hl);color:#0a0a0a;font-size:.55rem;font-weight:900;padding:.12rem .4rem;border-radius:4px;letter-spacing:.06em;text-transform:uppercase;z-index:2;}
+
+/* ── QR Modal ── */
+.qr-wrap{background:#fff;border-radius:10px;padding:12px;display:inline-block;}
+
+/* ── ReplyCard (profile board) ── */
+.reply-board-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;}
+.reply-board-card:hover{border-color:rgba(212,165,116,.35);background:rgba(212,165,116,.04);}
+.reply-board-card.copied{border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.07);box-shadow:0 0 0 2px rgba(74,222,128,.12);}
+
+/* ── Tag clickable ── */
+.tag-btn{display:inline-block;padding:.08rem .46rem;border-radius:4px;font-size:.62rem;font-weight:500;background:rgba(212,165,116,.07);color:var(--hl);border:1px solid rgba(212,165,116,.13);margin-left:.26rem;margin-bottom:.26rem;cursor:pointer;transition:all .18s;}
+.tag-btn:hover{background:rgba(212,165,116,.18);border-color:var(--hl);}
+
+/* ── Duplicate btn ── */
+.dup-btn{padding:.3rem .65rem;border-radius:4px;border:1px solid rgba(212,165,116,.2);font-weight:600;font-size:.72rem;font-family:'Cairo',sans-serif;background:rgba(212,165,116,.05);color:var(--hl);min-height:36px;}
+
+/* ── Smooth counter ── */
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stat-num{animation:countUp .5s ease both;}
+
+/* ── Swipe hint ── */
+@keyframes swipeHint{0%{transform:translateX(0)}40%{transform:translateX(-8px)}70%{transform:translateX(4px)}100%{transform:translateX(0)}}
+
+
+/* ── Staggered entrance ── */
+.s0{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .05s both;}
+.s1{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .18s both;}
+.s2{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .32s both;}
+.s3{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .46s both;}
+.s4{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .58s both;}
+.s5{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .70s both;}
+.s6{animation:floatUp .7s cubic-bezier(.22,1,.36,1) .82s both;}
+/* ── Particles canvas ── */
+#particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;}
+
+/* ── Landing preview cards ── */
+@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(-1.5deg)}}
+@keyframes cardFloat2{0%,100%{transform:translateY(0) rotate(1.2deg)}50%{transform:translateY(-7px) rotate(1.2deg)}}
+@keyframes cardFloat3{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(0deg)}}
+.preview-card-1{animation:cardFloat 4s ease-in-out infinite;}
+.preview-card-2{animation:cardFloat2 5s ease-in-out infinite .6s;}
+.preview-card-3{animation:cardFloat3 4.5s ease-in-out infinite 1.2s;}
+
+/* ── Tagline typewriter ── */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.tagline-cursor{display:inline-block;width:2px;height:1em;background:var(--hl);margin-right:2px;animation:blink .7s ease-in-out infinite;vertical-align:middle;}
+
+/* ── Latest offer badge ── */
+@keyframes newBadgePulse{0%,100%{box-shadow:0 0 0 0 rgba(212,165,116,.4)}70%{box-shadow:0 0 0 8px rgba(212,165,116,0)}}
+.new-offer-badge{animation:newBadgePulse 2s ease-in-out infinite;}
+
+/* ── Stat counter animate ── */
+@keyframes statPop{0%{opacity:0;transform:scale(.7) translateY(10px)}70%{transform:scale(1.08)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.stat-pop{animation:statPop .55s cubic-bezier(.34,1.56,.64,1) both;}
+
+/* ── Scroll indicator ── */
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-indicator{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);animation:scrollBounce 1.8s ease-in-out infinite;color:rgba(212,165,116,.3);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;}
+
+/* ── AI Bot ── */
+@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.tdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--hl);margin:0 2px;animation:typingDot 1s ease-in-out infinite;}
+.tdot:nth-child(2){animation-delay:.18s;}.tdot:nth-child(3){animation-delay:.36s;}
+.bot-fab{position:fixed;bottom:calc(1.4rem + var(--safe-bottom));left:1.4rem;z-index:160;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#d4a574,#b8915f);border:none;color:#0a0a0a;font-size:1.35rem;box-shadow:0 4px 22px rgba(212,165,116,.45);transition:all .22s;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.bot-fab:hover{transform:scale(1.09);box-shadow:0 6px 30px rgba(212,165,116,.55);}
+.bot-window{position:fixed;bottom:calc(4.8rem + var(--safe-bottom));left:1.4rem;z-index:160;width:calc(100vw - 2.8rem);max-width:420px;background:#0d0d0d;border:1px solid rgba(212,165,116,.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.75);animation:slideUp .22s ease;overflow:hidden;display:flex;flex-direction:column;max-height:72vh;}
+.bot-head{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;background:rgba(212,165,116,.05);border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;}
+.bot-msgs{flex:1;overflow-y:auto;padding:.8rem 1rem;display:flex;flex-direction:column;gap:.55rem;}
+.bot-bubble-user{align-self:flex-start;background:rgba(212,165,116,.12);border:1px solid rgba(212,165,116,.2);color:var(--text);padding:.48rem .8rem;border-radius:12px 12px 4px 12px;font-size:.82rem;max-width:88%;line-height:1.58;font-family:'Cairo',sans-serif;}
+.bot-bubble-ai{align-self:flex-end;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--text);padding:.48rem .8rem;border-radius:12px 12px 12px 4px;font-size:.82rem;max-width:92%;line-height:1.65;white-space:pre-wrap;font-family:'Cairo',sans-serif;}
+.bot-inp-row{display:flex;gap:.45rem;padding:.6rem .8rem;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0;}
+.bot-inp{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--text);border-radius:9px;padding:.42rem .75rem;font-family:'Cairo',sans-serif;font-size:.82rem;direction:rtl;min-height:38px;transition:border-color .18s;}
+.bot-inp:focus{border-color:rgba(212,165,116,.4);outline:none;}
+.bot-send{background:var(--hl);color:#0a0a0a;border:none;border-radius:9px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:all .18s;flex-shrink:0;}
+.bot-send:hover{background:var(--hld);}
+.bot-send:disabled{opacity:.35;cursor:default;}
+.acc-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .6rem;border-radius:20px;border:1px solid rgba(212,165,116,.25);background:rgba(212,165,116,.07);color:var(--hl);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:'Cairo',sans-serif;margin:.18rem;}
+.acc-chip:hover{background:rgba(212,165,116,.16);border-color:var(--hl);}
+/* Train modal */
+.train-modal{background:#0f0f0f;border:1px solid rgba(212,165,116,.2);border-radius:14px;padding:1.4rem;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;}
+.train-qa{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:8px;padding:.75rem;margin-bottom:.5rem;}
+
+.bot-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Cairo',sans-serif;border:2px solid #0a0a0a;animation:pulse 2s infinite;}
+/* ── Responsive ── */
+@media(max-width:640px){
+  .hide-mobile{display:none!important;}
+  /* Landing mobile tweaks */
+  .land-logo-wrap{width:96px!important;height:96px!important;}
+  /* Tighter padding on small screens */
+  .land-page-wrap{padding:1.2rem 1rem!important;}
+  /* Buttons full width on very small */
+  }
+@media(max-width:380px){
+  .land-btn-primary,.land-btn-ghost{width:100%;justify-content:center;}
+  #particles-canvas{display:none!important;}
+  .nav-title{display:none;}
+  .hero-stats{gap:1.2rem!important;}
+  .grid-cards{grid-template-columns:1fr!important;}
+  .search-wrap{max-width:100%;}
+  .filters-row{flex-direction:column;align-items:stretch!important;}
+  body{cursor:auto;}
+}
+@media(max-width:420px){
+  .land-btn-primary,.land-btn-ghost{font-size:.9rem;padding:.75rem 1.4rem;}
+}
+</style>
+</head>
+<body>
+<canvas id="particles-canvas"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="root"></div>
+<script>
+window.LOGO_URL="https://raw.githubusercontent.com/FaresAkramm/photo/main/re-branding.jpg";
+window.WA_NUMBER="201277188784";// WhatsApp number for error alerts
+// Desktop cursor
+(function(){
+  const c=document.getElementById('cursor'),r=document.getElementById('cursor-ring');
+  if(!c||!r)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.addEventListener('mousedown',()=>{c.classList.add('ck');r.classList.add('ck');});
+  document.addEventListener('mouseup',()=>{c.classList.remove('ck');r.classList.remove('ck');});
+})();
+</script>
+
+<script>
+(function(){
+  const canvas=document.getElementById('particles-canvas');
+  if(!canvas)return;
+  // Disable particles on mobile to save battery
+  if(window.innerWidth<640){canvas.style.display='none';return;}
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function rand(a,b){return a+Math.random()*(b-a);}
+  for(let i=0;i<55;i++){pts.push({x:rand(0,1),y:rand(0,1),vx:rand(-.12,.12),vy:rand(-.08,.08),r:rand(.8,2.2),o:rand(.15,.5)});}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx/W*1.2;p.y+=p.vy/H*1.2;
+      if(p.x<0)p.x=1;if(p.x>1)p.x=0;
+      if(p.y<0)p.y=1;if(p.y>1)p.y=0;
+      ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,165,116,${p.o})`;ctx.fill();
+    });
+    // draw faint connecting lines
+    for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){
+      const dx=(pts[i].x-pts[j].x)*W,dy=(pts[i].y-pts[j].y)*H;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<110){ctx.beginPath();ctx.moveTo(pts[i].x*W,pts[i].y*H);ctx.lineTo(pts[j].x*W,pts[j].y*H);ctx.strokeStyle=`rgba(212,165,116,${.06*(1-dist/110)})`;ctx.lineWidth=.6;ctx.stroke();}
+    }}
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+<script type="text/babel">
+const{useState,useEffect,useRef,useMemo,useCallback}=React;
+const ADMIN_DEFAULT="fares2388"; // fallback only
+const CATS=["كل شيء","مطاعم","أخرى"];
+const LOGO=window.LOGO_URL;
+const WA=window.WA_NUMBER;
+const BACKUP_REMINDER_KEY="rb_last_backup";
+
+/* ── Helpers ── */
+function daysLeft(d){if(!d)return null;return Math.ceil((new Date(d)-new Date())/86400000);}
+function isExp(d){if(!d)return false;var dl=Math.ceil((new Date(d)-new Date())/86400000);return dl<-1;}
+function fmtDate(d){if(!d)return"";return new Date(d).toLocaleDateString("ar-EG");}
+
+async function downloadImg(url,filename){
+  try{
+    // For Cloudinary URLs, add fl_attachment for direct download
+    let dlUrl=url;
+    if(url&&url.includes("cloudinary.com")){
+      dlUrl=url.replace("/upload/","/upload/fl_attachment/");
+    }
+    const res=await fetch(dlUrl,{mode:"cors"});
+    if(!res.ok)throw new Error("fetch failed");
+    const blob=await res.blob();
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=filename||"image.jpg";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(a.href);},200);
+  }catch(e){
+    // Fallback: open in new tab so user can long-press save
+    window.open(url,"_blank");
+  }
+}
+async function downloadAllAsZip(urls,accName,setZipping){
+  setZipping(true);
+  try{const zip=new JSZip();const folder=zip.folder(accName||"album");
+    for(let i=0;i<urls.length;i++){try{const res=await fetch(urls[i]);const blob=await res.blob();const ext=blob.type.includes("png")?"png":"jpg";folder.file(`${i+1}.${ext}`,blob);}catch(e){}}
+    const content=await zip.generateAsync({type:"blob"});const a=document.createElement("a");a.href=URL.createObjectURL(content);a.download=`${accName||"album"}.zip`;a.click();URL.revokeObjectURL(a.href);
+  }catch(e){alert("فشل التنزيل");}
+  setZipping(false);
+}
+const CLD_CLOUD="diepkkeyu",CLD_PRESET="rebranding";
+const GROQ_KEY="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";
+const TG_BOT_TOKEN="8603892646:AAFz4ScNfZsEBC482iNpWQW8qElf-ahKk2Q";
+const TG_ADMIN_ID="1462141071";
+async function uploadToCloudinary(file){
+  const fd=new FormData();fd.append("file",file);fd.append("upload_preset",CLD_PRESET);
+  const res=await fetch(`https://api.cloudinary.com/v1_1/${CLD_CLOUD}/image/upload`,{method:"POST",body:fd});
+  if(!res.ok)throw new Error("فشل رفع الصورة");
+  return (await res.json()).secure_url;
+}
+
+// Open WhatsApp with error message
+function openWAError(errorMsg){
+  const text=encodeURIComponent(`⚠️ عطل في موقع Rebranding:\n${errorMsg}\n\nالوقت: ${new Date().toLocaleString("ar-EG")}`);
+  window.open(`https://wa.me/${WA}?text=${text}`,"_blank");
+}
+
+// WA expiry notification — send WhatsApp alert for offers expiring within N days
+const WA_NOTIF_KEY="rb_wa_notif_sent";
+function sendExpiryWAAlerts(offs,accs){
+  const today=new Date().toISOString().slice(0,10);
+  const sent=JSON.parse(localStorage.getItem(WA_NOTIF_KEY)||"{}");
+  const toAlert=offs.filter(o=>{
+    if(isExp(o.expiryDate))return false;
+    const dl=daysLeft(o.expiryDate);
+    if(dl===null||dl>3)return false;
+    const key=o.id+"_"+today;
+    return !sent[key];
+  });
+  if(!toAlert.length)return;
+  const accMap=Object.fromEntries(accs.map(a=>[a.id,a.name]));
+  const lines=toAlert.map(o=>`• ${o.title} (${accMap[o.accountId]||"—"}) — باقي ${daysLeft(o.expiryDate)} يوم`).join("\n");
+  const text=encodeURIComponent(`⏰ تنبيه عروض قريبة من الانتهاء:\n${lines}\n\nتاريخ: ${new Date().toLocaleDateString("ar-EG")}`);
+  window.open(`https://wa.me/${WA}?text=${text}`,"_blank");
+  // Mark as sent
+  toAlert.forEach(o=>{sent[o.id+"_"+today]=1;});
+  localStorage.setItem(WA_NOTIF_KEY,JSON.stringify(sent));
+}
+
+// Backup reminder check
+function checkBackupReminder(){
+  const last=localStorage.getItem(BACKUP_REMINDER_KEY);
+  if(!last)return true;
+  const diff=(Date.now()-parseInt(last))/(1000*60*60*24);
+  return diff>=7;
+}
+function markBackupDone(){localStorage.setItem(BACKUP_REMINDER_KEY,Date.now().toString());}
+
+/* ── Styles ── */
+const S={
+  inp:{width:"100%",padding:"0.62rem 1rem",borderRadius:8,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.04)",color:"var(--text)",marginBottom:"0.6rem",direction:"rtl",fontSize:"0.9rem",fontFamily:"'Cairo',sans-serif",minHeight:44},
+  sel:{width:"100%",padding:"0.62rem 1rem",borderRadius:8,border:"1px solid rgba(255,255,255,0.1)",background:"#111",color:"var(--text)",marginBottom:"0.6rem",direction:"rtl",fontSize:"0.9rem",fontFamily:"'Cairo',sans-serif",minHeight:44},
+  pBtn:{padding:"0.65rem 1.5rem",borderRadius:8,border:"none",fontWeight:700,fontFamily:"'Cairo',sans-serif",background:"var(--hl)",color:"#0a0a0a",minHeight:44},
+  ghost:{padding:"0.62rem 1.5rem",borderRadius:8,fontWeight:600,fontFamily:"'Cairo',sans-serif",background:"transparent",color:"var(--dim)",border:"1px solid rgba(255,255,255,0.1)",minHeight:44},
+  box:{background:"#0f0f0f",border:"1px solid rgba(212,165,116,0.14)",borderRadius:14,padding:"1.6rem",width:"100%",maxWidth:520,maxHeight:"90vh",overflowY:"auto"},
+};
+
+/* ── Base components ── */
+function Lbl({t}){return <label style={{fontSize:".7rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)",display:"block",marginBottom:".28rem"}}>{t}</label>;}
+function Badge({s}){return <span style={{background:s==="نشط"?"rgba(74,222,128,.1)":"rgba(255,255,255,.05)",color:s==="نشط"?"#4ade80":"var(--dim)",padding:".08rem .5rem",borderRadius:4,fontSize:".62rem",fontWeight:700}}>{s}</span>;}
+function Tag({c}){return <span style={{display:"inline-block",padding:".08rem .46rem",borderRadius:4,fontSize:".62rem",fontWeight:500,background:"rgba(212,165,116,.07)",color:"var(--hl)",border:"1px solid rgba(212,165,116,.13)",marginLeft:".26rem",marginBottom:".26rem"}}>{c}</span>;}
+function Lnk({l}){return <a href={l.url} target="_blank" rel="noreferrer" onClick={e=>e.stopPropagation()} style={{display:"inline-flex",alignItems:"center",gap:".2rem",padding:".22rem .6rem",borderRadius:4,fontSize:".7rem",fontWeight:500,background:"rgba(255,255,255,.04)",border:"1px solid var(--border)",color:"var(--dim)",textDecoration:"none",marginLeft:".3rem",marginBottom:".26rem"}}>{l.icon} {l.label}</a>;}
+function Spin({msg}){return <div style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"70vh",flexDirection:"column",gap:"1rem"}}><div style={{width:32,height:32,border:"2px solid rgba(212,165,116,.15)",borderTop:"2px solid var(--hl)",borderRadius:"50%",animation:"spin .8s linear infinite"}}/><div style={{color:"var(--dim)",fontSize:".78rem",letterSpacing:".1em"}}>{msg}</div></div>;}
+
+/* ── Error Screen with WhatsApp button ── */
+function ErrorScreen({error}){
+  return(
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:"80vh",padding:"2rem",textAlign:"center",gap:"1.2rem"}}>
+      <div style={{fontSize:"3rem"}}>⚠️</div>
+      <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:"var(--text)"}}>في مشكلة في الاتصال</div>
+      <div style={{fontSize:".85rem",color:"var(--dim)",maxWidth:320,lineHeight:1.75}}>{error}</div>
+      <div style={{display:"flex",flexDirection:"column",gap:".7rem",width:"100%",maxWidth:280}}>
+        <button className="wa-error-btn" onClick={()=>openWAError(error)}>
+          <span style={{fontSize:"1.1rem"}}>💬</span>
+          ابعت رسالة على واتساب
+        </button>
+        <button onClick={()=>window.location.reload()} style={{...S.ghost,textAlign:"center"}}>🔄 تحديث الصفحة</button>
+      </div>
+      <div style={{fontSize:".7rem",color:"rgba(255,255,255,.2)",marginTop:".5rem"}}>سيتم التواصل مع المطور لحل المشكلة</div>
+    </div>
+  );
+}
+
+/* ── Copy btn ── */
+function CopyBtn({text,label,small}){
+  const[ok,setOk]=useState(false);
+  function copy(e){e&&e.stopPropagation();navigator.clipboard.writeText(text||"").then(()=>{setOk(true);setTimeout(()=>setOk(false),2000);}).catch(()=>{});}
+  return <button className={"cpbtn"+(ok?" done":"")+(small?" sm":"")} onClick={copy}>{ok?"✅ تم":"📋 "+(label||"كوبي")}</button>;
+}
+
+/* ── Image Upload ── */
+function ImgUp({label,cur,onDone}){
+  const[prev,setPrev]=useState(cur||"");const[pct,setPct]=useState(0);const[busy,setBusy]=useState(false);const fref=useRef();
+  async function pick(e){
+    const f=e.target.files[0];if(!f)return;
+    const reader=new FileReader();reader.onload=ev=>setPrev(ev.target.result);reader.readAsDataURL(f);
+    setBusy(true);setPct(30);
+    try{const url=await uploadToCloudinary(f);setPct(100);setPrev(url);onDone(url);}
+    catch(err){alert("فشل الرفع: "+err.message);}
+    setBusy(false);setPct(0);
+  }
+  return(
+    <div>
+      <Lbl t={label}/>
+      {prev&&<img src={prev} style={{width:"100%",height:80,objectFit:"cover",borderRadius:6,marginBottom:6,border:"1px solid var(--border)"}} alt=""/>}
+      {busy&&<div className="pbar"><div className="pbar-in" style={{width:pct+"%"}}/></div>}
+      <label className="upbtn">{busy?"⏳ جاري الرفع...":"☁️ ارفع صورة"}<input ref={fref} type="file" accept="image/*" style={{display:"none"}} onChange={pick} disabled={busy}/></label>
+      <div style={{textAlign:"center",fontSize:".68rem",color:"var(--dim)",margin:"-2px 0 4px"}}>أو رابط مباشر</div>
+      <input placeholder="https://..." value={prev} onChange={e=>{setPrev(e.target.value);onDone(e.target.value);}} style={S.inp}/>
+    </div>
+  );
+}
+
+/* ── Gallery Upload ── */
+function GalleryUp({images,onChange}){
+  const[busy,setBusy]=useState(false);const[prog,setProg]=useState("");const fref=useRef();
+  async function pick(e){
+    const files=[...e.target.files];if(!files.length)return;
+    setBusy(true);const newUrls=[];
+    for(let i=0;i<files.length;i++){setProg(`رفع ${i+1} من ${files.length}...`);try{const url=await uploadToCloudinary(files[i]);newUrls.push(url);}catch(err){}}
+    onChange([...(images||[]),...newUrls]);setBusy(false);setProg("");fref.current.value="";
+  }
+  function remove(i){onChange((images||[]).filter((_,idx)=>idx!==i));}
+  return(
+    <div>
+      <Lbl t="صور المنيو / الألبوم"/>
+      {(images||[]).length>0&&(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:".4rem",marginBottom:".6rem"}}>
+          {(images||[]).map((url,i)=>(
+            <div key={i} style={{position:"relative"}}>
+              <img src={url} className="gimg" alt=""/>
+              <button onClick={()=>remove(i)} style={{position:"absolute",top:3,left:3,background:"rgba(239,68,68,0.85)",border:"none",color:"#fff",width:22,height:22,borderRadius:"50%",fontSize:".72rem",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+            </div>
+          ))}
+        </div>
+      )}
+      {busy&&<div style={{fontSize:".75rem",color:"var(--hl)",marginBottom:".4rem",textAlign:"center"}}>☁️ {prog}</div>}
+      <label className="upbtn">{busy?prog:"📁 ارفع صور (متعددة)"}<input ref={fref} type="file" accept="image/*" multiple style={{display:"none"}} onChange={pick} disabled={busy}/></label>
+    </div>
+  );
+}
+
+/* ── Gallery View ── */
+/* ══ REPLY CARD (profile board — tap to copy) ══ */
+function ReplyCard({r}){
+  const[copied,setCopied]=useState(false);
+  function doCopy(e){
+    e&&e.stopPropagation();
+    navigator.clipboard.writeText(r.text||"").then(()=>{setCopied(true);setTimeout(()=>setCopied(false),2000);});
+  }
+  return(
+    <div className={"reply-board-card"+(copied?" copied":"")} onClick={doCopy}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".55rem"}}>
+        <span style={{fontSize:".7rem",color:"var(--hl)",fontWeight:700,letterSpacing:".06em",textTransform:"uppercase"}}>{r.icon} {r.label}</span>
+        <span style={{fontSize:".65rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",color:copied?"#4ade80":"var(--dim)",background:copied?"rgba(74,222,128,.1)":"rgba(255,255,255,.05)",border:`1px solid ${copied?"rgba(74,222,128,.25)":"rgba(255,255,255,.08)"}`,padding:".1rem .42rem",borderRadius:4,transition:"all .2s",minWidth:48,textAlign:"center"}}>{copied?"✅ تم":"📋 كوبي"}</span>
+      </div>
+      <div style={{fontSize:".83rem",color:"var(--text)",lineHeight:1.7,whiteSpace:"pre-wrap",background:"rgba(0,0,0,.18)",padding:".65rem .75rem",borderRadius:6,maxHeight:150,overflowY:"auto",userSelect:"text"}}>{r.text}</div>
+      {!copied&&<div style={{fontSize:".58rem",color:"rgba(255,255,255,.15)",textAlign:"center",marginTop:".35rem",letterSpacing:".05em"}}>اضغط في أي مكان للكوبي</div>}
+    </div>
+  );
+}
+
+function GalleryView({images,accName,onZoom}){
+  const[zipping,setZipping]=useState(false);
+  return(
+    <div style={{marginBottom:".9rem"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:".5rem"}}>
+        <div style={{fontWeight:600,fontSize:".72rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)"}}>📸 الألبوم ({images.length})</div>
+        <button onClick={e=>{e.stopPropagation();downloadAllAsZip(images,accName,setZipping);}} disabled={zipping} style={{display:"inline-flex",alignItems:"center",gap:".28rem",padding:".28rem .7rem",borderRadius:4,border:"1px solid rgba(212,165,116,.28)",background:"rgba(212,165,116,.07)",color:"var(--hl)",fontSize:".7rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",opacity:zipping?.6:1,minHeight:36}}>{zipping?"⏳...":"📦 ZIP"}</button>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:".4rem"}}>
+        {images.map((url,i)=>(
+          <div key={i} style={{position:"relative"}}>
+            <img src={url} className="gimg" onClick={e=>{e.stopPropagation();onZoom(url);}} alt=""/>
+            <button onClick={e=>{e.stopPropagation();downloadImg(url,`${accName||"img"}_${i+1}.jpg`);}} style={{position:"absolute",bottom:3,left:3,background:"rgba(0,0,0,.75)",border:"1px solid rgba(255,255,255,.18)",color:"#fff",width:26,height:26,borderRadius:4,fontSize:".78rem",display:"flex",alignItems:"center",justifyContent:"center"}}>⬇</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Skeleton ── */
+function SkeletonCards(){
+  return(
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:"1rem"}}>
+      {[1,2,3,4,5,6].map(i=>(
+        <div key={i} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:10,overflow:"hidden"}}>
+          <div className="skel" style={{height:136}}/>
+          <div style={{padding:".9rem"}}>
+            <div style={{display:"flex",gap:".7rem",marginTop:-20,marginBottom:".7rem",alignItems:"flex-end"}}>
+              <div className="skel" style={{width:46,height:46,borderRadius:"50%",flexShrink:0}}/>
+              <div style={{flex:1}}><div className="skel" style={{height:13,width:"60%",marginBottom:6}}/><div className="skel" style={{height:10,width:"30%"}}/></div>
+            </div>
+            <div className="skel" style={{height:10,width:"90%",marginBottom:6}}/>
+            <div className="skel" style={{height:10,width:"72%",marginBottom:6}}/>
+            <div className="skel" style={{height:10,width:"48%"}}/>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ══ ACCORDION OFFER CARD ══ */
+function OCard({o,accName,adminMode=false,onRenew,onDelete}){
+  const[open,setOpen]=useState(false);
+  const e=isExp(o.expiryDate),dl=daysLeft(o.expiryDate),urgent=!e&&dl!==null&&dl<=3;
+  const copyText=[o.title,o.description,o.content,o.link].filter(Boolean).join("\n\n");
+  return(
+    <div className={`ocard${urgent?" urgent":""}${e?" expired":""}`}>
+      <div className="ocard-head" onClick={()=>setOpen(!open)}>
+        {o.image&&<img src={o.image} style={{width:42,height:42,borderRadius:6,objectFit:"cover",flexShrink:0,border:"1px solid rgba(255,255,255,.07)"}} alt=""/>}
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:".38rem",flexWrap:"wrap"}}>
+            <span style={{fontWeight:700,fontFamily:"'Playfair Display',serif",fontSize:".88rem"}}>{o.title}</span>
+            {o.badge&&<span style={{background:"rgba(212,165,116,.09)",color:"var(--hl)",padding:".04rem .38rem",borderRadius:4,fontSize:".58rem",fontWeight:600,border:"1px solid rgba(212,165,116,.18)"}}>{o.badge}</span>}
+            {e&&<span style={{background:"rgba(239,68,68,.09)",color:"#f87171",padding:".04rem .38rem",borderRadius:4,fontSize:".58rem",fontWeight:600}}>منتهي</span>}
+            {urgent&&!e&&<span className="exp-urgent" style={{background:"rgba(251,191,36,.09)",color:"#fbbf24",padding:".04rem .38rem",borderRadius:4,fontSize:".58rem",fontWeight:700}}>⚠️ {dl} يوم</span>}
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:".45rem",marginTop:".12rem"}}>
+            {accName&&<span style={{fontSize:".66rem",color:"var(--hl)"}}>· {accName}</span>}
+            {o.expiryDate&&!e&&!urgent&&<span style={{fontSize:".64rem",color:"var(--dim)"}}>⏳ {dl} يوم</span>}
+          </div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:".38rem",flexShrink:0}}>
+          {!e&&<CopyBtn text={copyText} label="كوبي" small/>}
+          {/* Admin controls for expired */}
+          {adminMode&&e&&(
+            <div onClick={ev=>ev.stopPropagation()} style={{display:"flex",gap:".3rem"}}>
+              <button onClick={onRenew} style={{padding:".22rem .55rem",borderRadius:4,border:"1px solid rgba(74,222,128,.25)",background:"rgba(74,222,128,.06)",color:"#4ade80",fontSize:".65rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",minHeight:30}}>🔄 جدد</button>
+              <button onClick={onDelete} style={{padding:".22rem .55rem",borderRadius:4,border:"1px solid rgba(239,68,68,.22)",background:"rgba(239,68,68,.06)",color:"#f87171",fontSize:".65rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",minHeight:30}}>🗑️</button>
+            </div>
+          )}
+          <div style={{color:"var(--dim)",fontSize:".75rem",transition:"transform .2s",transform:open?"rotate(180deg)":"rotate(0deg)"}}>▼</div>
+        </div>
+      </div>
+
+      {open&&(
+        <div className="ocard-body" style={{padding:"0 1rem 1rem",borderTop:"1px solid var(--border)"}}>
+          {o.image&&(
+            <div style={{position:"relative",marginTop:".7rem",marginBottom:".7rem"}}>
+              <img src={o.image} style={{width:"100%",height:130,objectFit:"cover",borderRadius:6,display:"block"}} alt=""/>
+              <button
+                onClick={e=>{e.stopPropagation();downloadImg(o.image,`${o.title||"offer"}.jpg`);}}
+                style={{position:"absolute",bottom:6,left:6,background:"rgba(0,0,0,.75)",border:"1px solid rgba(255,255,255,.18)",color:"#fff",padding:".2rem .55rem",borderRadius:5,fontSize:".68rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",display:"flex",alignItems:"center",gap:".25rem",backdropFilter:"blur(4px)",minHeight:28}}
+              >⬇ حفظ</button>
+            </div>
+          )}
+          {!o.image&&<div style={{height:".7rem"}}/>}
+          {o.description&&<div style={{fontSize:".8rem",color:"var(--dim)",lineHeight:1.65,marginBottom:".55rem"}}>{o.description}</div>}
+          {o.content&&(
+            <div style={{marginBottom:".6rem",background:"rgba(255,255,255,.02)",borderRadius:6,padding:".75rem",border:"1px solid var(--border)"}}>
+              {o.content.split("\n").map((line,i)=>{
+                if(!line.trim())return <br key={i}/>;
+                const isU=line.trim().startsWith("http");
+                const isH=line.trim().startsWith("•")||line.trim().startsWith("-");
+                if(isU)return <a key={i} href={line.trim()} target="_blank" rel="noreferrer" style={{display:"block",fontSize:".76rem",color:"var(--hl)",marginBottom:".14rem",wordBreak:"break-all"}}>{line.trim()}</a>;
+                if(isH)return <div key={i} style={{fontSize:".78rem",color:"var(--text)",fontWeight:600,marginBottom:".2rem"}}>{line}</div>;
+                return <div key={i} style={{fontSize:".76rem",color:"var(--dim)",lineHeight:1.65,marginBottom:".1rem"}}>{line}</div>;
+              })}
+            </div>
+          )}
+          <div style={{display:"flex",gap:".5rem",flexWrap:"wrap"}}>
+            {o.link&&<a href={o.link} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:".2rem",padding:".28rem .7rem",borderRadius:4,fontSize:".74rem",fontWeight:600,background:"rgba(212,165,116,.07)",border:"1px solid rgba(212,165,116,.2)",color:"var(--hl)",textDecoration:"none",minHeight:36}}>🔗 اعرف أكتر</a>}
+            {!e&&<CopyBtn text={copyText} label="كوبي الكل"/>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ══ ACCOUNT PROFILE PAGE (full page via shared link) ══ */
+function AccountProfilePage({a,offs,onBack,onZoom,allAccs,isAdmin}){
+  const[tab,setTab]=useState("replies");
+  const accOffs=offs.filter(o=>o.accountId===a.id&&!isExp(o.expiryDate));
+  const hasReplies=a.fixedReply||a.timesReply||a.contactReply||(a.extraReplies&&a.extraReplies.length>0);
+  const hasGallery=(a.galleryImages||[]).length>0;
+  const qaList=(a.trainedQA||[]).filter(function(q){return q.q&&q.a;});
+  const tabs=[
+    hasReplies&&{id:"replies",label:"📋 الردود"},
+    hasGallery&&{id:"gallery",label:"📸 الألبوم"},
+    accOffs.length>0&&{id:"offers",label:`🎁 العروض (${accOffs.length})`},
+    (a.links||[]).length>0&&{id:"links",label:"🔗 اللينكات"},
+    (isAdmin||qaList.length>0)&&{id:"qa",label:`❓ أسئلة${qaList.length>0?" ("+qaList.length+")":""}`},
+  ].filter(Boolean);
+  if(tabs.length>0&&!tabs.find(t=>t.id===tab))setTab(tabs[0].id);
+
+  return(
+    <div className="page-enter" style={{minHeight:"100vh",paddingBottom:"6rem"}}>
+
+      {/* ── COVER ── */}
+      <div style={{position:"relative",height:220,background:"linear-gradient(135deg,rgba(212,165,116,0.12),rgba(0,0,0,0.8))"}}>
+        {a.coverImage&&<img src={a.coverImage} style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",inset:0}} alt=""/>}
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom, transparent 40%, rgba(10,10,10,0.95) 100%)"}}/>
+        {/* Back btn */}
+        <button onClick={onBack} style={{position:"absolute",top:"calc(1rem + var(--safe-top))",right:"1rem",background:"rgba(10,10,10,0.7)",border:"1px solid rgba(255,255,255,0.12)",color:"var(--text)",padding:".38rem .85rem",borderRadius:8,fontSize:".8rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",backdropFilter:"blur(10px)",minHeight:38,display:"flex",alignItems:"center",gap:".35rem"}}>← رجوع</button>
+      </div>
+
+      {/* ── PROFILE HEADER ── */}
+      <div style={{maxWidth:700,margin:"0 auto",padding:"0 1.2rem"}}>
+        {/* Avatar + name row */}
+        <div style={{display:"flex",alignItems:"flex-end",gap:"1rem",marginTop:-52,marginBottom:"1rem",position:"relative",zIndex:2}}>
+          {a.avatar
+            ?<img src={a.avatar} style={{width:90,height:90,borderRadius:"50%",border:"3px solid var(--hl)",objectFit:"cover",flexShrink:0,boxShadow:"0 0 0 4px rgba(212,165,116,.15),0 8px 24px rgba(0,0,0,.6)",background:"#111"}} alt=""/>
+            :<div style={{width:90,height:90,borderRadius:"50%",border:"3px solid var(--hl)",background:"rgba(212,165,116,.12)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"2rem",flexShrink:0,boxShadow:"0 0 0 4px rgba(212,165,116,.15)"}}>🏪</div>
+          }
+          <div style={{flex:1,paddingBottom:4}}>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"clamp(1.2rem,4vw,1.6rem)",fontWeight:700,lineHeight:1.15,marginBottom:".25rem"}}>{a.name}</div>
+            <div style={{display:"flex",alignItems:"center",gap:".5rem",flexWrap:"wrap"}}>
+              <Badge s={a.status}/>
+              {a.category&&<span style={{fontSize:".66rem",color:"var(--dim)",background:"rgba(255,255,255,.04)",border:"1px solid var(--border)",padding:".06rem .45rem",borderRadius:4}}>{a.category}</span>}
+              {a.joinedDate&&<span style={{fontSize:".64rem",color:"var(--dim)"}}>· {fmtDate(a.joinedDate)}</span>}
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        {a.description&&<p style={{fontSize:".88rem",color:"var(--dim)",lineHeight:1.72,marginBottom:"1rem",borderRight:"2px solid rgba(212,165,116,.3)",paddingRight:".75rem"}}>{a.description}</p>}
+
+        {/* Tags */}
+        {(a.tags||[]).length>0&&<div style={{marginBottom:"1rem"}}>{a.tags.map(t=><Tag key={t} c={t}/>)}</div>}
+
+        {/* Stats bar */}
+        <div style={{display:"flex",gap:0,background:"rgba(255,255,255,.025)",border:"1px solid var(--border)",borderRadius:10,marginBottom:"1.2rem",overflow:"hidden"}}>
+          {[
+            hasReplies&&{icon:"📋",label:"ردود",val:(a.extraReplies||[]).length+[a.fixedReply,a.timesReply,a.contactReply].filter(Boolean).length},
+            hasGallery&&{icon:"📸",label:"صور",val:(a.galleryImages||[]).length},
+            accOffs.length>0&&{icon:"🎁",label:"عروض",val:accOffs.length},
+            (a.links||[]).length>0&&{icon:"🔗",label:"لينكات",val:(a.links||[]).length},
+          ].filter(Boolean).map((s,i,arr)=>(
+            <div key={i} style={{flex:1,textAlign:"center",padding:".7rem .4rem",borderLeft:i<arr.length-1?"1px solid var(--border)":"none"}}>
+              <div style={{fontSize:"1.1rem",fontWeight:700,color:"var(--hl)",fontFamily:"'Playfair Display',serif"}}>{s.val}</div>
+              <div style={{fontSize:".6rem",color:"var(--dim)",marginTop:".1rem",letterSpacing:".05em"}}>{s.icon} {s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        {tabs.length>1&&(
+          <div className="tab-bar" style={{marginBottom:"1.4rem"}}>
+            {tabs.map(t=><button key={t.id} className={"tab-btn"+(tab===t.id?" on":"")} onClick={()=>setTab(t.id)}>{t.label}</button>)}
+          </div>
+        )}
+
+        {/* ── REPLIES TAB ── */}
+        {tab==="replies"&&hasReplies&&(
+          <div style={{display:"grid",gap:".6rem",animation:"pageIn .25s ease"}}>
+            {a.fixedReply&&<ReplyCard r={{icon:"📌",label:"الرد الثابت",text:a.fixedReply}}/>}
+            {a.timesReply&&<ReplyCard r={{icon:"⏰",label:"المواعيد",text:a.timesReply}}/>}
+            {a.contactReply&&<ReplyCard r={{icon:"📞",label:"التواصل",text:a.contactReply}}/>}
+            {(a.extraReplies||[]).filter(r=>r.text).map((r,i)=><ReplyCard key={i} r={{icon:"💬",label:r.label||`رد ${i+1}`,text:r.text}}/>)}
+          </div>
+        )}
+
+        {/* ── GALLERY TAB ── */}
+        {tab==="gallery"&&hasGallery&&(
+          <div style={{animation:"pageIn .25s ease"}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))",gap:".55rem"}}>
+              {(a.galleryImages||[]).map((url,i)=>(
+                <div key={i} style={{position:"relative",borderRadius:8,overflow:"hidden",aspectRatio:"1",border:"1px solid var(--border)"}}>
+                  <img src={url} onClick={()=>onZoom(url)} style={{width:"100%",height:"100%",objectFit:"cover",cursor:"zoom-in",transition:"transform .25s"}} onMouseEnter={e=>e.target.style.transform="scale(1.04)"} onMouseLeave={e=>e.target.style.transform="scale(1)"} alt=""/>
+                  <button onClick={e=>{e.stopPropagation();downloadImg(url,`${a.name||"img"}_${i+1}.jpg`);}} style={{position:"absolute",bottom:5,left:5,background:"rgba(0,0,0,.75)",border:"1px solid rgba(255,255,255,.15)",color:"#fff",width:28,height:28,borderRadius:5,fontSize:".8rem",display:"flex",alignItems:"center",justifyContent:"center"}}>⬇</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── OFFERS TAB ── */}
+        {tab==="offers"&&accOffs.length>0&&(
+          <div style={{animation:"pageIn .25s ease"}}>
+            {accOffs.map(o=><OCard key={o.id} o={o}/>)}
+          </div>
+        )}
+
+        {/* ── LINKS TAB ── */}
+        {tab==="links"&&(a.links||[]).length>0&&(
+          <div style={{display:"grid",gap:".55rem",animation:"pageIn .25s ease"}}>
+            {(a.links||[]).map((l,i)=>(
+              <a key={i} href={l.url} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:".8rem",padding:".9rem 1rem",background:"rgba(255,255,255,.025)",border:"1px solid var(--border)",borderRadius:10,textDecoration:"none",color:"var(--text)",transition:"border-color .18s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.3)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
+                <span style={{fontSize:"1.2rem",width:30,textAlign:"center",flexShrink:0}}>{l.icon||"🔗"}</span>
+                <div style={{flex:1}}><div style={{fontWeight:600,fontSize:".88rem"}}>{l.label}</div><div style={{fontSize:".7rem",color:"var(--dim)",wordBreak:"break-all",marginTop:".15rem"}}>{l.url}</div></div>
+                <span style={{color:"var(--hl)",fontSize:".8rem",flexShrink:0}}>←</span>
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* ── Q&A TAB ── */}
+        {tab==="qa"&&(isAdmin||qaList.length>0)&&(
+          <div style={{display:"grid",gap:".6rem",animation:"pageIn .25s ease"}}>
+            {qaList.length===0&&isAdmin&&(
+              <div style={{textAlign:"center",padding:"2rem",color:"var(--dim)",fontSize:".8rem"}}>مفيش أسئلة محفوظة دلوقتي</div>
+            )}
+            {qaList.map(function(item,i){
+              return(
+                <div key={i} style={{background:"rgba(255,255,255,.025)",border:"1px solid var(--border)",borderRadius:10,padding:".9rem 1rem",position:"relative"}}>
+                  <div style={{display:"flex",gap:".4rem",marginBottom:".45rem",alignItems:"flex-start"}}>
+                    <span style={{fontSize:".8rem",flexShrink:0,marginTop:".05rem"}}>❓</span>
+                    <div style={{fontSize:".82rem",fontWeight:600,color:"var(--text)",lineHeight:1.5,flex:1}}>{item.q}</div>
+                    {isAdmin&&(
+                      <button onClick={async function(){
+                        var fb=window.__fb;if(!fb)return;
+                        var newQA=a.trainedQA.filter(function(_,idx){return idx!==i;});
+                        await fb.setDoc(fb.doc(fb.db,"accounts",a.id),Object.assign({},a,{trainedQA:newQA,updatedAt:new Date().toISOString()}));
+                      }} style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",borderRadius:5,fontSize:".7rem",cursor:"pointer",padding:".15rem .4rem",flexShrink:0}}>🗑</button>
+                    )}
+                  </div>
+                  <div style={{display:"flex",gap:".4rem",alignItems:"flex-start",borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:".45rem"}}>
+                    <span style={{fontSize:".8rem",flexShrink:0,marginTop:".05rem"}}>💡</span>
+                    <div style={{fontSize:".82rem",color:"var(--dim)",lineHeight:1.6}}>{item.a}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Branding footer */}
+        <div style={{textAlign:"center",marginTop:"2.5rem",paddingTop:"1.5rem",borderTop:"1px solid var(--border)"}}>
+          <div style={{fontSize:".62rem",color:"rgba(255,255,255,.18)",letterSpacing:".18em",textTransform:"uppercase",fontFamily:"'Work Sans',sans-serif",marginBottom:".4rem"}}>Powered by</div>
+          <div className="made-by">Rebranding · Made by Fares Akram</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══ ACC CARD ══ */
+function AccCard({a,onClick,onShare,onTagClick}){
+  const[hover,setHover]=useState(false);
+  const hasReplies=a.fixedReply||a.timesReply||a.contactReply||(a.extraReplies&&a.extraReplies.length>0);
+  const allReplies=[
+    a.fixedReply&&{icon:"📌",label:"الرد الثابت",text:a.fixedReply},
+    a.timesReply&&{icon:"⏰",label:"المواعيد",text:a.timesReply},
+    a.contactReply&&{icon:"📞",label:"التواصل",text:a.contactReply},
+    ...(a.extraReplies||[]).filter(r=>r.text).map(r=>({icon:"💬",label:r.label,text:r.text})),
+  ].filter(Boolean);
+  return(
+    <div className="card" onClick={onClick} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:10,overflow:"hidden",animation:"fadeIn .3s ease",position:"relative"}}
+      onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+      {/* Pin badge */}
+      {a.pinned&&<div className="pin-badge">📌 مثبت</div>}
+      {a.coverImage
+        ?<div style={{height:138,overflow:"hidden"}}><img src={a.coverImage} style={{width:"100%",height:"100%",objectFit:"cover",transition:"transform .4s"}} onMouseEnter={e=>e.target.style.transform="scale(1.04)"} onMouseLeave={e=>e.target.style.transform="scale(1)"} alt=""/></div>
+        :<div style={{height:48,background:"linear-gradient(135deg,rgba(212,165,116,.07),transparent)"}}/>
+      }
+      <div style={{padding:".9rem"}}>
+        <div style={{display:"flex",alignItems:"flex-end",gap:".65rem",marginTop:a.coverImage?-24:0,marginBottom:".55rem"}}>
+          {a.avatar&&<img src={a.avatar} style={{width:48,height:48,borderRadius:"50%",border:"2.5px solid var(--hl)",objectFit:"cover",flexShrink:0,boxShadow:"0 0 0 3px rgba(212,165,116,.12)"}} alt=""/>}
+          <div style={{flex:1,display:"flex",alignItems:"center",gap:".32rem",paddingBottom:2,flexWrap:"wrap"}}>
+            <span style={{fontWeight:700,fontSize:".93rem",fontFamily:"'Playfair Display',serif"}}>{a.name}</span>
+            <Badge s={a.status}/>
+          </div>
+          <button onClick={e=>onShare(a,e)} style={{flexShrink:0,background:"rgba(212,165,116,.05)",border:"1px solid rgba(212,165,116,.16)",color:"rgba(212,165,116,.55)",width:32,height:32,borderRadius:6,fontSize:".8rem",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .18s",marginBottom:4}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.14)";e.currentTarget.style.color="var(--hl)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(212,165,116,.05)";e.currentTarget.style.color="rgba(212,165,116,.55)";}}>🔗</button>
+        </div>
+        <div style={{fontSize:".78rem",color:"var(--dim)",lineHeight:1.62,marginBottom:".5rem"}}>{a.description}</div>
+        <div style={{marginBottom:".38rem"}}>
+          {(a.tags||[]).map(t=>(
+            <span key={t} className="tag-btn" onClick={e=>{e.stopPropagation();onTagClick&&onTagClick(t);}}>{t}</span>
+          ))}
+        </div>
+        <div style={{marginBottom:hasReplies?".55rem":"0"}}>{(a.links||[]).map(l=><Lnk key={l.label} l={l}/>)}</div>
+        {(hasReplies||(a.trainedQA||[]).filter(q=>q.q&&q.a).length>0)&&(
+          <div onClick={e=>e.stopPropagation()} style={{borderTop:"1px solid var(--border)",paddingTop:".5rem"}}>
+            {hasReplies&&(
+              <div style={{display:"flex",gap:".28rem",flexWrap:"wrap",alignItems:"center",marginBottom:(a.trainedQA||[]).filter(q=>q.q&&q.a).length>0?".4rem":"0"}}>
+                {a.fixedReply&&<CopyBtn text={a.fixedReply} label="الرد الثابت" small/>}
+                {a.timesReply&&<CopyBtn text={a.timesReply} label="المواعيد" small/>}
+                {a.contactReply&&<CopyBtn text={a.contactReply} label="التواصل" small/>}
+                {(a.extraReplies||[]).map((r,i)=><CopyBtn key={i} text={r.text} label={r.label||`رد ${i+1}`} small/>)}
+              </div>
+            )}
+            {(a.trainedQA||[]).filter(q=>q.q&&q.a).length>0&&(
+              <div style={{display:"flex",alignItems:"center",gap:".3rem",flexWrap:"wrap"}}>
+                <span style={{fontSize:".58rem",color:"var(--dim)",letterSpacing:".05em"}}>❓</span>
+                {(a.trainedQA||[]).filter(q=>q.q&&q.a).slice(0,3).map((q,i)=>(
+                  <span key={i} style={{fontSize:".62rem",color:"var(--dim)",background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",borderRadius:4,padding:".1rem .35rem",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:120}}>{q.q}</span>
+                ))}
+                {(a.trainedQA||[]).filter(q=>q.q&&q.a).length>3&&(
+                  <span style={{fontSize:".6rem",color:"var(--dim)"}}>+{(a.trainedQA||[]).filter(q=>q.q&&q.a).length-3}</span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      {/* Hover preview — desktop only */}
+      {hover&&allReplies.length>0&&(
+        <div className="acc-preview" onClick={e=>e.stopPropagation()}>
+          <div style={{fontSize:".62rem",color:"var(--hl)",fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",marginBottom:".55rem"}}>⚡ ردود سريعة</div>
+          {allReplies.slice(0,3).map((r,i)=>(
+            <div key={i} style={{marginBottom:".45rem"}}>
+              <div style={{fontSize:".62rem",color:"var(--dim)",marginBottom:".18rem"}}>{r.icon} {r.label}</div>
+              <div style={{display:"flex",alignItems:"center",gap:".3rem"}}>
+                <div style={{flex:1,fontSize:".72rem",color:"var(--text)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",opacity:.85}}>{r.text?.split("\n")[0]}</div>
+                <CopyBtn text={r.text} label="" small/>
+              </div>
+            </div>
+          ))}
+          {allReplies.length>3&&<div style={{fontSize:".6rem",color:"var(--dim)",textAlign:"center",marginTop:".3rem"}}>+{allReplies.length-3} ردود أخرى — افتح الأكونت</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ══ EXPLAIN MODAL ══ */
+function ExplainModal({onClose,isAdmin}){
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-box" style={{background:"#0d0d0d",border:"1px solid rgba(212,165,116,.18)",borderRadius:14,padding:"1.7rem",maxWidth:500}} onClick={e=>e.stopPropagation()}>
+        <div style={{display:"flex",alignItems:"center",gap:".8rem",marginBottom:"1.2rem"}}>
+          <img src={LOGO} style={{width:44,height:44,borderRadius:"50%",objectFit:"cover",border:"1px solid rgba(212,165,116,.28)"}} alt="logo"/>
+          <div><div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:700}}>Rebranding Data Mod</div><div style={{fontSize:".64rem",color:"var(--hl)",letterSpacing:".14em",textTransform:"uppercase"}}>دليل الاستخدام</div></div>
+        </div>
+        <div className="explain-section"><h3>🌐 إيه الموقع؟</h3><p>دليل رقمي لأكونتات العملاء — معلومات، ردود جاهزة، صور المنيو، والعروض.</p></div>
+        <div className="explain-section"><h3>📋 الردود الجاهزة</h3><ul><li>على كل كارد أزرار كوبي مباشرة</li><li>ممكن يكون في أكتر من رد ثابت — كل واحد ليه اسمه وزراره</li></ul></div>
+        <div className="explain-section"><h3>🎁 العروض</h3><ul><li>باكيتات مضغوطة — اضغط عشان تفتح</li><li>العروض المنتهية <strong style={{color:"var(--text)"}}>مش بتبان</strong> للزوار تلقائياً</li><li>العروض القريبة من الانتهاء باللون الأصفر</li></ul></div>
+        <div className="explain-section"><h3>🔗 مشاركة أكونت</h3><ul><li>زرار 🔗 على كل كارد بيكوبي لينك مباشر</li></ul></div>
+        <div className="explain-section"><h3>📸 صور المنيو</h3><ul><li>اضغط الصورة للتكبير، ⬇ للتنزيل، ZIP للكل</li></ul></div>
+        {isAdmin&&<>
+          <div style={{borderTop:"1px solid rgba(212,165,116,.14)",margin:"1rem 0",paddingTop:"1rem"}}><div style={{fontSize:".7rem",color:"var(--hl)",fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",marginBottom:".7rem"}}>🛠️ دليل الأدمن</div></div>
+          <div className="explain-section"><h3>➕ أكونت جديد</h3><ul><li>الإدارة → الأكونتات → + أضف أكونت</li><li>ممكن تضيف كذا رد ثابت — كل رد بيتسمى بالاسم اللي تختاره</li></ul></div>
+          <div className="explain-section"><h3>🎁 العروض المنتهية</h3><ul><li>بتبان في الإدارة بس</li><li>"جدد" بيمدد العرض 30 يوم من دلوقتي</li><li>"حذف" بيشيله نهائياً</li></ul></div>
+          <div className="explain-section"><h3>💾 Backup</h3><ul><li>Export JSON بيحمّل كل البيانات</li><li>Import JSON بيرجع بيانات من ملف قديم</li><li>الموقع بيذكرك كل أسبوع تعمل نسخة احتياطية</li></ul></div>
+          <div className="explain-section"><h3>🗑️ Undo</h3><ul><li>5 ثوان بعد الحذف ممكن ترجّعه</li></ul></div>
+        </>}
+        <div style={{textAlign:"center",marginTop:"1.1rem"}}><button onClick={onClose} style={S.ghost}>فهمت 👍</button></div>
+      </div>
+    </div>
+  );
+}
+
+/* ══ LANDING ══ */
+
+/* ══ GEMINI BOT ══ */
+async function askGemini(sysprompt,history,maxTok){
+  async function doRequest(prompt,hist,tok){
+    var msgs=[{role:"system",content:prompt}];
+    hist.forEach(function(m){msgs.push({role:m.r==="user"?"user":"assistant",content:m.t});});
+    var model=prompt.includes("Available information about [")?"meta-llama/llama-4-maverick-17b-128e-instruct":"meta-llama/llama-4-scout-17b-16e-instruct";
+  var res=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},body:JSON.stringify({model:model,messages:msgs,max_tokens:tok||500,temperature:0})});
+    if(!res.ok){var e=await res.json();throw new Error(e&&e.error&&e.error.message||"error");}
+    var d=await res.json();
+    return (d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||"";
+  }
+  for(var attempt=0;attempt<3;attempt++){
+    try{
+      var result=await doRequest(sysprompt,history,maxTok);
+      if(result)return result;
+    }catch(e){
+      if(e.message&&(e.message.includes("too large")||e.message.includes("tokens")||e.message.includes("limit"))){
+        var shortPrompt=sysprompt.slice(0,3000);
+        try{return await doRequest(shortPrompt,history.slice(-1),400);}catch(e2){}
+      }
+      if(attempt===2)return "[UNANSWERED] فشل الاتصال، حاول تاني";
+      await new Promise(function(res){setTimeout(res,1000*(attempt+1));});
+    }
+  }
+  return "[UNANSWERED] فشل الاتصال، حاول تاني";
+}
+
+var SYSTEM_BASE=[
+  "أنت مساعد لموظفي وكالة Rebranding — بتساعدهم يردوا على عملاء المطاعم.",
+  "",
+  "القاعدة الأهم: رد بس من المعلومات الموجودة في الـ context. لو مش موجود → اكتب: [UNANSWERED] وبعدين السؤال.",
+  "ممنوع تخمن أو تكمل من دماغك — حتى لو بدو الإجابة واضحة.",
+  "",
+  "أنواع الأسئلة:",
+  "- سؤال عن أكونت معين: رد من معلومات الأكونت ده بس.",
+  "- سؤال عام (آخر عرض / أقرب انتهاء / كل الأكونتات): رد من كل الداتا.",
+  "",
+  "قواعد الرد:",
+  "- العربي المصري العامية دايماً.",
+  "- الردود والعروض انسخها حرفياً مش تلخصها.",
+  "- قصير (3-4 سطور) إلا لو الرد الجاهز أطول.",
+  "- متسألش أسئلة في نهاية ردك.",
+  "",
+  "أمثلة:",
+  'Q: "إيه المواعيد؟" — موجود → انسخ المواعيد بالظبط.',
+  'Q: "في توصيل؟" — مش موجود → [UNANSWERED] في توصيل؟',
+  'Q: "آخر عرض اتضاف إيه؟" — عام → اجمع من كل الأكونتات.',
+  'Q: "أقرب عرض هينتهي إمتى؟" — عام → قارن تواريخ الانتهاء وارد.',
+].join("\n");
+
+function buildContext(accs,offs){
+  var activeOffs=offs.filter(function(o){return !isExp(o.expiryDate);});
+  var parts=[SYSTEM_BASE,"","الأكونتات: "+accs.map(function(a){return a.name;}).join(" | ")];
+  if(activeOffs.length>0){
+    parts.push("العروض النشطة:");
+    activeOffs.slice(0,12).forEach(function(o){
+      var acc=accs.find(function(a){return a.id===o.accountId;});
+      var line="- "+o.title+(acc?" ("+acc.name+")":"");
+      if(o.description)line+=" — "+o.description;
+      parts.push(line);
+    });
+  }
+  return parts.join("\n");
+}
+
+
+function fuzzyMatch(str,target){
+  // Check if str contains target or target contains str (partial match)
+  var s=str.toLowerCase().trim();
+  var t=target.toLowerCase().trim();
+  if(s.includes(t)||t.includes(s))return true;
+  // Check word by word
+  var words=t.split(/\s+/);
+  var matched=words.filter(function(w){return w.length>2&&s.includes(w);});
+  return matched.length>=Math.ceil(words.length*0.6);
+}
+
+function buildSmartContext(userText,accs,offs){
+  var lower=userText.toLowerCase();
+  var matched=null;
+  var bestScore=0;
+
+  accs.forEach(function(a){
+    var score=0;
+    if(lower.includes(a.name.toLowerCase()))score+=10;
+    else if(fuzzyMatch(lower,a.name))score+=6;
+    (a.tags||[]).forEach(function(tag){if(tag&&lower.includes(tag.toLowerCase()))score+=3;});
+    offs.filter(function(o){return o.accountId===a.id&&!isExp(o.expiryDate);}).forEach(function(o){
+      if(o.title&&fuzzyMatch(lower,o.title))score+=4;
+    });
+    if(score>bestScore){bestScore=score;matched=a;}
+  });
+
+  // لو لقينا أكونت — ابعت context مخصص بكل تفاصيله
+  if(bestScore>0&&matched){
+    return {ctx:buildAccContext(matched,offs),matched:matched};
+  }
+
+  // مفيش match — ابعت كل الأكونتات بتفاصيلها كاملة
+  // لو أكونتات كتير نضغط عشان متعداش الـ tokens
+  var allCtx=buildFullContext(accs,offs);
+  return {ctx:allCtx,matched:null};
+}
+
+function buildFullContext(accs,offs){
+  var activeOffs=offs.filter(function(o){return !isExp(o.expiryDate);});
+  // Sort by expiry to help answer "أقرب عرض هينتهي"
+  var sortedOffs=activeOffs.slice().sort(function(a,b){
+    if(!a.expiryDate)return 1;
+    if(!b.expiryDate)return -1;
+    return a.expiryDate.localeCompare(b.expiryDate);
+  });
+  var parts=[
+    SYSTEM_BASE,
+    "",
+    "ملاحظة مهمة: OFFER EXPIRY = آخر يوم للعرض. WORKING HOURS = مواعيد العمل اليومية. مختلفين تماماً.",
+    "",
+    "الأكونتات والعروض:"
+  ];
+  accs.forEach(function(a){
+    var ao=sortedOffs.filter(function(o){return o.accountId===a.id;});
+    var line="【"+a.name+"】";
+    if(a.status&&a.status!=="نشط")line+=" ("+a.status+")";
+    if(a.timesReply)line+="\n  المواعيد: "+a.timesReply.slice(0,80);
+    if(a.contactReply)line+="\n  التواصل: "+a.contactReply.slice(0,60);
+    if(ao.length>0){
+      line+="\n  العروض: "+ao.map(function(o){
+        var s=o.title;
+        if(o.expiryDate)s+=" (ينتهي: "+fmtDate(o.expiryDate)+")";
+        return s;
+      }).join(" / ");
+    } else {
+      line+="\n  العروض: مفيش عروض نشطة";
+    }
+    // Add trained Q&A — كامل مش ملخص
+    var tqa=(a.trainedQA||[]).filter(function(q){return q.q&&q.a;});
+    if(tqa.length>0){
+      line+="\n  أسئلة وأجوبة:\n"+tqa.map(function(q){return "    Q: "+q.q+"\n    A: "+q.a;}).join("\n");
+    }
+    parts.push(line);
+  });
+  return parts.join("\n");
+}
+
+
+
+
+function buildAccContext(a,offs){
+  var ao=offs.filter(function(o){return o.accountId===a.id&&!isExp(o.expiryDate);});
+  var tqa=(a.trainedQA||[]).filter(function(q){return q.q&&q.a;});
+  var parts=[
+    SYSTEM_BASE,
+    "",
+    "Available information about ["+a.name+"] ONLY — do not add anything else:",
+    "━━━━━━━━━━━━━━━━━━━━"
+  ];
+  parts.push("IMPORTANT: 'OFFER EXPIRY' = last date offer is valid. 'WORKING HOURS' = daily open/close times. Never confuse them.");
+  if(a.description)parts.push("Description: "+a.description);
+  if(a.fixedReply)parts.push("【Fixed Reply — copy as-is】\n"+a.fixedReply);
+  if(a.timesReply)parts.push("【WORKING HOURS (مواعيد العمل اليومية) — copy as-is】\n"+a.timesReply);
+  if(a.contactReply)parts.push("【Contact Info — copy as-is】\n"+a.contactReply);
+  (a.extraReplies||[]).filter(function(r){return r.text;}).forEach(function(r){
+    parts.push("【"+r.label+"】\n"+r.text);
+  });
+  if(ao.length>0){
+    parts.push("【Offers】— copy requested offer WORD FOR WORD:");
+    ao.forEach(function(o,idx){
+      var block="[OFFER "+(idx+1)+"] "+o.title;
+      if(o.badge)block+=" ("+o.badge+")";
+      if(o.description)block+="\n"+o.description;
+      if(o.content)block+="\n"+o.content;
+      if(o.expiryDate)block+="\nOFFER-EXPIRY-DATE (آخر يوم للعرض): "+fmtDate(o.expiryDate);
+      if(o.link)block+="\n"+o.link;
+      parts.push(block);
+    });
+  }
+  if(tqa.length>0){
+    parts.push("【Trained Q&A — use these answers directly】");
+    tqa.forEach(function(q){parts.push("Q: "+q.q+"\nA: "+q.a);});
+  }
+  return parts.join("\n");
+}
+
+
+/* ══ ADMIN ACTION SYSTEM ══ */
+var ADMIN_SYSTEM=[
+  "أنت مساعد إداري ذكي لوكالة Rebranding. بتكلم بالعربي العامية.",
+  "عندك صلاحية كاملة تعمل أي حاجة في السايت مباشرة.",
+  "",
+  "لو الأدمن طلب منك تعمل أكشن، ردك لازم يبدأ بـ [ACTION] وبعدين JSON صح على نفس السطر.",
+  "الأكشنات المتاحة:",
+  "",
+  '[ACTION]{"type":"add_offer","accountId":"ID","title":"...","description":"...","expiryDate":"YYYY-MM-DD","badge":"جديد"}',
+  '[ACTION]{"type":"edit_offer","offerId":"ID","changes":{"title":"...","expiryDate":"..."}}',
+  '[ACTION]{"type":"delete_offer","offerId":"ID"}',
+  '[ACTION]{"type":"edit_account","accountId":"ID","changes":{"fixedReply":"...","timesReply":"...","contactReply":"...","status":"نشط"}}',
+  '[ACTION]{"type":"add_reply","accountId":"ID","label":"...","text":"..."}',
+  '[ACTION]{"type":"change_status","accountId":"ID","status":"نشط أو متوقف"}',
+  "",
+  "قواعد مهمة:",
+  "- لازم تستخدم الـ ID الصح من القائمة اللي تحت — مش تكتب ID من دماغك.",
+  "- لو مش فاهم الأكونت المقصود، اسأل وقوله الأكونتات المتاحة.",
+  "- لو مش عارف التاريخ، اسأل.",
+  "- لو الأدمن بيسأل سؤال عادي مش أكشن، رد عليه بشكل طبيعي.",
+  "- بعد الـ [ACTION] اكتب رد قصير بالعربي يوضح إيه اللي عملته.",
+].join("\n");
+
+function buildAdminContext(accs,offs){
+  var parts=[ADMIN_SYSTEM,"","=== الأكونتات ==="];
+  accs.forEach(function(a){
+    var ao=offs.filter(function(o){return o.accountId===a.id&&!isExp(o.expiryDate);});
+    parts.push("[ID:"+a.id+"] "+a.name+" ("+(a.category||"—")+" — "+(a.status||"نشط")+")");
+    if(ao.length>0)parts.push("  عروضه: "+ao.map(function(o){return "[ID:"+o.id+"] "+o.title;}).join(" | "));
+  });
+  return parts.join("\n");
+}
+
+async function logActivity(type,label,detail){
+  try{
+    var fb=window.__fb;if(!fb)return;
+    var id="act_"+Date.now();
+    await fb.setDoc(fb.doc(fb.db,"activity_log",id),{
+      id:id,type:type,label:label,detail:detail||"",
+      createdAt:new Date().toISOString()
+    });
+  }catch(e){}
+}
+
+async function parseAndExecAction(actionStr,accs,offs,onDone){
+  try{
+    var parsed=JSON.parse(actionStr);
+    var fb=window.__fb;
+    var t=parsed.type;
+    if(t==="add_offer"){
+      var acc=accs.find(function(a){return a.id===parsed.accountId;});
+      if(!acc){onDone(false,"مش لاقي الأكونت");return;}
+      var id="off_"+Date.now();
+      await fb.setDoc(fb.doc(fb.db,"offers",id),{
+        id:id,accountId:parsed.accountId,title:parsed.title||"",
+        description:parsed.description||"",content:parsed.content||"",
+        image:"",link:"",expiryDate:parsed.expiryDate||"",
+        badge:parsed.badge||"جديد",updatedAt:new Date().toISOString()
+      });
+      onDone(true,"✅ تم إضافة العرض: "+parsed.title+" لـ "+acc.name);logActivity("add_offer","إضافة عرض: "+parsed.title,"الأكونت: "+acc.name);
+    }
+    else if(t==="edit_offer"){
+      var off=offs.find(function(o){return o.id===parsed.offerId;});
+      if(!off){onDone(false,"مش لاقي العرض");return;}
+      await fb.setDoc(fb.doc(fb.db,"offers",off.id),Object.assign({},off,parsed.changes||{},{ updatedAt:new Date().toISOString()}));
+      onDone(true,"✅ تم تعديل العرض: "+off.title);logActivity("edit_offer","تعديل عرض: "+off.title,"");
+    }
+    else if(t==="delete_offer"){
+      var off2=offs.find(function(o){return o.id===parsed.offerId;});
+      await fb.deleteDoc(fb.doc(fb.db,"offers",parsed.offerId));
+      onDone(true,"🗑️ تم حذف العرض: "+(off2?off2.title:parsed.offerId));logActivity("delete_offer","حذف عرض: "+(off2?off2.title:""),"");
+    }
+    else if(t==="edit_account"){
+      var acc2=accs.find(function(a){return a.id===parsed.accountId;});
+      if(!acc2){onDone(false,"مش لاقي الأكونت");return;}
+      await fb.setDoc(fb.doc(fb.db,"accounts",acc2.id),Object.assign({},acc2,parsed.changes||{},{ updatedAt:new Date().toISOString()}));
+      onDone(true,"✅ تم تعديل بيانات "+acc2.name);logActivity("edit_account","تعديل أكونت: "+acc2.name,JSON.stringify(parsed.changes||{}).slice(0,80));
+    }
+    else if(t==="add_reply"){
+      var acc3=accs.find(function(a){return a.id===parsed.accountId;});
+      if(!acc3){onDone(false,"مش لاقي الأكونت");return;}
+      var replies=(acc3.extraReplies||[]).concat([{label:parsed.label||"رد جديد",text:parsed.text||""}]);
+      await fb.setDoc(fb.doc(fb.db,"accounts",acc3.id),Object.assign({},acc3,{extraReplies:replies,updatedAt:new Date().toISOString()}));
+      onDone(true,"✅ تم إضافة الرد: "+parsed.label+" لـ "+acc3.name);logActivity("add_reply","إضافة رد: "+parsed.label,"الأكونت: "+acc3.name);
+    }
+    else if(t==="change_status"){
+      var acc4=accs.find(function(a){return a.id===parsed.accountId;});
+      if(!acc4){onDone(false,"مش لاقي الأكونت");return;}
+      await fb.setDoc(fb.doc(fb.db,"accounts",acc4.id),Object.assign({},acc4,{status:parsed.status,updatedAt:new Date().toISOString()}));
+      onDone(true,"✅ تم تغيير حالة "+acc4.name+" إلى "+parsed.status);
+    }
+    else if(t==="add_info"){
+      var acc5=accs.find(function(a){return a.id===parsed.accountId;});
+      if(!acc5){onDone(false,"مش لاقي الأكونت");return;}
+      var existing5=(acc5.trainedQA||[]);
+      var isDup5=existing5.find(function(x){return x.q&&x.q.trim()===(parsed.question||"").trim();});
+      var newQA5=isDup5
+        ? existing5.map(function(x){return x.q.trim()===parsed.question.trim()?{q:x.q,a:parsed.answer}:x;})
+        : [...existing5,{q:parsed.question,a:parsed.answer}];
+      var updated5=Object.assign({},acc5,{trainedQA:newQA5,updatedAt:new Date().toISOString()});
+      try{await fb.setDoc(fb.doc(fb.db,"accounts",acc5.id),updated5);onDone(true,"✅ تم إضافة المعلومة لـ "+acc5.name);logActivity("add_info","إضافة معلومة","الأكونت: "+acc5.name+" | السؤال: "+(parsed.question||"").slice(0,50));}
+      catch(e){onDone(false,"❌ "+e.message);}
+    }
+    else{onDone(false,"أكشن مش معروف: "+t);}
+  }catch(e){onDone(false,"❌ خطأ: "+e.message);}
+}
+
+function QAnswerRow({item,onSave,onDelete,idx}){
+  const[ans,setAns]=useState(item.a||"");
+  const[saving,setSaving]=useState(false);
+  const[done,setDone]=useState(false);
+  async function doSave(){
+    if(!ans.trim())return;
+    setSaving(true);
+    await onSave(item,ans,idx);
+    setDone(true);
+    setSaving(false);
+  }
+  if(done)return <div style={{fontSize:".68rem",color:"#4ade80",fontWeight:700}}>✅ تم الحفظ!</div>;
+  return(
+    <div style={{display:"flex",gap:".3rem"}}>
+      <input
+        placeholder="اكتب الإجابة هنا..."
+        value={ans}
+        onChange={e=>setAns(e.target.value)}
+        onKeyDown={e=>{if(e.key==="Enter")doSave();}}
+        style={{flex:1,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.1)",color:"var(--text)",borderRadius:4,padding:".28rem .5rem",fontFamily:"Cairo,sans-serif",fontSize:".7rem",direction:"rtl"}}
+      />
+      {ans.trim()&&<button onClick={doSave} disabled={saving} style={{background:"var(--hl)",color:"#0a0a0a",border:"none",borderRadius:4,padding:".28rem .55rem",fontSize:".7rem",fontWeight:700,cursor:"pointer",fontFamily:"Cairo,sans-serif",whiteSpace:"nowrap"}}>{saving?"⏳":"💾"}</button>}
+      <button onClick={()=>onDelete(item)} title="حذف السؤال" style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",borderRadius:4,padding:".28rem .45rem",fontSize:".75rem",cursor:"pointer"}}>🗑</button>
+    </div>
+  );
+}
+
+function BotWindow({accs,offs,isAdmin,onClose,onSaveQA,onAction}){
+  const WELCOME=isAdmin?"أهلاً أدمن! 👋 تقدر تسألني أو تقولي أعمل أي حاجة — أضف عرض، عدّل بيانات، غير حالة أكونت، وكتير غير كده. قولي بالعربي وهنفذ فوراً ⚡":"أهلاً! 👋 اسألني عن أي أكونت أو عرض وهساعدك في ثانية. لو مش لاقي إجابة، هيوصل سؤالك للأدمن تلقائياً ✨";
+  const SESSION_KEY="bot_session_"+Math.floor(Date.now()/3600000); // changes every hour
+  const[msgs,setMsgs]=useState([{r:"ai",t:WELCOME}]);
+  const[input,setInput]=useState("");
+  const[loading,setLoading]=useState(false);
+  const[unanswered,setUnanswered]=useState([]);
+  const[showQPanel,setShowQPanel]=useState(false);
+  const[savedQ,setSavedQ]=useState([]);
+  const[typing,setTyping]=useState(false);
+  const[ratings,setRatings]=useState({});
+  const[botMode,setBotMode]=useState(null);
+  const[lockedAcc,setLockedAcc]=useState(null);
+  const[wizard,setWizard]=useState(null); // {type:'add_offer'|'add_acc'|'edit_offer'|'delete_offer'|'edit_acc', step:0, data:{}}
+  const msgCountRef=useRef(0);
+  const lastMsgTimeRef=useRef(Date.now());
+  const msgsRef=useRef();
+  const ctx=isAdmin?buildAdminContext(accs,offs):buildContext(accs,offs);
+  useEffect(()=>{if(msgsRef.current)msgsRef.current.scrollTop=msgsRef.current.scrollHeight;},[msgs,typing]);
+
+  // Load session from sessionStorage (per tab, cleared on close)
+  useEffect(()=>{
+    try{
+      var saved=sessionStorage.getItem(SESSION_KEY);
+      if(saved){var parsed=JSON.parse(saved);if(parsed&&parsed.length>1)setMsgs(parsed);}
+    }catch(e){}
+  },[]);
+
+  // Save session on every message
+  useEffect(()=>{
+    if(msgs.length>1){
+      try{sessionStorage.setItem(SESSION_KEY,JSON.stringify(msgs.slice(-20)));}catch(e){}
+    }
+  },[msgs]);
+
+  function detectLang(txt){
+    var arabicChars=(txt.match(/[؀-ۿ]/g)||[]).length;
+    return arabicChars>txt.length*0.3?"ar":"en";
+  }
+  function isDuplicate(txt,history){
+    var recent=history.slice(-6).filter(function(m){return m.r==="user";});
+    return recent.some(function(m){return m.t&&m.t.trim()===txt.trim();});
+  }
+
+  // Load saved unanswered questions from Firebase
+  useEffect(()=>{
+    if(!isAdmin)return;
+    var fb=window.__fb;if(!fb)return;
+    try{
+      var unsub=fb.onSnapshot(fb.collection(fb.db,"unanswered_questions"),function(snap){
+        var items=[];
+        snap.forEach(function(d){items.push(Object.assign({id:d.id},d.data()));});
+        items.sort(function(a,b){return (b.createdAt||"").localeCompare(a.createdAt||"");});
+        setSavedQ(items);
+      });
+      return function(){unsub();};
+    }catch(e){}
+  },[isAdmin]);
+
+  async function saveUnansweredToFB(q,accName,accId){
+    try{
+      var fb=window.__fb;if(!fb)return;
+      var id="uq_"+Date.now();
+      await fb.setDoc(fb.doc(fb.db,"unanswered_questions",id),{
+        q:q,accName:accName||"عام",accId:accId||"",a:"",createdAt:new Date().toISOString()
+      });
+      // Notify Telegram with accId embedded
+      var text="❓ سؤال جديد بدون إجابة\n\nالأكونت: "+(accName||"عام")+"\nالسؤال: "+q+"\n\nارد على الرسالة دي مباشرة وهيتحفظ تلقائي ✅\n[ID:"+id+"][AID:"+(accId||"")+"]";
+      fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/sendMessage",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({chat_id:TG_ADMIN_ID,text:text})
+      }).catch(function(){});
+    }catch(e){}
+  }
+
+  async function deleteQ(item){
+    var fb=window.__fb;
+    try{
+      await fb.deleteDoc(fb.doc(fb.db,"unanswered_questions",item.id));
+    }catch(e){console.error(e);}
+  }
+
+  async function answerSavedQ(item,ans,idx){
+    var fb=window.__fb;if(!fb)return;
+    var matched=accs.find(function(a){return a.name===item.accName;})||
+                accs.find(function(a){return (item.q||"").includes(a.name);});
+    if(!matched)matched=accs.slice().sort(function(a,b){
+      return offs.filter(function(o){return o.accountId===b.id;}).length -
+             offs.filter(function(o){return o.accountId===a.id;}).length;
+    })[0];
+    if(!matched)return;
+    var existing=(matched.trainedQA||[]);
+    var isDup=existing.find(function(x){return x.q.trim()===item.q.trim();});
+    var newQA=isDup
+      ? existing.map(function(x){return x.q.trim()===item.q.trim()?{q:x.q,a:ans}:x;})
+      : [...existing,{q:item.q,a:ans}];
+    try{
+      await fb.setDoc(fb.doc(fb.db,"accounts",matched.id),Object.assign({},matched,{trainedQA:newQA,updatedAt:new Date().toISOString()}));
+      await fb.deleteDoc(fb.doc(fb.db,"unanswered_questions",item.id));
+    }catch(e){alert(e.message);}
+  }
+  async function send(){
+    const txt=input.trim();if(!txt||loading)return;
+
+    // Rate limiting: max 10 msgs per minute
+    var now=Date.now();
+    if(now-lastMsgTimeRef.current<60000){
+      msgCountRef.current++;
+      if(msgCountRef.current>10){
+        setInput("");
+        setMsgs(function(p){return [...p,{r:"user",t:txt},{r:"ai",t:"⚠️ بعتلنا كتير شوية! استنى دقيقة وجرب تاني 😅"}];});
+        return;
+      }
+    } else {
+      msgCountRef.current=1;
+      lastMsgTimeRef.current=now;
+    }
+
+    // Duplicate detection
+    if(isDuplicate(txt,msgs)){
+      setInput("");
+      setTimeout(function(){
+        setMsgs(function(p){return [...p,{r:"user",t:txt},{r:"ai",t:"🤔 سألت نفس السؤال قبل كده! لو مش لاقي الإجابة تواصل مع الأدمن على واتساب 👇\nhttps://wa.me/"+WA}];});
+      },500);
+      return;
+    }
+
+    setInput("");
+    const hist=[...msgs,{r:"user",t:txt}];
+    setMsgs(hist);
+    setTyping(true);
+    setLoading(true);
+
+    try{
+      var matched=null;
+      var activeCtx="";
+
+      // البحث في الـ trainedQA مباشرة قبل الـ AI
+      function searchTrainedQA(question){
+        var lower=question.toLowerCase().trim();
+        var bestMatch=null;
+        var bestScore=0;
+        accs.forEach(function(a){
+          (a.trainedQA||[]).filter(function(q){return q.q&&q.a;}).forEach(function(qa){
+            var qLower=qa.q.toLowerCase().trim();
+            var score=0;
+            if(qLower===lower)score=100;
+            else if(qLower.includes(lower)||lower.includes(qLower))score=70;
+            else{
+              var words=lower.split(/\s+/).filter(function(w){return w.length>2;});
+              var matched=words.filter(function(w){return qLower.includes(w);});
+              score=matched.length>0?(matched.length/words.length)*50:0;
+            }
+            if(score>bestScore&&score>=40){bestScore=score;bestMatch={q:qa.q,a:qa.a,accName:a.name};}
+          });
+        });
+        return bestMatch;
+      }
+      var directMatch=searchTrainedQA(txt);
+      if(directMatch){
+        setTyping(false);
+        setMsgs([...hist,{r:"ai",t:directMatch.a}]);
+        setLoading(false);
+        return;
+      }
+
+      if(lockedAcc){
+        // وضع الأكونت المقفول — دايماً نبعت context الأكونت ده بس
+        matched=lockedAcc;
+        activeCtx=buildAccContext(lockedAcc,offs);
+      } else if(botMode==="general"){
+        // وضع السؤال العام — كل الداتا
+        activeCtx=buildFullContext(accs,offs);
+      } else {
+        // اكتشاف الأسئلة العامة أولاً
+        var generalPatterns=/(عرض|عروض|offer|offers|deal|deals)/i;
+        var accNameInQ=accs.some(function(a){return txt.toLowerCase().includes(a.name.toLowerCase());});
+        var isGeneralQ=generalPatterns.test(txt)&&!accNameInQ;
+        if(isGeneralQ){
+          matched=null;
+          activeCtx=buildFullContext(accs,offs);
+        } else {
+          // Auto detect من آخر رسالتين
+          var recentText=hist.slice(-2).map(function(m){return m.t||"";}).join(" ");
+          var smart=buildSmartContext(recentText,accs,offs);
+          if(!smart.matched){
+            var allText=hist.map(function(m){return m.t||"";}).join(" ");
+            smart=buildSmartContext(allText,accs,offs);
+          }
+          matched=smart.matched;
+          activeCtx=smart.ctx;
+        }
+      }
+
+      var lang=detectLang(txt);
+      if(lang==="en")activeCtx+=("\n\nIMPORTANT: User is writing in English, reply in English.");
+
+      // Smart typing delay based on question length
+      var delay=Math.min(400+txt.length*8,1200);
+      await new Promise(function(r){setTimeout(r,delay);});
+
+      // More tokens if asking about offers
+      var isOfferQ=/(عرض|عروض|offer|deal|اللي عندكم|منيو|menu|اسعار|سعر|price)/i.test(txt);
+      // لو الأكونت اتغير عن آخر رسالة — ابعت history أقل عشان ميشيلش context قديم
+      var prevText=hist.slice(-4,-1).map(function(m){return m.t||"";}).join(" ");
+      var prevSmart=buildSmartContext(prevText,accs,offs);
+      var topicChanged=matched&&prevSmart.matched&&matched.id!==prevSmart.matched.id;
+      var histSlice=topicChanged?hist.slice(-1):hist.slice(-3);
+      const reply=await askGemini(activeCtx,histSlice.map(m=>({r:m.r,t:m.t})),isOfferQ?1000:500);
+
+      // Validate reply - check for hallucinated phone numbers not in context
+      var cleanReply=reply;
+      var replyNums=(reply.match(/\d{7,}/g)||[]);
+      var ctxNums=(activeCtx.match(/\d{7,}/g)||[]);
+      var hasHallucination=replyNums.some(function(n){return !ctxNums.includes(n);});
+      if(hasHallucination){
+        // Replace with safe fallback
+        cleanReply="المعلومة دي مش متاحة عندي. تواصل مع الأدمن مباشرة للتأكيد.";
+        if(matched&&matched.contactReply){
+          cleanReply+="\n"+matched.contactReply;
+        }
+      }
+
+      // Detect unanswered questions
+      var unansweredMatch=cleanReply.match(/\[UNANSWERED\]\s*(.+)/);
+      if(unansweredMatch){
+        var uq=unansweredMatch[1].trim();
+        var isNew=true;
+        setUnanswered(p=>{
+          if(p.find(function(x){return x.q===uq;})){isNew=false;return p;}
+          return [...p,{q:uq,a:""}];
+        });
+        if(isNew){
+          var accName=matched?matched.name:"عام";
+          saveUnansweredToFB(uq,accName,lockedAcc?lockedAcc.id:"");
+        }
+        cleanReply="عذراً، المعلومة دي مش متاحة عندي دلوقتي. هيتم إبلاغ الأدمن وهيرد عليك قريب! 🙏";
+        if(matched&&matched.contactReply){
+          cleanReply+="\n\nللتواصل المباشر:\n"+matched.contactReply;
+        }
+      }
+
+      // Add WhatsApp button if reply mentions contact info
+      var hasContact=(cleanReply.includes("واتساب")||cleanReply.includes("تواصل")||cleanReply.includes("WhatsApp"));
+      if(hasContact&&matched&&matched.contactReply){
+        var waNum=(matched.contactReply.match(/\d{7,}/)||[])[0];
+        if(waNum)cleanReply=cleanReply+"\n\`\`\`wa:"+waNum+"\`\`\`";
+      }
+
+      setTyping(false);
+      setMsgs([...hist,{r:"ai",t:cleanReply}]);
+    }catch(e){
+      setTyping(false);
+      var errMsg=e.message||"";
+      var fallback;
+      if(errMsg.includes("rate")||errMsg.includes("quota")){
+        fallback="⏳ في ضغط دلوقتي! استنى ثانية وجرب تاني.";
+      } else {
+        fallback="❌ في مشكلة في الاتصال. تواصل معنا مباشرة على واتساب 👇\nhttps://wa.me/"+WA;
+      }
+      setMsgs([...hist,{r:"ai",t:fallback}]);
+    }
+    setLoading(false);
+  }
+
+  // ══ WIZARD HELPERS ══
+  async function wizardExec(type, data){
+    if(type==="add_offer"){
+      var acc=accs.find(function(a){return a.id===data.accountId;});
+      if(!acc)return;
+      var id="off_"+Date.now();
+      var fb=window.__fb;
+      await fb.setDoc(fb.doc(fb.db,"offers",id),{
+        id:id,accountId:data.accountId,title:data.title||"",
+        description:data.description||"",content:data.content||"",
+        image:"",link:"",expiryDate:data.expiryDate||"",
+        badge:data.badge||"جديد",updatedAt:new Date().toISOString()
+      });
+      setMsgs(function(p){return [...p,{r:"ai",t:"✅ تم إضافة العرض: "+data.title+" لـ "+acc.name}];});
+      setWizard(null);
+    }
+    else if(type==="delete_offer"){
+      var off=offs.find(function(o){return o.id===data.offerId;});
+      var fb=window.__fb;
+      await fb.deleteDoc(fb.doc(fb.db,"offers",data.offerId));
+      setMsgs(function(p){return [...p,{r:"ai",t:"🗑️ تم حذف العرض: "+(off?off.title:"")}];});
+      setWizard(null);
+    }
+    else if(type==="edit_offer"){
+      var off2=offs.find(function(o){return o.id===data.offerId;});
+      if(!off2)return;
+      var fb=window.__fb;
+      var updated=Object.assign({},off2,data.changes,{updatedAt:new Date().toISOString()});
+      await fb.setDoc(fb.doc(fb.db,"offers",off2.id),updated);
+      setMsgs(function(p){return [...p,{r:"ai",t:"✅ تم تعديل العرض: "+off2.title}];});
+      setWizard(null);
+    }
+    else if(type==="add_info"){
+      var acc5=accs.find(function(a){return a.id===data.accountId;});
+      if(!acc5)return;
+      var existing5=(acc5.trainedQA||[]);
+      var isDup5=existing5.find(function(x){return x.q&&x.q.trim()===(data.question||"").trim();});
+      var newQA5=isDup5
+        ? existing5.map(function(x){return x.q.trim()===data.question.trim()?{q:x.q,a:data.answer}:x;})
+        : [...existing5,{q:data.question,a:data.answer}];
+      var updated5=Object.assign({},acc5,{trainedQA:newQA5,updatedAt:new Date().toISOString()});
+      var fb=window.__fb;
+      await fb.setDoc(fb.doc(fb.db,"accounts",acc5.id),updated5);
+      setMsgs(function(p){return [...p,{r:"ai",t:"✅ تم إضافة المعلومة لـ "+acc5.name}];});
+      setWizard(null);
+    }
+    else if(type==="edit_acc"){
+      var acc2=accs.find(function(a){return a.id===data.accountId;});
+      if(!acc2)return;
+      var fb=window.__fb;
+      var updated2=Object.assign({},acc2,data.changes,{updatedAt:new Date().toISOString()});
+      await fb.setDoc(fb.doc(fb.db,"accounts",acc2.id),updated2);
+      setMsgs(function(p){return [...p,{r:"ai",t:"✅ تم تعديل بيانات: "+acc2.name}];});
+      setWizard(null);
+    }
+  }
+
+  function WizardUI(){
+    const[step,setStep]=React.useState(0);
+    const[data,setData]=React.useState({});
+    const[saving,setSaving]=React.useState(false);
+    const HL={background:"var(--hl)",color:"#0a0a0a",border:"none",borderRadius:6,padding:".35rem .8rem",fontFamily:"Cairo,sans-serif",fontSize:".75rem",fontWeight:700,cursor:"pointer"};
+    const SEC={background:"rgba(255,255,255,.05)",color:"var(--text)",border:"1px solid rgba(255,255,255,.1)",borderRadius:6,padding:".35rem .8rem",fontFamily:"Cairo,sans-serif",fontSize:".75rem",cursor:"pointer"};
+    const INP={width:"100%",boxSizing:"border-box",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.12)",color:"var(--text)",borderRadius:6,padding:".4rem .6rem",fontFamily:"Cairo,sans-serif",fontSize:".78rem",direction:"rtl",marginBottom:".4rem"};
+
+    if(!wizard)return null;
+
+    // ══ ADD OFFER ══
+    if(wizard==="add_offer"){
+      if(step===0)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".4rem"}}>
+          <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>➕ إضافة عرض — اختار الأكونت</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:".3rem",maxHeight:160,overflowY:"auto"}}>
+            {accs.map(function(a){return(
+              <button key={a.id} onClick={()=>{setData({accountId:a.id});setStep(1);}} style={{...SEC,fontSize:".7rem",padding:".25rem .55rem"}}>{a.name}</button>
+            );})}
+          </div>
+          <button onClick={()=>setWizard(null)} style={{...SEC,marginTop:".3rem"}}>إلغاء</button>
+        </div>
+      );
+      if(step===1)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".3rem"}}>
+          <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>➕ بيانات العرض</div>
+          <input style={INP} placeholder="اسم العرض *" value={data.title||""} onChange={e=>setData(function(d){return {...d,title:e.target.value};})}/>
+          <input style={INP} placeholder="وصف قصير (اختياري)" value={data.description||""} onChange={e=>setData(function(d){return {...d,description:e.target.value};})}/>
+          <textarea style={{...INP,resize:"vertical",minHeight:60}} placeholder="تفاصيل العرض (اختياري)" value={data.content||""} onChange={e=>setData(function(d){return {...d,content:e.target.value};})}/>
+          <input style={INP} type="date" value={data.expiryDate||""} onChange={e=>setData(function(d){return {...d,expiryDate:e.target.value};})} placeholder="تاريخ الانتهاء"/>
+          <select style={INP} value={data.badge||"جديد"} onChange={e=>setData(function(d){return {...d,badge:e.target.value};})}>
+            <option>جديد</option><option>خصم</option><option>محدود</option><option>مميز</option>
+          </select>
+          <div style={{display:"flex",gap:".4rem",marginTop:".2rem"}}>
+            <button onClick={async()=>{if(!data.title)return;setSaving(true);await wizardExec("add_offer",data);setSaving(false);}} style={HL} disabled={!data.title||saving}>{saving?"⏳ جاري...":"حفظ ✅"}</button>
+            <button onClick={()=>setStep(0)} style={SEC}>رجوع</button>
+          </div>
+        </div>
+      );
+    }
+
+    // ══ DELETE OFFER ══
+    if(wizard==="delete_offer"){
+      var activeOffs=offs.filter(function(o){return !isExp(o.expiryDate);});
+      if(step===0)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".4rem"}}>
+          <div style={{fontSize:".75rem",color:"#f87171",fontWeight:700,marginBottom:".2rem"}}>🗑️ حذف عرض — اختار العرض</div>
+          {activeOffs.length===0&&<div style={{fontSize:".75rem",color:"var(--dim)"}}>مفيش عروض نشطة</div>}
+          <div style={{display:"flex",flexDirection:"column",gap:".3rem",maxHeight:180,overflowY:"auto"}}>
+            {activeOffs.map(function(o){
+              var acc=accs.find(function(a){return a.id===o.accountId;});
+              return(
+                <button key={o.id} onClick={()=>{setData({offerId:o.id,title:o.title});setStep(1);}} style={{...SEC,textAlign:"right",fontSize:".7rem"}}>
+                  {o.title} <span style={{color:"var(--dim)",fontSize:".65rem"}}>({acc?acc.name:""})</span>
+                </button>
+              );
+            })}
+          </div>
+          <button onClick={()=>setWizard(null)} style={{...SEC,marginTop:".3rem"}}>إلغاء</button>
+        </div>
+      );
+      if(step===1)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".5rem"}}>
+          <div style={{fontSize:".75rem",color:"#f87171",fontWeight:700}}>🗑️ تأكيد الحذف</div>
+          <div style={{fontSize:".8rem",color:"var(--text)"}}>هتحذف: <strong>{data.title}</strong></div>
+          <div style={{display:"flex",gap:".4rem"}}>
+            <button onClick={async()=>{setSaving(true);await wizardExec("delete_offer",data);setSaving(false);}} style={{...HL,background:"#ef4444"}} disabled={saving}>{saving?"⏳":"حذف نهائي 🗑️"}</button>
+            <button onClick={()=>setStep(0)} style={SEC}>رجوع</button>
+          </div>
+        </div>
+      );
+    }
+
+    // ══ EDIT OFFER ══
+    if(wizard==="edit_offer"){
+      var activeOffs2=offs.filter(function(o){return !isExp(o.expiryDate);});
+      if(step===0)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".4rem"}}>
+          <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>✏️ تعديل عرض — اختار العرض</div>
+          <div style={{display:"flex",flexDirection:"column",gap:".3rem",maxHeight:180,overflowY:"auto"}}>
+            {activeOffs2.map(function(o){
+              var acc=accs.find(function(a){return a.id===o.accountId;});
+              return(
+                <button key={o.id} onClick={()=>{setData({offerId:o.id,changes:{title:o.title,description:o.description||"",content:o.content||"",expiryDate:o.expiryDate||"",badge:o.badge||"جديد"}});setStep(1);}} style={{...SEC,textAlign:"right",fontSize:".7rem"}}>
+                  {o.title} <span style={{color:"var(--dim)",fontSize:".65rem"}}>({acc?acc.name:""})</span>
+                </button>
+              );
+            })}
+          </div>
+          <button onClick={()=>setWizard(null)} style={{...SEC,marginTop:".3rem"}}>إلغاء</button>
+        </div>
+      );
+      if(step===1)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".3rem"}}>
+          <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>✏️ تعديل العرض</div>
+          <input style={INP} placeholder="اسم العرض" value={data.changes.title||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,title:e.target.value}};})}/>
+          <input style={INP} placeholder="وصف قصير" value={data.changes.description||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,description:e.target.value}};})}/>
+          <textarea style={{...INP,resize:"vertical",minHeight:60}} placeholder="تفاصيل العرض" value={data.changes.content||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,content:e.target.value}};})}/>
+          <input style={INP} type="date" value={data.changes.expiryDate||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,expiryDate:e.target.value}};})}/>
+          <div style={{display:"flex",gap:".4rem",marginTop:".2rem"}}>
+            <button onClick={async()=>{setSaving(true);await wizardExec("edit_offer",data);setSaving(false);}} style={HL} disabled={saving}>{saving?"⏳ جاري...":"حفظ ✅"}</button>
+            <button onClick={()=>setStep(0)} style={SEC}>رجوع</button>
+          </div>
+        </div>
+      );
+    }
+
+    // ══ EDIT ACCOUNT ══
+    if(wizard==="edit_acc"){
+      if(step===0)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".4rem"}}>
+          <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>✏️ تعديل أكونت — اختار الأكونت</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:".3rem",maxHeight:160,overflowY:"auto"}}>
+            {accs.map(function(a){return(
+              <button key={a.id} onClick={()=>{setData({accountId:a.id,changes:{fixedReply:a.fixedReply||"",timesReply:a.timesReply||"",contactReply:a.contactReply||"",status:a.status||"نشط"}});setStep(1);}} style={{...SEC,fontSize:".7rem",padding:".25rem .55rem"}}>{a.name}</button>
+            );})}
+          </div>
+          <button onClick={()=>setWizard(null)} style={{...SEC,marginTop:".3rem"}}>إلغاء</button>
+        </div>
+      );
+      if(step===1){
+        var acc3=accs.find(function(a){return a.id===data.accountId;});
+        return(
+          <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".3rem"}}>
+            <div style={{fontSize:".75rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>✏️ تعديل: {acc3?acc3.name:""}</div>
+            <textarea style={{...INP,resize:"vertical",minHeight:55}} placeholder="الرد الثابت" value={data.changes.fixedReply||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,fixedReply:e.target.value}};})}/>
+            <textarea style={{...INP,resize:"vertical",minHeight:55}} placeholder="المواعيد" value={data.changes.timesReply||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,timesReply:e.target.value}};})}/>
+            <textarea style={{...INP,resize:"vertical",minHeight:55}} placeholder="التواصل" value={data.changes.contactReply||""} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,contactReply:e.target.value}};})}/>
+            <select style={INP} value={data.changes.status||"نشط"} onChange={e=>setData(function(d){return {...d,changes:{...d.changes,status:e.target.value}};})}>
+              <option>نشط</option><option>متوقف</option>
+            </select>
+            <div style={{display:"flex",gap:".4rem",marginTop:".2rem"}}>
+              <button onClick={async()=>{setSaving(true);await wizardExec("edit_acc",data);setSaving(false);}} style={HL} disabled={saving}>{saving?"⏳ جاري...":"حفظ ✅"}</button>
+              <button onClick={()=>setStep(0)} style={SEC}>رجوع</button>
+            </div>
+          </div>
+        );
+      }
+    }
+    // ══ ADD INFO ══
+    if(wizard==="add_info"){
+      if(step===0)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".4rem"}}>
+          <div style={{fontSize:".75rem",color:"#63b3ed",fontWeight:700,marginBottom:".2rem"}}>💡 إضافة معلومة — اختار الأكونت</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:".3rem",maxHeight:160,overflowY:"auto"}}>
+            {accs.map(function(a){return(
+              <button key={a.id} onClick={()=>{setData({accountId:a.id});setStep(1);}} style={{...SEC,fontSize:".7rem",padding:".25rem .55rem"}}>{a.name}</button>
+            );})}
+          </div>
+          <button onClick={()=>setWizard(null)} style={{...SEC,marginTop:".3rem"}}>إلغاء</button>
+        </div>
+      );
+      if(step===1)return(
+        <div style={{padding:"1rem",display:"flex",flexDirection:"column",gap:".3rem"}}>
+          <div style={{fontSize:".75rem",color:"#63b3ed",fontWeight:700,marginBottom:".2rem"}}>💡 إضافة معلومة</div>
+          <div style={{fontSize:".65rem",color:"var(--dim)",marginBottom:".2rem"}}>لما حد يسأل نفس السؤال، البوت يرد بالإجابة دي تلقائي</div>
+          <input style={INP} placeholder="السؤال — مثال: في ضريبة على الطلب؟" value={data.question||""} onChange={e=>setData(function(d){return {...d,question:e.target.value};})}/>
+          <textarea style={{...INP,resize:"vertical",minHeight:70}} placeholder="الإجابة — مثال: لا يوجد ضريبة على الطلب" value={data.answer||""} onChange={e=>setData(function(d){return {...d,answer:e.target.value};})}/>
+          <div style={{display:"flex",gap:".4rem",marginTop:".2rem"}}>
+            <button onClick={async()=>{
+              if(!data.question||!data.answer)return;
+              setSaving(true);
+              await wizardExec("add_info",data);
+              setSaving(false);
+            }} style={HL} disabled={!data.question||!data.answer||saving}>{saving?"⏳ جاري...":"حفظ 💡"}</button>
+            <button onClick={()=>setStep(0)} style={SEC}>رجوع</button>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  return(
+    <div className="bot-window">
+      <div className="bot-head">
+        <span style={{fontSize:"1.2rem"}}>🤖</span>
+        <div style={{flex:1}}>
+          <div style={{fontFamily:"'Cairo',sans-serif",fontWeight:700,fontSize:".85rem"}}>{isAdmin?"مساعد الأدمن":"مساعد Rebranding"}</div>
+          {lockedAcc
+            ? <div style={{fontSize:".6rem",color:"var(--hl)",display:"flex",alignItems:"center",gap:".3rem"}}>
+                🔒 {lockedAcc.name}
+                <button onClick={()=>{setLockedAcc(null);setBotMode(null);setMsgs([{r:"ai",t:WELCOME}]);}} style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",borderRadius:3,fontSize:".55rem",padding:".05rem .3rem",cursor:"pointer",fontFamily:"Cairo,sans-serif"}}>تغيير</button>
+              </div>
+            : <div style={{fontSize:".6rem",color:"var(--hl)"}}>{botMode==="general"?"🌐 سؤال عام":isAdmin?"يعرف كل الأكونتات":"اسأل عن أي أكونت"}</div>
+          }
+        </div>
+        {isAdmin&&(
+          <button onClick={()=>setShowQPanel(!showQPanel)} title="الأسئلة المحفوظة" style={{position:"relative",background:showQPanel?"rgba(212,165,116,.15)":"transparent",border:"1px solid "+(showQPanel?"rgba(212,165,116,.4)":"transparent"),borderRadius:6,color:savedQ.length>0?"var(--hl)":"var(--dim)",fontSize:".85rem",cursor:"pointer",padding:".1rem .4rem",transition:"all .18s"}}>
+            📋
+            {savedQ.length>0&&<span style={{position:"absolute",top:-4,right:-4,background:"#ef4444",color:"#fff",borderRadius:"50%",fontSize:".5rem",width:14,height:14,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700}}>{savedQ.length}</span>}
+          </button>
+        )}
+        <button onClick={()=>{setMsgs([{r:"ai",t:WELCOME}]);setBotMode(null);setLockedAcc(null);}} title="مسح المحادثة" style={{background:"transparent",border:"none",color:"var(--dim)",fontSize:".85rem",cursor:"pointer",padding:".1rem .3rem"}}>🗑</button>
+        <button onClick={onClose} style={{background:"transparent",border:"none",color:"var(--dim)",fontSize:"1.1rem",cursor:"pointer",padding:".1rem .3rem"}}>✕</button>
+      </div>
+      {isAdmin&&!wizard&&(
+        <div style={{display:"flex",gap:".3rem",padding:".5rem .75rem",borderBottom:"1px solid rgba(255,255,255,.06)",flexWrap:"wrap"}}>
+          <button onClick={()=>{setWizard("add_offer");}} style={{flex:1,minWidth:70,padding:".3rem .4rem",borderRadius:6,border:"1px solid rgba(212,165,116,.25)",background:"rgba(212,165,116,.06)",color:"var(--hl)",fontFamily:"Cairo,sans-serif",fontSize:".68rem",fontWeight:700,cursor:"pointer"}}>➕ عرض</button>
+          <button onClick={()=>{setWizard("edit_offer");}} style={{flex:1,minWidth:70,padding:".3rem .4rem",borderRadius:6,border:"1px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.03)",color:"var(--text)",fontFamily:"Cairo,sans-serif",fontSize:".68rem",fontWeight:700,cursor:"pointer"}}>✏️ عرض</button>
+          <button onClick={()=>{setWizard("delete_offer");}} style={{flex:1,minWidth:70,padding:".3rem .4rem",borderRadius:6,border:"1px solid rgba(239,68,68,.2)",background:"rgba(239,68,68,.04)",color:"#f87171",fontFamily:"Cairo,sans-serif",fontSize:".68rem",fontWeight:700,cursor:"pointer"}}>🗑️ عرض</button>
+          <button onClick={()=>{setWizard("add_info");}} style={{flex:1,minWidth:70,padding:".3rem .4rem",borderRadius:6,border:"1px solid rgba(99,179,237,.25)",background:"rgba(99,179,237,.05)",color:"#63b3ed",fontFamily:"Cairo,sans-serif",fontSize:".68rem",fontWeight:700,cursor:"pointer"}}>💡 معلومة</button>
+          <button onClick={()=>{setWizard("edit_acc");}} style={{flex:1,minWidth:70,padding:".3rem .4rem",borderRadius:6,border:"1px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.03)",color:"var(--text)",fontFamily:"Cairo,sans-serif",fontSize:".68rem",fontWeight:700,cursor:"pointer"}}>✏️ أكونت</button>
+        </div>
+      )}
+      {isAdmin&&wizard&&<WizardUI/>}
+      {!wizard&&showQPanel&&isAdmin?(
+        <div style={{flex:1,overflowY:"auto",padding:".8rem 1rem",display:"flex",flexDirection:"column",gap:".5rem"}}>
+          <div style={{fontSize:".72rem",color:"var(--hl)",fontWeight:700,marginBottom:".2rem"}}>📋 الأسئلة اللي البوت مش عارف يجاوب عليها</div>
+          {savedQ.length===0&&<div style={{fontSize:".78rem",color:"var(--dim)",textAlign:"center",padding:"1.5rem 0"}}>✅ مفيش أسئلة معلقة دلوقتي</div>}
+          {savedQ.map(function(item,i){
+            return(
+              <div key={item.id} style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(251,191,36,.2)",borderRadius:8,padding:".65rem .75rem"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:".4rem",gap:".4rem"}}>
+                  <div style={{fontSize:".72rem",color:"var(--text)",lineHeight:1.55,flex:1}}>❓ {item.q}</div>
+                  <span style={{fontSize:".6rem",color:"var(--hl)",background:"rgba(212,165,116,.08)",border:"1px solid rgba(212,165,116,.18)",borderRadius:4,padding:".08rem .35rem",whiteSpace:"nowrap",flexShrink:0}}>{item.accName}</span>
+                </div>
+                <QAnswerRow item={item} onSave={answerSavedQ} onDelete={deleteQ} idx={i}/>
+              </div>
+            );
+          })}
+          {savedQ.length>0&&(
+            <button onClick={()=>{
+              var lines=savedQ.map(function(u,i){return (i+1)+". ["+u.accName+"] "+u.q;}).join("\n");
+              var txt=encodeURIComponent("❓ أسئلة معلقة في البوت:\n\n"+lines+"\n\nافتح البوت واضغط 📋 عشان ترد عليها 🤖");
+              window.open("https://wa.me/"+WA+"?text="+txt,"_blank");
+            }} style={{marginTop:".3rem",padding:".38rem",border:"1px solid rgba(37,211,102,.25)",borderRadius:8,background:"rgba(37,211,102,.05)",color:"#25D366",fontFamily:"Cairo,sans-serif",fontSize:".72rem",fontWeight:700,cursor:"pointer"}}>📤 ارسل الكل على واتساب</button>
+          )}
+        </div>
+      ):(
+      <div className="bot-msgs" ref={msgsRef}>
+        {msgs.length===1&&accs.length>0&&!botMode&&(
+          <div style={{padding:".5rem 0"}}>
+            <div style={{fontSize:".72rem",color:"var(--dim)",marginBottom:".6rem",textAlign:"center"}}>اختار نوع سؤالك 👇</div>
+            <div style={{display:"flex",gap:".5rem",marginBottom:".7rem"}}>
+              <button onClick={()=>setBotMode("general")} style={{flex:1,padding:".6rem",borderRadius:10,border:"1px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.03)",color:"var(--text)",fontFamily:"Cairo,sans-serif",fontSize:".78rem",fontWeight:600,cursor:"pointer",transition:"all .2s",textAlign:"center"}}
+                onMouseOver={function(e){e.currentTarget.style.borderColor="rgba(212,165,116,.4)";e.currentTarget.style.background="rgba(212,165,116,.06)";}}
+                onMouseOut={function(e){e.currentTarget.style.borderColor="rgba(255,255,255,.1)";e.currentTarget.style.background="rgba(255,255,255,.03)";}}>
+                🌐 سؤال عام
+                <div style={{fontSize:".6rem",color:"var(--dim)",marginTop:".2rem",fontWeight:400}}>عن أي أكونت أو عرض</div>
+              </button>
+              <button onClick={()=>setBotMode("acc")} style={{flex:1,padding:".6rem",borderRadius:10,border:"1px solid rgba(212,165,116,.25)",background:"rgba(212,165,116,.05)",color:"var(--hl)",fontFamily:"Cairo,sans-serif",fontSize:".78rem",fontWeight:600,cursor:"pointer",transition:"all .2s",textAlign:"center"}}
+                onMouseOver={function(e){e.currentTarget.style.background="rgba(212,165,116,.12)";}}
+                onMouseOut={function(e){e.currentTarget.style.background="rgba(212,165,116,.05)";}}>
+                🏪 أكونت معين
+                <div style={{fontSize:".6rem",color:"var(--dim)",marginTop:".2rem",fontWeight:400}}>اختار واسأل فيه بس</div>
+              </button>
+            </div>
+          </div>
+        )}
+        {msgs.length===1&&botMode==="acc"&&!lockedAcc&&(
+          <div style={{padding:".3rem 0"}}>
+            <div style={{fontSize:".68rem",color:"var(--dim)",marginBottom:".4rem"}}>اختار الأكونت 👇</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:".3rem"}}>
+              {accs.filter(a=>a.status==="نشط").map(a=>(
+                <button key={a.id} className="acc-chip" onClick={()=>{
+                  setLockedAcc(a);
+                  setMsgs(function(p){return [...p,{r:"ai",t:"تمام! هسألك عن "+a.name+" بس 🎯 اتفضل اسأل."}];});
+                }}>
+                  {a.avatar&&<img src={a.avatar} style={{width:16,height:16,borderRadius:"50%",objectFit:"cover"}} alt=""/>}
+                  {a.name}
+                </button>
+              ))}
+            </div>
+            <button onClick={()=>setBotMode(null)} style={{marginTop:".5rem",fontSize:".65rem",color:"var(--dim)",background:"transparent",border:"none",cursor:"pointer",fontFamily:"Cairo,sans-serif",textDecoration:"underline"}}>← رجوع</button>
+          </div>
+        )}
+        {msgs.length===1&&botMode==="general"&&(
+          <div style={{padding:".2rem 0 .4rem"}}>
+            <div style={{display:"flex",flexWrap:"wrap",gap:".3rem"}}>
+              {["🎁 إيه العروض؟","🕐 المواعيد؟","📞 التواصل؟"].map(function(q){
+                return <button key={q} onClick={()=>setInput(q.slice(2))} style={{padding:".25rem .6rem",borderRadius:14,border:"1px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.04)",color:"var(--dim)",fontFamily:"Cairo,sans-serif",fontSize:".68rem",cursor:"pointer"}}>
+                  {q}
+                </button>;
+              })}
+            </div>
+            <button onClick={()=>setBotMode(null)} style={{marginTop:".4rem",fontSize:".65rem",color:"var(--dim)",background:"transparent",border:"none",cursor:"pointer",fontFamily:"Cairo,sans-serif",textDecoration:"underline"}}>← رجوع</button>
+          </div>
+        )}
+        {msgs.map((m,i)=>(
+          <div key={i} style={{position:"relative"}} className="bot-msg-wrap">
+            <div className={m.r==="user"?"bot-bubble-user":"bot-bubble-ai"}>
+              {m.t.split("\n").map(function(line,li){
+                var waMatch=line.match(/^```wa:(\d+)```$/);
+                if(waMatch){
+                  return <a key={li} href={"https://wa.me/"+waMatch[1]} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:".3rem",marginTop:".4rem",padding:".3rem .8rem",borderRadius:8,background:"#25D366",color:"#fff",fontSize:".75rem",fontWeight:700,textDecoration:"none"}}>💬 واتساب</a>;
+                }
+                return <span key={li}>{line}{li<m.t.split("\n").length-1&&<br/>}</span>;
+              })}
+            </div>
+            {m.r==="ai"&&i>0&&(
+              <div style={{display:"flex",gap:".25rem",marginTop:".3rem",alignItems:"center"}}>
+                <button onClick={()=>{navigator.clipboard.writeText(m.t);}} style={{background:"rgba(212,165,116,.08)",border:"1px solid rgba(212,165,116,.15)",color:"var(--hl)",borderRadius:4,fontSize:".6rem",padding:".12rem .4rem",cursor:"pointer",fontFamily:"'Cairo',sans-serif"}}>نسخ</button>
+                {!ratings[i]&&<>
+                  <button onClick={()=>setRatings(function(p){return Object.assign({},p,{[i]:"up"});})} style={{background:"rgba(74,222,128,.06)",border:"1px solid rgba(74,222,128,.15)",color:"#4ade80",borderRadius:4,fontSize:".65rem",padding:".1rem .35rem",cursor:"pointer"}}>👍</button>
+                  <button onClick={()=>setRatings(function(p){return Object.assign({},p,{[i]:"down"});})} style={{background:"rgba(239,68,68,.06)",border:"1px solid rgba(239,68,68,.15)",color:"#f87171",borderRadius:4,fontSize:".65rem",padding:".1rem .35rem",cursor:"pointer"}}>👎</button>
+                </>}
+                {ratings[i]==="up"&&<span style={{fontSize:".6rem",color:"#4ade80"}}>✓ كويس</span>}
+                {ratings[i]==="down"&&<span style={{fontSize:".6rem",color:"#f87171"}}>↩ وصلنا</span>}
+              </div>
+            )}
+          </div>
+        ))}
+        {(loading||typing)&&<div className="bot-bubble-ai"><span className="tdot"/><span className="tdot"/><span className="tdot"/></div>}
+      </div>
+      )}
+      {isAdmin&&unanswered.length>0&&(
+        <div style={{padding:".6rem 1rem",borderTop:"1px solid rgba(251,191,36,.15)",background:"rgba(251,191,36,.03)",maxHeight:220,overflowY:"auto"}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:".4rem"}}>
+            <div style={{fontSize:".65rem",color:"#fbbf24",fontWeight:700}}>❓ أسئلة بدون إجابة ({unanswered.length})</div>
+            <button onClick={()=>{
+              var lines=unanswered.map(function(u,i){return (i+1)+". "+u.q;}).join("\n");
+              var txt=encodeURIComponent("❓ أسئلة بدون إجابة في البوت:\n\n"+lines+"\n\nافتح الموقع وارد عليها من قسم الأدمن 🤖");
+              window.open("https://wa.me/"+WA+"?text="+txt,"_blank");
+            }} style={{fontSize:".6rem",background:"rgba(37,211,102,.1)",color:"#25D366",border:"1px solid rgba(37,211,102,.25)",borderRadius:4,padding:".15rem .45rem",cursor:"pointer",fontFamily:"Cairo,sans-serif",fontWeight:700}}>📤 ارسل واتساب</button>
+          </div>
+          {unanswered.map((item,i)=>(
+            <div key={i} style={{marginBottom:".5rem",background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.07)",borderRadius:6,padding:".4rem .6rem"}}>
+              <div style={{fontSize:".7rem",color:"var(--text)",marginBottom:".25rem",lineHeight:1.5}}>• {item.q}</div>
+              <div style={{display:"flex",gap:".3rem"}}>
+                <input placeholder="اكتب الإجابة..." value={item.a||""} onChange={e=>{setUnanswered(p=>{const n=[...p];n[i]={...n[i],a:e.target.value};return n;});}} style={{flex:1,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.1)",color:"var(--text)",borderRadius:4,padding:".25rem .5rem",fontFamily:"Cairo,sans-serif",fontSize:".7rem",direction:"rtl"}} onKeyDown={e=>{if(e.key==="Enter"&&item.a&&item.a.trim()){onSaveQA&&onSaveQA(item);setUnanswered(p=>p.filter((_,idx)=>idx!==i));}}}/>
+                <button onClick={()=>setUnanswered(p=>p.filter((_,idx)=>idx!==i))} title="تجاهل" style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.15)",color:"#f87171",borderRadius:4,padding:".25rem .4rem",fontSize:".65rem",cursor:"pointer"}}>✕</button>
+                {item.a&&item.a.trim()&&<button onClick={()=>{onSaveQA&&onSaveQA(item);setUnanswered(p=>p.filter((_,idx)=>idx!==i));}} style={{background:"var(--hl)",color:"#0a0a0a",border:"none",borderRadius:4,padding:".25rem .5rem",fontSize:".7rem",fontWeight:700,cursor:"pointer",fontFamily:"Cairo,sans-serif",whiteSpace:"nowrap"}}>💾 حفظ</button>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="bot-inp-row">
+        <input className="bot-inp" placeholder="اكتب سؤالك..." value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} disabled={loading}/>
+        <button className="bot-send" onClick={send} disabled={loading||!input.trim()}>➤</button>
+      </div>
+    </div>
+  );
+}
+
+function TrainPage({accs,onSave,onClose}){
+  const[selId,setSelId]=useState(accs.length>0?accs[0].id:"");
+  const selAcc=accs.find(a=>a.id===selId)||accs[0];
+  const[qas,setQas]=useState([{q:"",a:""}]);
+  useEffect(()=>{if(selAcc)setQas((selAcc.trainedQA||[]).length>0?[...selAcc.trainedQA]:[{q:"",a:""}]);},[selId]);
+  const add=()=>setQas(p=>[...p,{q:"",a:""}]);
+  const remove=i=>setQas(p=>p.filter((_,idx)=>idx!==i));
+  const upd=(i,k,v)=>setQas(p=>{const n=[...p];n[i]={...n[i],[k]:v};return n;});
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="train-modal" onClick={e=>e.stopPropagation()}>
+        <div style={{display:"flex",alignItems:"center",gap:".65rem",marginBottom:"1rem"}}>
+          <span style={{fontSize:"1.3rem"}}>🎓</span>
+          <div style={{flex:1}}>
+            <div style={{fontFamily:"'Playfair Display',serif",fontWeight:700}}>تدريب البوت</div>
+            <div style={{fontSize:".65rem",color:"var(--dim)"}}>أضف أسئلة وأجوبة يتعلمها البوت</div>
+          </div>
+          <button onClick={onClose} style={{background:"transparent",border:"none",color:"var(--dim)",fontSize:"1.1rem",cursor:"pointer"}}>✕</button>
+        </div>
+        <div style={{marginBottom:".8rem"}}>
+          <label style={{fontSize:".7rem",color:"var(--dim)",display:"block",marginBottom:".3rem"}}>اختر الأكونت</label>
+          <select value={selId} onChange={e=>setSelId(e.target.value)} style={{width:"100%",background:"var(--card)",border:"1px solid var(--border)",color:"var(--text)",borderRadius:6,padding:".45rem .75rem",fontFamily:"'Cairo',sans-serif",fontSize:".82rem"}}>
+            {accs.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}
+          </select>
+        </div>
+        {qas.map((qa,i)=>(
+          <div key={i} className="train-qa">
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".4rem"}}>
+              <span style={{fontSize:".65rem",color:"var(--hl)",fontWeight:700}}>سؤال {i+1}</span>
+              {qas.length>1&&<button onClick={()=>remove(i)} style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",width:24,height:24,borderRadius:4,fontSize:".75rem",cursor:"pointer"}}>✕</button>}
+            </div>
+            <input placeholder="السؤال" value={qa.q} onChange={e=>upd(i,"q",e.target.value)} style={{...S.inp,marginBottom:".35rem",fontSize:".8rem"}}/>
+            <textarea placeholder="الجواب..." value={qa.a} onChange={e=>upd(i,"a",e.target.value)} style={{...S.inp,minHeight:60,resize:"vertical",marginBottom:0,fontSize:".8rem"}}/>
+          </div>
+        ))}
+        <button onClick={add} style={{width:"100%",padding:".38rem",border:"1.5px dashed rgba(212,165,116,.25)",borderRadius:8,background:"transparent",color:"var(--hl)",fontFamily:"'Cairo',sans-serif",fontSize:".78rem",fontWeight:600,marginBottom:"1rem",cursor:"pointer"}}>+ أضف سؤال</button>
+        <div style={{display:"flex",gap:".5rem"}}>
+          <button onClick={()=>onSave(selAcc,qas.filter(q=>q.q.trim()&&q.a.trim()))} style={{...S.pBtn,flex:1}}>💾 حفظ</button>
+          <button onClick={onClose} style={{...S.ghost,flex:1}}>إلغاء</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function LandingPage({onEnter,onAdmin,accs,offs}){
+  const activeOffs=offs.filter(o=>!isExp(o.expiryDate)).length;
+  const activeAccs=accs.filter(a=>a.status==="نشط").length;
+  const urgentOffs=offs.filter(o=>!isExp(o.expiryDate)&&daysLeft(o.expiryDate)!==null&&daysLeft(o.expiryDate)<=3).length;
+  const latestOff=offs.filter(o=>!isExp(o.expiryDate)).sort((a,b)=>b.id-a.id)[0];
+  const previewAccs=accs.filter(a=>a.status==="نشط").slice(0,3);
+
+  // Tagline typewriter
+  const TAGLINES=["الردود الجاهزة في ثانية ⚡","كل أكونت في مكان واحد 📁","العروض دايماً محدثة 🎁","شير مع فريقك بلينك واحد 🔗"];
+  const[tagIdx,setTagIdx]=React.useState(0);
+  const[tagText,setTagText]=React.useState("");
+  const[typing,setTyping]=React.useState(true);
+  React.useEffect(()=>{
+    const full=TAGLINES[tagIdx];
+    if(typing){
+      if(tagText.length<full.length){const t=setTimeout(()=>setTagText(full.slice(0,tagText.length+1)),60);return()=>clearTimeout(t);}
+      else{const t=setTimeout(()=>setTyping(false),1800);return()=>clearTimeout(t);}
+    }else{
+      if(tagText.length>0){const t=setTimeout(()=>setTagText(tagText.slice(0,-1)),30);return()=>clearTimeout(t);}
+      else{setTagIdx((tagIdx+1)%TAGLINES.length);setTyping(true);}
+    }
+  },[tagText,typing,tagIdx]);
+
+  // Animated counter
+  function AnimCounter({val,delay=0}){
+    const[n,setN]=React.useState(0);
+    React.useEffect(()=>{
+      if(!val)return;
+      const step=Math.ceil(val/24);let cur=0;
+      const t=setTimeout(()=>{
+        const iv=setInterval(()=>{cur=Math.min(cur+step,val);setN(cur);if(cur>=val)clearInterval(iv);},40);
+      },delay);
+      return()=>clearTimeout(t);
+    },[val]);
+    return <span className="stat-pop" style={{animationDelay:delay+"ms"}}>{n}</span>;
+  }
+
+  return(
+    <div className="land-page-wrap" style={{minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden",padding:"2rem 1.5rem",paddingTop:"calc(2rem + var(--safe-top))"}}>
+      {/* Decorative rings */}
+      <div className="land-ring" style={{width:500,height:500,top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}/>
+      <div className="land-ring" style={{width:720,height:720,top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}/>
+      <div className="land-ring" style={{width:960,height:960,top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}/>
+
+      {/* Top label */}
+      <div style={{position:"absolute",top:"calc(1.5rem + var(--safe-top))",left:"1.5rem",fontSize:".55rem",color:"rgba(212,165,116,.2)",letterSpacing:".22em",textTransform:"uppercase",fontFamily:"'Work Sans',sans-serif"}}>Rebranding · Data Mod</div>
+
+      {/* Floating preview cards — desktop only */}
+      {previewAccs.length>0&&(
+        <div style={{position:"absolute",inset:0,pointerEvents:"none",overflow:"hidden"}} className="hide-mobile">
+          {previewAccs.map((a,i)=>(
+            <div key={a.id} className={`preview-card-${i+1}`} style={{
+              position:"absolute",
+              top:i===0?"18%":i===1?"55%":"30%",
+              left:i===0?"3%":i===2?"1%":"auto",
+              right:i===1?"2%":"auto",
+              width:170,
+              background:"rgba(255,255,255,.028)",
+              border:"1px solid rgba(212,165,116,.14)",
+              borderRadius:10,padding:".7rem",
+              backdropFilter:"blur(8px)",
+            }}>
+              <div style={{display:"flex",alignItems:"center",gap:".5rem",marginBottom:".4rem"}}>
+                {a.avatar
+                  ?<img src={a.avatar} style={{width:28,height:28,borderRadius:"50%",objectFit:"cover",border:"1px solid rgba(212,165,116,.3)",flexShrink:0}} alt=""/>
+                  :<div style={{width:28,height:28,borderRadius:"50%",background:"rgba(212,165,116,.1)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:".75rem"}}>🏪</div>
+                }
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:".7rem",fontWeight:700,color:"var(--text)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{a.name}</div>
+                  <div style={{fontSize:".55rem",color:"#4ade80",fontWeight:600}}>{a.status}</div>
+                </div>
+              </div>
+              {a.fixedReply&&<div style={{fontSize:".6rem",color:"var(--dim)",lineHeight:1.5,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{a.fixedReply}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Main content */}
+      <div style={{textAlign:"center",zIndex:1,maxWidth:480}}>
+
+        {/* Logo */}
+        <div className="s0">
+          <div className="land-logo land-logo-wrap" style={{width:118,height:118,borderRadius:"50%",overflow:"hidden",border:"2px solid rgba(212,165,116,.42)",margin:"0 auto 1.6rem",boxShadow:"0 0 40px rgba(212,165,116,.12)"}}>
+            <img src={LOGO} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="logo" onError={e=>{e.target.style.display="none";e.target.parentNode.style.background="#111";e.target.parentNode.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:900;color:#d4a574;font-family:serif">RE</div>';}}/>
+          </div>
+        </div>
+
+        {/* Title */}
+        <div className="s1">
+          <div style={{fontFamily:"'Playfair Display',serif",fontSize:"clamp(2.4rem,7vw,3.4rem)",fontWeight:700,lineHeight:1.08,marginBottom:".3rem",letterSpacing:"-.01em"}}>Rebranding</div>
+          <div style={{fontSize:"clamp(.58rem,2vw,.7rem)",color:"var(--hl)",letterSpacing:".35em",textTransform:"uppercase",fontFamily:"'Work Sans',sans-serif"}}>Marketing Agency</div>
+          <div style={{width:28,height:1,background:"rgba(212,165,116,.25)",margin:".9rem auto"}}/>
+        </div>
+
+        {/* Tagline typewriter */}
+        <div className="s2" style={{marginBottom:"1.6rem",minHeight:"1.6rem"}}>
+          <span style={{fontSize:"clamp(.82rem,2.8vw,.95rem)",color:"var(--dim)",fontFamily:"'Cairo',sans-serif"}}>{tagText}<span className="tagline-cursor"/></span>
+        </div>
+
+        {/* Stats — 4 stats */}
+        <div className="s3" style={{display:"grid",gridTemplateColumns:"1fr 1fr",margin:"0 0 1.6rem",background:"rgba(255,255,255,.025)",border:"1px solid rgba(255,255,255,.06)",borderRadius:12,overflow:"hidden"}}>
+          {[
+            {val:accs.length,label:"أكونت",delay:300},
+            {val:activeAccs,label:"نشط",delay:400,color:"#4ade80"},
+            {val:activeOffs,label:"عرض",delay:500},
+            {val:urgentOffs,label:"ينتهي قريب",delay:600,color:urgentOffs>0?"#fbbf24":undefined},
+          ].map((s,i,arr)=>(
+            <div key={i} style={{flex:1,textAlign:"center",padding:".75rem .4rem",borderLeft:i<arr.length-1?"1px solid rgba(255,255,255,.05)":"none"}}>
+              <div style={{fontSize:"1.5rem",fontWeight:700,color:s.color||"var(--hl)",fontFamily:"'Playfair Display',serif",lineHeight:1}}><AnimCounter val={s.val} delay={s.delay}/></div>
+              <div style={{fontSize:".52rem",color:"var(--dim)",letterSpacing:".1em",textTransform:"uppercase",marginTop:".22rem",lineHeight:1.2}}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Latest offer badge */}
+        {latestOff&&(
+          <div className="s4" style={{marginBottom:"1.3rem"}}>
+            <div className="new-offer-badge" style={{display:"inline-flex",alignItems:"center",gap:".5rem",padding:".42rem 1rem",borderRadius:30,background:"rgba(212,165,116,.08)",border:"1px solid rgba(212,165,116,.22)",cursor:"pointer"}} onClick={onEnter}>
+              <span style={{fontSize:".6rem",fontWeight:900,background:"var(--hl)",color:"#0a0a0a",padding:".1rem .38rem",borderRadius:3,letterSpacing:".06em",textTransform:"uppercase",flexShrink:0}}>جديد</span>
+              <span style={{fontSize:".75rem",color:"var(--text)",fontWeight:600,maxWidth:200,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{latestOff.title}</span>
+              <span style={{fontSize:".7rem",color:"var(--hl)",flexShrink:0}}>←</span>
+            </div>
+          </div>
+        )}
+
+        {/* CTA buttons */}
+        <div className="s5" style={{display:"flex",gap:".8rem",justifyContent:"center",flexWrap:"wrap"}}>
+          <button className="land-btn-primary" onClick={onEnter}>استعرض الأكونتات ←</button>
+          <button className="land-btn-ghost" onClick={onAdmin}>🛠️ الإدارة</button>
+        </div>
+
+        {/* Made by */}
+        <div className="s6" style={{marginTop:"1.6rem"}}><div className="made-by">Made by Fares Akram</div></div>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="scroll-indicator">↓ scroll</div>
+    </div>
+  );
+}
+
+/* ══════════════════════
+   MULTI-REPLY EDITOR
+══════════════════════ */
+function MultiReplyEditor({replies,onChange}){
+  function add(){onChange([...(replies||[]),{label:"",text:""}]);}
+  function remove(i){onChange((replies||[]).filter((_,idx)=>idx!==i));}
+  function update(i,k,v){const n=[...(replies||[])];n[i]={...n[i],[k]:v};onChange(n);}
+  return(
+    <div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:".5rem"}}>
+        <Lbl t="ردود إضافية (اختياري)"/>
+        <button onClick={add} style={{padding:".18rem .55rem",borderRadius:4,border:"1px solid var(--border)",fontSize:".68rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",background:"transparent",color:"var(--hl)",minHeight:28}}>+ إضافة</button>
+      </div>
+      {(replies||[]).map((r,i)=>(
+        <div key={i} className="reply-item">
+          <div className="reply-item-head">
+            <input placeholder="اسم الرد (مثال: رد VIP)" value={r.label} onChange={e=>update(i,"label",e.target.value)} style={{...S.inp,marginBottom:0,flex:1,marginLeft:".5rem",fontSize:".8rem"}}/>
+            <button onClick={()=>remove(i)} style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",width:28,height:28,borderRadius:4,fontSize:".8rem",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✕</button>
+          </div>
+          <div style={{marginTop:".4rem"}}>
+            <textarea placeholder="نص الرد..." value={r.text} onChange={e=>update(i,"text",e.target.value)} style={{...S.inp,minHeight:60,resize:"vertical",marginBottom:0,fontSize:".82rem"}}/>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ══════════════════════
+   MAIN APP
+══════════════════════ */
+function App(){
+  const[fbOk,setFbOk]=useState(!!window.__fbReady);
+  const[fbError,setFbError]=useState(null);
+  const[accs,setAccs]=useState([]);
+  const[offs,setOffs]=useState([]);
+  const[load,setLoad]=useState(true);
+  const[busy,setBusy]=useState(false);
+  const[toast,setToast]=useState("");
+  const[view,setView]=useState("landing");
+  const[admin,setAdmin]=useState(false);
+  const[pw,setPw]=useState("");
+  const[pwErr,setPwErr]=useState(false);
+  const[selA,setSelA]=useState(null);
+  const[lightImg,setLightImg]=useState(null);
+  const[cat,setCat]=useState("كل شيء");
+  const[ptab,setPtab]=useState("accs");
+  const[atab,setAtab]=useState("accs");
+  const[actLog,setActLog]=useState([]);
+  React.useEffect(()=>{
+    if(atab!=="log")return;
+    var fb=window.__fb;if(!fb)return;
+    var q=fb.query(fb.collection(fb.db,"activity_log"),fb.orderBy("createdAt","desc"),fb.limit(50));
+    var unsub=fb.onSnapshot(q,function(s){
+      var logs=s.docs.map(function(d){return{id:d.id,...d.data()};});
+      setActLog(logs);
+    },function(e){
+      // fallback without orderBy
+      fb.getDocs(fb.collection(fb.db,"activity_log")).then(function(s){
+        var logs=s.docs.map(function(d){return{id:d.id,...d.data()};});
+        logs.sort(function(a,b){return (b.createdAt||"").localeCompare(a.createdAt||"");});
+        setActLog(logs.slice(0,50));
+      }).catch(function(){});
+    });
+    return function(){unsub&&unsub();};
+  },[atab]);
+  const[search,setSearch]=useState("");
+  const[sort,setSort]=useState("newest");
+  const[showExplain,setShowExplain]=useState(false);
+  const[undoData,setUndoData]=useState(null);
+  const[showBackupReminder,setShowBackupReminder]=useState(false);
+  const[adminSearch,setAdminSearch]=useState("");
+  const[renewOffer,setRenewOffer]=useState(null);// offer being renewed
+  const[profileAcc,setProfileAcc]=useState(null);// full-page profile (shared link)
+  const[showQR,setShowQR]=useState(null);// acc for QR modal
+  const[filterPinned,setFilterPinned]=useState(false);
+  const[showPublicBot,setShowPublicBot]=useState(false);
+  const[showAdminBot,setShowAdminBot]=useState(false);
+  const[showTrain,setShowTrain]=useState(false);
+  const[pendingQCount,setPendingQCount]=useState(0);
+
+  // Acc form
+  const EA={name:"",category:"مطاعم",avatar:"",coverImage:"",description:"",tags:"",status:"نشط",joinedDate:"",fixedReply:"",timesReply:"",contactReply:"",extraReplies:[],galleryImages:[]};
+  const[showAF,setShowAF]=useState(false);
+  const[af,setAf]=useState(EA);
+  const[eAid,setEAid]=useState(null);
+  const[lnks,setLnks]=useState([{label:"",url:"",icon:""}]);
+
+  // Offer form
+  const EO={accountId:"",title:"",description:"",content:"",image:"",link:"",expiryDate:"",badge:"جديد"};
+  const[showOF,setShowOF]=useState(false);
+  const[of,setOf]=useState(EO);
+  const[eOid,setEOid]=useState(null);
+
+  // Import state
+  const[showImport,setShowImport]=useState(false);
+  const[importData,setImportData]=useState(null);
+  const importRef=useRef();
+
+  /* ── Firebase init ── */
+  useEffect(()=>{
+    if(window.__fbReady){setFbOk(true);return;}
+    window.addEventListener("fbReady",()=>setFbOk(true),{once:true});
+    setTimeout(()=>{if(!window.__fbReady)setFbError("تعذّر الاتصال بقاعدة البيانات. تأكد من الاتصال بالإنترنت وأعد المحاولة.");},10000);
+  },[]);
+
+  /* ── Data listeners ── */
+  useEffect(()=>{
+    if(!fbOk)return;
+    const fb=window.__fb;
+    let loaded=false;
+    const u1=fb.onSnapshot(fb.collection(fb.db,"accounts"),s=>{
+      const list=s.docs.map(d=>({...d.data(),id:d.id}));
+      setAccs(list);
+      if(!loaded){
+        loaded=true;setLoad(false);
+        const hash=decodeURIComponent(window.location.hash.slice(1));
+        if(hash){const found=list.find(a=>a.id===hash||a.name===hash);if(found){setProfileAcc(found);setView("pub");}}
+        // Keep profile in sync when data updates
+        setProfileAcc(prev=>prev?list.find(a=>a.id===prev.id)||prev:null);
+      }
+    },err=>{setFbError(err.message);setLoad(false);});
+    const u2=fb.onSnapshot(fb.collection(fb.db,"offers"),s=>{const list=s.docs.map(d=>({...d.data(),id:d.id}));setOffs(list);});
+    // Backup reminder
+    if(checkBackupReminder())setShowBackupReminder(true);
+    return()=>{u1();u2();};
+  },[fbOk]);
+
+  function msg(t){setToast(t);setTimeout(()=>setToast(""),2800);}
+
+  /* ── Share / deep link ── */
+  function shareAcc(a,e){e&&e.stopPropagation();const url=window.location.href.split("#")[0]+"#"+encodeURIComponent(a.id);navigator.clipboard.writeText(url).then(()=>msg("🔗 تم كوبي اللينك!"));}
+  // openAcc: inside the site (modal), used by admin modal
+  function openAcc(a){setSelA(a);window.location.hash=encodeURIComponent(a.id);}
+  function closeAcc(){setSelA(null);history.pushState("","",window.location.pathname+window.location.search);}
+  // openProfile: full page (from card click in public view OR from shared link)
+  function openProfile(a){setProfileAcc(a);setView("pub");window.location.hash=encodeURIComponent(a.id);}
+  function closeProfile(){setProfileAcc(null);history.pushState("","",window.location.pathname+window.location.search);}
+
+  /* ── Undo delete ── */
+  function scheduleDelete(type,id,data){
+    if(undoData?.timer)clearTimeout(undoData.timer);
+    const timer=setTimeout(async()=>{try{await window.__fb.deleteDoc(window.__fb.doc(window.__fb.db,type,id));msg("🗑️ تم الحذف");}catch(e){alert(e.message);}setUndoData(null);},5000);
+    setUndoData({type,id,data,timer});
+  }
+  async function undoDelete(){if(!undoData)return;clearTimeout(undoData.timer);try{const fb=window.__fb;await fb.setDoc(fb.doc(fb.db,undoData.type,undoData.id),undoData.data);msg("↩️ تم الاسترجاع");}catch(e){alert(e.message);}setUndoData(null);}
+  function delAcc(id){const data=accs.find(a=>a.id===id);if(!data)return;if(!window.confirm("⚠️ هتحذف أكونت: "+data.name+"\nمتأكد؟"))return;scheduleDelete("accounts",id,data);logActivity("delete_account","حذف أكونت: "+data.name,"من السايت");}
+  function delOff(id){const data=offs.find(o=>o.id===id);if(!data)return;scheduleDelete("offers",id,data);logActivity("delete_offer","حذف عرض: "+data.title,"من السايت");}
+
+  /* ── Renew offer (extend 30 days from now) ── */
+  async function doRenewOffer(oId){
+    const o=offs.find(x=>x.id===oId);if(!o)return;
+    const newDate=new Date();newDate.setDate(newDate.getDate()+30);
+    const fb=window.__fb;
+    try{await fb.setDoc(fb.doc(fb.db,"offers",oId),{...o,expiryDate:newDate.toISOString().slice(0,10),updatedAt:new Date().toISOString()});msg("✅ تم تجديد العرض 30 يوم");}
+    catch(e){alert(e.message);}
+    setRenewOffer(null);
+  }
+
+  /* ── Export / Import JSON ── */
+  function exportJSON(){
+    const data={accounts:accs,offers:offs,exportedAt:new Date().toISOString()};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`rebranding-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
+    msg("✅ تم التصدير");markBackupDone();setShowBackupReminder(false);
+  }
+  function handleImportFile(e){
+    const f=e.target.files[0];if(!f)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);setImportData(d);setShowImport(true);}catch(err){alert("ملف غير صالح");}};
+    reader.readAsText(f);
+  }
+  async function doImport(){
+    if(!importData)return;
+    setBusy(true);const fb=window.__fb;
+    try{
+      for(const a of(importData.accounts||[])){await fb.setDoc(fb.doc(fb.db,"accounts",a.id),a);}
+      for(const o of(importData.offers||[])){await fb.setDoc(fb.doc(fb.db,"offers",o.id),o);}
+      msg(`✅ تم الاستيراد — ${importData.accounts?.length||0} أكونت، ${importData.offers?.length||0} عرض`);
+      setShowImport(false);setImportData(null);
+    }catch(e){alert(e.message);}
+    setBusy(false);
+  }
+
+  // Listen to pending unanswered questions count
+  useEffect(()=>{
+    const fb=window.__fb;
+    if(!fb||!admin)return;
+    var unsub=fb.onSnapshot(fb.collection(fb.db,"unanswered_questions"),function(snap){
+      setPendingQCount(snap.docs.filter(function(d){return !d.data().a;}).length);
+    });
+    return function(){unsub&&unsub();};
+  },[admin]);
+
+  /* ── Acc form ── */
+  function openAF(a=null){
+    if(a){setAf({...a,tags:(a.tags||[]).join(", "),fixedReply:a.fixedReply||"",timesReply:a.timesReply||"",contactReply:a.contactReply||"",extraReplies:a.extraReplies||[],galleryImages:a.galleryImages||[]});setLnks(a.links?.length?a.links:[{label:"",url:"",icon:""}]);setEAid(a.id);}
+    else{setAf(EA);setLnks([{label:"",url:"",icon:""}]);setEAid(null);}
+    setShowAF(true);
+  }
+  async function saveAcc(){
+    setBusy(true);const fb=window.__fb;const id=eAid||String(Date.now());
+    try{await fb.setDoc(fb.doc(fb.db,"accounts",id),{...af,tags:af.tags.split(",").map(t=>t.trim()).filter(Boolean),links:lnks.filter(l=>l.label&&l.url),updatedAt:new Date().toISOString()});msg("✅ تم الحفظ");setShowAF(false);}
+    catch(e){alert(e.message);}setBusy(false);
+  }
+
+  /* ── Duplicate account ── */
+  async function dupAcc(a){
+    const fb=window.__fb;
+    const newId=String(Date.now());
+    const newAcc={...a,id:newId,name:a.name+" (نسخة)",pinned:false,updatedAt:new Date().toISOString()};
+    try{await fb.setDoc(fb.doc(fb.db,"accounts",newId),newAcc);msg("✅ تم عمل نسخة من الأكونت");}
+    catch(e){alert(e.message);}
+  }
+
+  /* ── Toggle pin ── */
+  async function togglePin(a){
+    const fb=window.__fb;
+    try{await fb.setDoc(fb.doc(fb.db,"accounts",a.id),{...a,pinned:!a.pinned,updatedAt:new Date().toISOString()});msg(a.pinned?"📌 تم إلغاء التثبيت":"📌 تم التثبيت");}
+    catch(e){alert(e.message);}
+  }
+
+  async function saveTrainedQA(a,qas){
+    var fb=window.__fb;
+    try{await fb.setDoc(fb.doc(fb.db,"accounts",a.id),Object.assign({},a,{trainedQA:qas,updatedAt:new Date().toISOString()}));msg("🤖 تم حفظ التدريب!");setShowTrain(false);}
+    catch(e){alert(e.message);}
+  }
+
+  /* ── Offer form ── */
+  function openOF(o=null){if(o){setOf(o);setEOid(o.id);}else{setOf(EO);setEOid(null);}setShowOF(true);}
+  async function saveOff(){
+    setBusy(true);const fb=window.__fb;const id=eOid||String(Date.now());
+    try{await fb.setDoc(fb.doc(fb.db,"offers",id),{...of,updatedAt:new Date().toISOString()});msg("✅ تم الحفظ");setShowOF(false);}
+    catch(e){alert(e.message);}setBusy(false);
+  }
+
+  async function login(){
+    try{
+      var fb=window.__fb;
+      const settingsDoc=await fb.getDoc(fb.doc(fb.db,"settings","admin"));
+      const correctPw=settingsDoc.exists()&&settingsDoc.data().password?settingsDoc.data().password:ADMIN_DEFAULT;
+      if(pw===correctPw){setAdmin(true);setView("admin");setPwErr(false);setPw("");}
+      else setPwErr(true);
+    }catch(e){
+      // Fallback to default password if Firebase fails
+      if(pw===ADMIN_DEFAULT){setAdmin(true);setView("admin");setPwErr(false);setPw("");}
+      else setPwErr(true);
+    }
+  }
+
+  /* ── Derived data ── */
+  const urgentCount=offs.filter(o=>!isExp(o.expiryDate)&&daysLeft(o.expiryDate)!==null&&daysLeft(o.expiryDate)<=3).length;
+  const expiredOffs=offs.filter(o=>isExp(o.expiryDate));
+
+  const fAccs=useMemo(()=>{
+    let list=cat==="كل شيء"?accs:accs.filter(a=>a.category===cat);
+    if(filterPinned)list=list.filter(a=>a.pinned);
+    if(search.trim()){const q=search.trim().toLowerCase();list=list.filter(a=>(a.name||"").toLowerCase().includes(q)||(a.description||"").toLowerCase().includes(q)||(a.tags||[]).some(t=>t.toLowerCase().includes(q)));}
+    if(sort==="alpha")list=[...list].sort((a,b)=>(a.name||"").localeCompare(b.name||"","ar"));
+    else if(sort==="oldest")list=[...list].sort((a,b)=>a.id-b.id);
+    else list=[...list].sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)||b.id-a.id);
+    return list;
+  },[accs,cat,search,sort,filterPinned]);
+
+  const fOffs=useMemo(()=>{
+    // Public: hide expired
+    let list=offs.filter(o=>!isExp(o.expiryDate));
+    if(search.trim()){const q=search.trim().toLowerCase();list=list.filter(o=>{const an=(accs.find(a=>a.id===o.accountId)?.name||"").toLowerCase();return (o.title||"").toLowerCase().includes(q)||(o.description||"").toLowerCase().includes(q)||an.includes(q);});}
+    return list;
+  },[offs,accs,search]);
+
+  const NB=(on)=>({padding:".38rem 1rem",borderRadius:4,border:"none",fontWeight:600,fontSize:".76rem",fontFamily:"'Cairo',sans-serif",background:on?"var(--hl)":"rgba(255,255,255,.05)",color:on?"#0a0a0a":"var(--dim)",transition:"all .18s",minHeight:40});
+
+  if(!fbOk&&fbError)return <ErrorScreen error={fbError}/>;
+  if(!fbOk)return <Spin msg="جاري الاتصال..."/>;
+
+  return(
+    <div style={{minHeight:"100vh",position:"relative",zIndex:2,paddingBottom:"5rem"}}>
+
+      {/* ══ BOT FAB — PUBLIC ══ */}
+      {view==="pub"&&!admin&&(
+        <button className="bot-fab" onClick={()=>setShowPublicBot(!showPublicBot)} title="اسأل البوت">🤖</button>
+      )}
+      {view==="pub"&&!admin&&showPublicBot&&(
+        <BotWindow accs={accs} offs={offs} isAdmin={false} onClose={()=>setShowPublicBot(false)}/>
+      )}
+
+      {/* ══ BOT FAB — ADMIN ══ */}
+      {view==="admin"&&admin&&(
+        <button className="bot-fab" onClick={()=>setShowAdminBot(!showAdminBot)} title="مساعد الأدمن" style={{position:"fixed",bottom:"calc(1.4rem + var(--safe-bottom))",left:"1.4rem",zIndex:160}}>
+          🤖
+          {pendingQCount>0&&<span className="bot-badge">{pendingQCount}</span>}
+        </button>
+      )}
+      {view==="admin"&&admin&&showAdminBot&&(
+        <BotWindow accs={accs} offs={offs} isAdmin={true} onClose={()=>setShowAdminBot(false)} onAction={(actionJson,cb)=>parseAndExecAction(actionJson,accs,offs,cb)} onSaveQA={async(item)=>{
+          var fb=window.__fb;
+          // Smart matching: search question text for account name
+          var allText=item.q+" "+(item.ctx||"");
+          var matched=accs.find(function(a){return allText.includes(a.name);});
+          if(!matched){
+            // fallback: pick account with most offers (most active)
+            matched=accs.slice().sort(function(a,b){
+              var aO=offs.filter(function(o){return o.accountId===a.id;}).length;
+              var bO=offs.filter(function(o){return o.accountId===b.id;}).length;
+              return bO-aO;
+            })[0];
+          }
+          if(!matched)return;
+          var existing=(matched.trainedQA||[]);
+          var isDup=existing.find(function(x){return x.q.trim()===item.q.trim();});
+          var newQA=isDup
+            ? existing.map(function(x){return x.q.trim()===item.q.trim()?{q:x.q,a:item.a}:x;})
+            : [...existing,{q:item.q,a:item.a}];
+          var updated={...matched,trainedQA:newQA,updatedAt:new Date().toISOString()};
+          try{
+            await fb.setDoc(fb.doc(fb.db,"accounts",matched.id),updated);
+            msg(isDup?"✅ تم تحديث الإجابة في "+matched.name+"!":"✅ تم حفظ الإجابة في تدريب "+matched.name+"!");
+          }catch(e){alert(e.message);}
+        }}/>
+      )}
+
+      {/* ══ TRAIN MODAL ══ */}
+      {showTrain&&admin&&(
+        <TrainPage accs={accs} onSave={saveTrainedQA} onClose={()=>setShowTrain(false)}/>
+      )}
+
+      {/* ── TOAST ── */}
+      {toast&&<div style={{position:"fixed",bottom:22,left:"50%",transform:"translateX(-50%)",background:"var(--hl)",color:"#0a0a0a",padding:".42rem 1.4rem",borderRadius:20,fontWeight:700,zIndex:999,fontSize:".78rem",whiteSpace:"nowrap",boxShadow:"0 4px 22px rgba(212,165,116,.4)",animation:"slideUp .2s ease"}}>{toast}</div>}
+
+      {/* ── UNDO TOAST ── */}
+      {undoData&&<div className="undo-toast"><span>🗑️ سيُحذف بعد 5 ثوان</span><button onClick={undoDelete} style={{background:"var(--hl)",color:"#0a0a0a",border:"none",borderRadius:4,padding:".22rem .65rem",fontWeight:700,fontFamily:"'Cairo',sans-serif",fontSize:".78rem",minHeight:32}}>↩️ Undo</button></div>}
+
+      {/* ── LIGHTBOX ── */}
+      {lightImg&&<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.97)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:500,animation:"fadeInBg .18s ease"}} onClick={()=>setLightImg(null)}><img src={lightImg} style={{maxWidth:"94vw",maxHeight:"88vh",borderRadius:8,objectFit:"contain",animation:"modalIn .22s ease"}} alt=""/></div>}
+
+      {/* ── EXPLAIN MODAL ── */}
+      {showExplain&&<ExplainModal onClose={()=>setShowExplain(false)} isAdmin={admin}/>}
+
+      {/* ── RENEW CONFIRM ── */}
+      {renewOffer&&(
+        <div className="modal-overlay" onClick={()=>setRenewOffer(null)}>
+          <div className="modal-box" style={{background:"#111",border:"1px solid rgba(74,222,128,.2)",borderRadius:12,padding:"1.6rem",maxWidth:340,textAlign:"center"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:"1.8rem",marginBottom:".7rem"}}>🔄</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",marginBottom:".5rem"}}>تجديد العرض</div>
+            <div style={{fontSize:".82rem",color:"var(--dim)",lineHeight:1.65,marginBottom:"1.2rem"}}>سيتم مد تاريخ انتهاء العرض <strong style={{color:"var(--text)"}}>{offs.find(o=>o.id===renewOffer)?.title}</strong> لـ 30 يوم من اليوم</div>
+            <div style={{display:"flex",gap:".6rem",justifyContent:"center"}}>
+              <button onClick={()=>setRenewOffer(null)} style={S.ghost}>إلغاء</button>
+              <button onClick={()=>doRenewOffer(renewOffer)} style={{...S.pBtn,background:"#4ade80"}}>تجديد ✓</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── IMPORT CONFIRM ── */}
+      {showImport&&importData&&(
+        <div className="modal-overlay" onClick={()=>setShowImport(false)}>
+          <div className="modal-box" style={{background:"#111",border:"1px solid rgba(212,165,116,.2)",borderRadius:12,padding:"1.6rem",maxWidth:380,textAlign:"center"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:"1.8rem",marginBottom:".7rem"}}>📥</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",marginBottom:".5rem"}}>استيراد بيانات</div>
+            <div style={{fontSize:".82rem",color:"var(--dim)",lineHeight:1.65,marginBottom:".8rem"}}>الملف يحتوي على <strong style={{color:"var(--text)"}}>{importData.accounts?.length||0} أكونت</strong> و<strong style={{color:"var(--text)"}}>{importData.offers?.length||0} عرض</strong></div>
+            <div style={{fontSize:".74rem",color:"#fbbf24",background:"rgba(251,191,36,.07)",border:"1px solid rgba(251,191,36,.2)",borderRadius:6,padding:".6rem",marginBottom:"1.1rem"}}>⚠️ سيتم إضافة/تحديث البيانات الموجودة — لن يتم حذف شيء</div>
+            <div style={{display:"flex",gap:".6rem",justifyContent:"center"}}>
+              <button onClick={()=>setShowImport(false)} style={S.ghost}>إلغاء</button>
+              <button onClick={doImport} disabled={busy} style={{...S.pBtn,opacity:busy?.6:1}}>{busy?"⏳...":"استيراد ✓"}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── LANDING ── */}
+      {view==="landing"&&<LandingPage accs={accs} offs={offs} onEnter={()=>setView("pub")} onAdmin={()=>setView("login")}/>}
+
+      {view!=="landing"&&<>
+      {/* ── NAV ── */}
+      <nav className="nav-bar">
+        <div style={{display:"flex",alignItems:"center",gap:".7rem"}}>
+          <div style={{width:38,height:38,borderRadius:"50%",overflow:"hidden",flexShrink:0,border:"1.5px solid rgba(212,165,116,.42)"}}>
+            <img src={LOGO} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="logo" onError={e=>{e.target.style.display="none";e.target.parentNode.style.background="rgba(212,165,116,.1)";e.target.parentNode.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;color:#d4a574;font-family:serif">RE</div>';}}/>
+          </div>
+          <div className="nav-title"><div style={{fontWeight:700,fontSize:".85rem",letterSpacing:".18em",textTransform:"uppercase",fontFamily:"'Work Sans',sans-serif"}}>Rebranding</div><div style={{fontSize:".48rem",color:"var(--hl)",letterSpacing:".22em",textTransform:"uppercase",marginTop:-1}}>marketing agency</div></div>
+        </div>
+        <div style={{display:"flex",gap:".3rem",alignItems:"center"}}>
+          {urgentCount>0&&<span style={{background:"rgba(251,191,36,.1)",border:"1px solid rgba(251,191,36,.28)",color:"#fbbf24",fontSize:".58rem",fontWeight:700,padding:".08rem .42rem",borderRadius:4}}>⚠️ {urgentCount}</span>}
+          <button className="bh" onClick={()=>setView("landing")} style={NB(false)}>🏠</button>
+          <button className="bh" onClick={()=>setView("pub")} style={NB(view==="pub")}>🌐</button>
+          {admin?<button className="bh" onClick={()=>setView("admin")} style={NB(view==="admin")}>🛠️</button>:<button className="bh" onClick={()=>setView("login")} style={NB(false)}>🔐</button>}
+        </div>
+      </nav>
+
+      {/* ═══════════════ PUBLIC ═══════════════ */}
+      {view==="pub"&&!profileAcc&&(
+        <div className="page-enter" style={{maxWidth:1100,margin:"0 auto",padding:"1.8rem 1.1rem"}}>
+          <div style={{textAlign:"center",padding:"2.2rem 1rem 1.8rem",borderBottom:"1px solid var(--border)",marginBottom:"2.2rem"}}>
+            <div style={{width:92,height:92,borderRadius:"50%",margin:"0 auto .9rem",overflow:"hidden",border:"2px solid rgba(212,165,116,.38)",boxShadow:"0 0 28px rgba(212,165,116,.12)"}}>
+              <img src={LOGO} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="logo"/>
+            </div>
+            <div style={{fontSize:"1.9rem",fontWeight:700,fontFamily:"'Playfair Display',serif",marginBottom:".2rem"}}>Rebranding</div>
+            <div style={{fontSize:".66rem",color:"var(--hl)",letterSpacing:".28em",textTransform:"uppercase",marginBottom:".9rem"}}>marketing agency</div>
+            <div className="hero-stats" style={{display:"flex",justifyContent:"center",gap:"2rem"}}>
+              <div style={{textAlign:"center"}}><div style={{fontSize:"1.5rem",fontWeight:700,color:"var(--hl)",fontFamily:"'Playfair Display',serif"}}>{accs.length}</div><div style={{fontSize:".6rem",color:"var(--dim)",letterSpacing:".15em",textTransform:"uppercase"}}>أكونت</div></div>
+              <div style={{width:1,background:"var(--border)"}}/>
+              <div style={{textAlign:"center"}}><div style={{fontSize:"1.5rem",fontWeight:700,color:"var(--hl)",fontFamily:"'Playfair Display',serif"}}>{offs.filter(o=>!isExp(o.expiryDate)).length}</div><div style={{fontSize:".6rem",color:"var(--dim)",letterSpacing:".15em",textTransform:"uppercase"}}>عرض نشط</div></div>
+            </div>
+          </div>
+
+          <div className="tab-bar">
+            <button className={"tab-btn"+(ptab==="accs"?" on":"")} onClick={()=>setPtab("accs")}>📁 الأكونتات</button>
+            <button className={"tab-btn"+(ptab==="offs"?" on":"")} onClick={()=>setPtab("offs")}>{`🎁 العروض${urgentCount>0?" ⚠️":""}`}</button>
+          </div>
+
+          <div className="filters-row" style={{display:"flex",gap:".55rem",alignItems:"center",marginBottom:"1.1rem",flexWrap:"wrap"}}>
+            <div className="search-wrap">
+              <span className="search-icon">🔍</span>
+              <input placeholder={ptab==="accs"?"ابحث عن أكونت...":"ابحث عن عرض..."} value={search} onChange={e=>setSearch(e.target.value)}/>
+            </div>
+            {ptab==="accs"&&(
+              <select value={sort} onChange={e=>setSort(e.target.value)} style={{padding:".44rem .75rem",borderRadius:22,border:"1px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.04)",color:"var(--dim)",fontFamily:"'Cairo',sans-serif",fontSize:".8rem",minHeight:42}}>
+                <option value="newest">الأحدث</option><option value="oldest">الأقدم</option><option value="alpha">أبجدي</option>
+              </select>
+            )}
+          </div>
+
+          {ptab==="accs"&&<>
+            <div style={{display:"flex",gap:".38rem",flexWrap:"wrap",marginBottom:"1.1rem",alignItems:"center"}}>
+              {CATS.map(cc=><button key={cc} onClick={()=>setCat(cc)} style={{padding:".28rem .85rem",borderRadius:22,border:"1px solid",fontWeight:500,fontSize:".75rem",fontFamily:"'Cairo',sans-serif",borderColor:cat===cc?"var(--hl)":"var(--border)",background:cat===cc?"rgba(212,165,116,.1)":"transparent",color:cat===cc?"var(--hl)":"var(--dim)",transition:"all .18s",minHeight:38}}>{cc}</button>)}
+              {accs.some(a=>a.pinned)&&<button onClick={()=>setFilterPinned(!filterPinned)} style={{padding:".28rem .85rem",borderRadius:22,border:`1px solid ${filterPinned?"var(--hl)":"var(--border)"}`,fontWeight:600,fontSize:".75rem",fontFamily:"'Cairo',sans-serif",background:filterPinned?"rgba(212,165,116,.1)":"transparent",color:filterPinned?"var(--hl)":"var(--dim)",transition:"all .18s",minHeight:38}}>📌 المثبتة</button>}
+            </div>
+            {load?<SkeletonCards/>:fAccs.length===0?<div style={{textAlign:"center",color:"var(--dim)",padding:"3rem"}}>🔍 لا توجد نتائج</div>:
+              <div className="grid-cards" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:"1rem"}}>
+                {fAccs.map(a=><AccCard key={a.id} a={a} onClick={()=>openProfile(a)} onShare={shareAcc} onTagClick={t=>{setSearch(t);setPtab('accs');}}/>)}
+              </div>}
+          </>}
+
+          {ptab==="offs"&&<>
+            {fOffs.length===0?<div style={{textAlign:"center",color:"var(--dim)",padding:"3rem"}}>🔍 لا توجد عروض نشطة</div>:
+              <div style={{maxWidth:680,margin:"0 auto"}}>
+                {fOffs.map(o=><OCard key={o.id} o={o} accName={accs.find(a=>a.id===o.accountId)?.name}/>)}
+              </div>}
+          </>}
+        </div>
+      )}
+
+      {/* ═══════════════ PROFILE PAGE (full screen from shared link) ═══════════════ */}
+      {profileAcc&&view==="pub"&&(
+        <AccountProfilePage
+          a={profileAcc}
+          offs={offs}
+          onBack={closeProfile}
+          onZoom={setLightImg}
+          allAccs={accs}
+        />
+      )}
+
+      {/* ═══════════════ LOGIN ═══════════════ */}
+      {view==="login"&&(
+        <div className="page-enter" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"80vh",padding:"1rem"}}>
+          <div className="modal-box" style={{textAlign:"center",maxWidth:300}}>
+            <div style={{width:68,height:68,borderRadius:"50%",margin:"0 auto .9rem",overflow:"hidden",border:"1px solid rgba(212,165,116,.38)"}}><img src={LOGO} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="logo"/></div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.1rem",marginBottom:"1.3rem"}}>Admin Access</div>
+            <input type="password" placeholder="كلمة المرور" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&login()} style={{...S.inp,textAlign:"center"}}/>
+            {pwErr&&<div style={{color:"#f87171",marginBottom:".6rem",fontSize:".8rem"}}>❌ كلمة المرور غلط</div>}
+            <button className="bh" onClick={login} style={{...S.pBtn,width:"100%"}}>دخول</button>
+            <button onClick={()=>setView("pub")} style={{marginTop:".7rem",background:"none",border:"none",color:"var(--dim)",fontSize:".78rem",fontFamily:"'Cairo',sans-serif",minHeight:36}}>رجوع</button>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════ ADMIN ═══════════════ */}
+      {view==="admin"&&admin&&(
+        <div className="page-enter" style={{maxWidth:1000,margin:"0 auto",padding:"1.6rem 1.1rem"}}>
+
+          {/* Backup reminder banner */}
+          {showBackupReminder&&(
+            <div className="reminder-banner">
+              <span style={{fontSize:"1.2rem"}}>💾</span>
+              <div style={{flex:1}}><strong>تذكير أسبوعي:</strong> اعمل نسخة احتياطية من بياناتك</div>
+              <button onClick={()=>{exportJSON();}} style={{...S.pBtn,padding:".4rem .85rem",fontSize:".74rem"}}>Export الآن</button>
+              <button onClick={()=>{setShowBackupReminder(false);markBackupDone();}} style={{background:"none",border:"none",color:"var(--dim)",fontSize:".8rem",cursor:"pointer",padding:".3rem"}}>✕</button>
+            </div>
+          )}
+
+          {/* Admin header */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"1.6rem",flexWrap:"wrap",gap:".6rem"}}>
+            <span style={{fontSize:".78rem",color:"var(--hl)",letterSpacing:".1em",textTransform:"uppercase"}}>لوحة الإدارة</span>
+            <div style={{display:"flex",gap:".42rem",alignItems:"center",flexWrap:"wrap"}}>
+              <button onClick={exportJSON} style={{display:"inline-flex",alignItems:"center",gap:".28rem",padding:".34rem .8rem",borderRadius:4,border:"1px solid rgba(74,222,128,.22)",background:"rgba(74,222,128,.05)",color:"#4ade80",fontFamily:"'Cairo',sans-serif",fontSize:".72rem",fontWeight:600,minHeight:36}}>💾 Export JSON</button>
+              <label style={{display:"inline-flex",alignItems:"center",gap:".28rem",padding:".34rem .8rem",borderRadius:4,border:"1px solid rgba(212,165,116,.22)",background:"rgba(212,165,116,.05)",color:"var(--hl)",fontFamily:"'Cairo',sans-serif",fontSize:".72rem",fontWeight:600,minHeight:36,cursor:"pointer"}}>
+                📥 Import JSON
+                <input ref={importRef} type="file" accept=".json" style={{display:"none"}} onChange={handleImportFile}/>
+              </label>
+              {offs.filter(o=>!isExp(o.expiryDate)&&daysLeft(o.expiryDate)!==null&&daysLeft(o.expiryDate)<=3).length>0&&(
+                <button onClick={()=>sendExpiryWAAlerts(offs,accs)} style={{display:"inline-flex",alignItems:"center",gap:".28rem",padding:".34rem .8rem",borderRadius:4,border:"1px solid rgba(37,211,102,.3)",background:"rgba(37,211,102,.07)",color:"#25D366",fontFamily:"'Cairo',sans-serif",fontSize:".72rem",fontWeight:600,minHeight:36,animation:"waBounce 1s ease 1"}}>💬 إرسال تنبيه واتساب</button>
+              )}
+            </div>
+          </div>
+
+          <div className="tab-bar">
+            <button className={"tab-btn"+(atab==="accs"?" on":"")} onClick={()=>{setAtab("accs");setAdminSearch("");}}>{`📁 الأكونتات (${accs.length})`}</button>
+            <button className={"tab-btn"+(atab==="offs"?" on":"")} onClick={()=>{setAtab("offs");setAdminSearch("");}}>{`🎁 العروض (${offs.filter(o=>!isExp(o.expiryDate)).length} نشط / ${expiredOffs.length} منتهي)${urgentCount>0?" ⚠️":""}`}</button>
+            <button className={"tab-btn"+(atab==="qa"?" on":"")} onClick={()=>{setAtab("qa");setAdminSearch("");}}>
+              {`❓ أسئلة (${accs.reduce(function(sum,a){return sum+(a.trainedQA||[]).filter(function(q){return q.q&&q.a;}).length;},0)})`}
+            </button>
+            <button className={"tab-btn"+(atab==="log"?" on":"")} onClick={()=>{setAtab("log");setAdminSearch("");}}>📋 آخر التعديلات</button>
+          </div>
+
+          {atab==="accs"&&<>
+            <div style={{display:"flex",gap:".6rem",marginBottom:"1rem",alignItems:"center",flexWrap:"wrap"}}>
+              <button className="bh" onClick={()=>openAF()} style={{...S.pBtn,flexShrink:0}}>+ أضف أكونت</button>
+              <div className="search-wrap" style={{flex:1,minWidth:180}}>
+                <span className="search-icon">🔍</span>
+                <input placeholder="ابحث في الأكونتات..." value={adminSearch} onChange={e=>setAdminSearch(e.target.value)} style={{paddingRight:"2.2rem"}}/>
+              </div>
+              {adminSearch&&<span style={{fontSize:".7rem",color:"var(--dim)"}}>{accs.filter(a=>(a.name||"").toLowerCase().includes(adminSearch.toLowerCase())||(a.description||"").toLowerCase().includes(adminSearch.toLowerCase())||(a.category||"").toLowerCase().includes(adminSearch.toLowerCase())).length} نتيجة</span>}
+            </div>
+            <div style={{display:"grid",gap:".55rem"}}>
+              {accs.filter(a=>!adminSearch.trim()||(a.name||"").toLowerCase().includes(adminSearch.toLowerCase())||(a.description||"").toLowerCase().includes(adminSearch.toLowerCase())||(a.category||"").toLowerCase().includes(adminSearch.toLowerCase())||(a.tags||[]).some(t=>t.toLowerCase().includes(adminSearch.toLowerCase()))).map(a=>(
+                <div key={a.id} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:8,display:"flex",alignItems:"center",gap:".85rem",padding:".75rem .9rem",flexWrap:"wrap",transition:"border-color .18s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.18)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
+                  {a.avatar&&<img src={a.avatar} style={{width:40,height:40,borderRadius:"50%",objectFit:"cover",border:"1px solid rgba(212,165,116,.2)"}} alt=""/>}
+                  <div style={{flex:1,minWidth:120}}><div style={{fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{a.name}</div><div style={{fontSize:".7rem",color:"var(--dim)"}}>{a.category} · {a.links?.length||0} لينكات · {(a.galleryImages||[]).length} صورة · {(a.extraReplies||[]).length} ردود إضافية</div></div>
+                  <Badge s={a.status}/>
+                  <button className="bh" title={a.pinned?"إلغاء التثبيت":"تثبيت فوق"} onClick={()=>togglePin(a)} style={{padding:".3rem .65rem",borderRadius:4,border:`1px solid ${a.pinned?"rgba(212,165,116,.4)":"var(--border)"}`,fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:a.pinned?"rgba(212,165,116,.12)":"rgba(255,255,255,.04)",color:a.pinned?"var(--hl)":"var(--dim)",minHeight:36}}>📌</button>
+                  <button className="bh" title="QR Code" onClick={()=>setShowQR(a)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid var(--border)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(255,255,255,.04)",color:"var(--dim)",minHeight:36}}>◻️</button>
+                  <button className="bh" title="نسخة" onClick={()=>dupAcc(a)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid rgba(212,165,116,.2)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(212,165,116,.04)",color:"var(--hl)",minHeight:36}}>⧉</button>
+                  <button className="bh" onClick={()=>openAF(a)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid var(--border)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(255,255,255,.04)",color:"var(--dim)",minHeight:36}}>✏️</button>
+                  <button className="bh" onClick={()=>delAcc(a.id)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid rgba(239,68,68,.2)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(239,68,68,.05)",color:"#f87171",minHeight:36}}>🗑️</button>
+                </div>
+              ))}
+            </div>
+          </>}
+
+          {atab==="offs"&&<>
+            <div style={{display:"flex",gap:".6rem",marginBottom:"1rem",alignItems:"center",flexWrap:"wrap"}}>
+              <button className="bh" onClick={()=>openOF()} style={{...S.pBtn,flexShrink:0}}>+ أضف عرض</button>
+              <div className="search-wrap" style={{flex:1,minWidth:180}}>
+                <span className="search-icon">🔍</span>
+                <input placeholder="ابحث في العروض..." value={adminSearch} onChange={e=>setAdminSearch(e.target.value)} style={{paddingRight:"2.2rem"}}/>
+              </div>
+              {adminSearch&&<span style={{fontSize:".7rem",color:"var(--dim)"}}>{offs.filter(o=>(o.title||"").toLowerCase().includes(adminSearch.toLowerCase())||(o.description||"").toLowerCase().includes(adminSearch.toLowerCase())||((accs.find(a=>a.id===o.accountId)?.name)||"").toLowerCase().includes(adminSearch.toLowerCase())).length} نتيجة</span>}
+            </div>
+
+            {/* Active offers */}
+            {offs.filter(o=>!isExp(o.expiryDate)&&(!adminSearch.trim()||(o.title||"").toLowerCase().includes(adminSearch.toLowerCase())||(o.description||"").toLowerCase().includes(adminSearch.toLowerCase())||((accs.find(a=>a.id===o.accountId)?.name)||"").toLowerCase().includes(adminSearch.toLowerCase()))).length>0&&(
+              <div style={{marginBottom:"1.4rem"}}>
+                <div style={{fontSize:".7rem",color:"#4ade80",letterSpacing:".1em",textTransform:"uppercase",marginBottom:".55rem",fontWeight:600}}>✓ العروض النشطة</div>
+                <div style={{display:"grid",gap:".5rem"}}>
+                  {offs.filter(o=>!isExp(o.expiryDate)&&(!adminSearch.trim()||(o.title||"").toLowerCase().includes(adminSearch.toLowerCase())||(o.description||"").toLowerCase().includes(adminSearch.toLowerCase())||((accs.find(a=>a.id===o.accountId)?.name)||"").toLowerCase().includes(adminSearch.toLowerCase()))).map(o=>{
+                    const a=accs.find(x=>x.id===o.accountId),dl=daysLeft(o.expiryDate),urg=dl!==null&&dl<=3;
+                    return(
+                      <div key={o.id} style={{background:"var(--card)",border:`1px solid ${urg?"rgba(251,191,36,.28)":"var(--border)"}`,borderRadius:8,display:"flex",alignItems:"center",gap:".85rem",padding:".75rem .9rem",flexWrap:"wrap"}}>
+                        {o.image&&<img src={o.image} style={{width:44,height:44,borderRadius:6,objectFit:"cover"}} alt=""/>}
+                        <div style={{flex:1,minWidth:100}}><div style={{fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{o.title}</div><div style={{fontSize:".7rem",color:"var(--hl)"}}>{a?.name||"—"}</div>{o.expiryDate&&<div style={{fontSize:".66rem",color:urg?"#fbbf24":"#4ade80",fontWeight:urg?700:400}}>{urg?"⚠️ باقي "+dl+" يوم":"⏳ "+dl+" يوم"}</div>}</div>
+                        <button className="bh" onClick={()=>openOF(o)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid var(--border)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(255,255,255,.04)",color:"var(--dim)",minHeight:36}}>✏️</button>
+                        <button className="bh" onClick={()=>delOff(o.id)} style={{padding:".3rem .65rem",borderRadius:4,border:"1px solid rgba(239,68,68,.2)",fontWeight:600,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"rgba(239,68,68,.05)",color:"#f87171",minHeight:36}}>🗑️</button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Expired offers — admin only section */}
+            {expiredOffs.filter(o=>!adminSearch.trim()||(o.title||"").toLowerCase().includes(adminSearch.toLowerCase())||(o.description||"").toLowerCase().includes(adminSearch.toLowerCase())||((accs.find(a=>a.id===o.accountId)?.name)||"").toLowerCase().includes(adminSearch.toLowerCase())).length>0&&(
+              <div>
+                <div style={{fontSize:".7rem",color:"#f87171",letterSpacing:".1em",textTransform:"uppercase",marginBottom:".55rem",fontWeight:600}}>⏰ العروض المنتهية (مخفية عن الزوار)</div>
+                <div style={{maxWidth:680}}>
+                  {expiredOffs.filter(o=>!adminSearch.trim()||(o.title||"").toLowerCase().includes(adminSearch.toLowerCase())||(o.description||"").toLowerCase().includes(adminSearch.toLowerCase())||((accs.find(a=>a.id===o.accountId)?.name)||"").toLowerCase().includes(adminSearch.toLowerCase())).map(o=>(
+                    <OCard key={o.id} o={o} accName={accs.find(a=>a.id===o.accountId)?.name} adminMode={true} onRenew={()=>setRenewOffer(o.id)} onDelete={()=>delOff(o.id)}/>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>}
+
+          {atab==="log"&&(
+            <div style={{display:"grid",gap:".5rem"}}>
+              {actLog.length===0&&<div style={{textAlign:"center",padding:"2rem",color:"var(--dim)",fontSize:".8rem"}}>مفيش تعديلات مسجلة لحد دلوقتي</div>}
+              {actLog.map(function(log){
+                var icons={"add_offer":"🎁","edit_offer":"✏️🎁","delete_offer":"🗑️🎁","add_account":"👤","delete_account":"🗑️👤","edit_account":"✏️👤","add_reply":"💬","delete_reply":"🗑️💬","add_info":"🧠","delete_info":"🗑️🧠","delete_image":"🗑️🖼️","change_password":"🔐","reply":"✅"};
+                var icon=icons[log.type]||"📝";
+                var time=log.createdAt?new Date(log.createdAt).toLocaleString("ar-EG",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}):"";
+                return(
+                  <div key={log.id} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:8,padding:".75rem .9rem",display:"flex",gap:".75rem",alignItems:"flex-start"}}>
+                    <span style={{fontSize:"1.1rem"}}>{icon}</span>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:600,fontSize:".82rem"}}>{log.label||log.type}</div>
+                      {log.detail&&<div style={{fontSize:".75rem",color:"var(--dim)",marginTop:".2rem"}}>{log.detail}</div>}
+                    </div>
+                    <div style={{fontSize:".68rem",color:"var(--dim)",whiteSpace:"nowrap"}}>{time}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {atab==="qa"&&(
+            <div style={{display:"grid",gap:".5rem"}}>
+              {accs.every(a=>(a.trainedQA||[]).filter(q=>q.q&&q.a).length===0)&&(
+                <div style={{textAlign:"center",padding:"3rem",color:"var(--dim)",fontSize:".85rem"}}>مفيش أسئلة محفوظة دلوقتي</div>
+              )}
+              {accs.map(function(a){
+                var qaItems=(a.trainedQA||[]).filter(function(q){return q.q&&q.a;});
+                if(!qaItems.length)return null;
+                return qaItems.map(function(item,i){
+                  return(
+                    <div key={a.id+"-"+i} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:8,padding:".7rem .9rem",display:"flex",alignItems:"flex-start",gap:".75rem"}}>
+                      {a.avatar&&<img src={a.avatar} style={{width:32,height:32,borderRadius:"50%",objectFit:"cover",border:"1px solid rgba(212,165,116,.2)",flexShrink:0}} alt=""/>}
+                      <div style={{flex:1,minWidth:0}}>
+                        <div style={{fontSize:".68rem",color:"var(--hl)",fontWeight:700,marginBottom:".25rem"}}>{a.name}</div>
+                        <div style={{fontSize:".8rem",fontWeight:600,color:"var(--text)",marginBottom:".2rem"}}>❓ {item.q}</div>
+                        <div style={{fontSize:".75rem",color:"var(--dim)",lineHeight:1.55}}>💡 {item.a}</div>
+                      </div>
+                      <button onClick={async function(){
+                        var fb=window.__fb;if(!fb)return;
+                        var newQA=(a.trainedQA||[]).filter(function(_,idx){return idx!==i;});
+                        var updated=Object.assign({},a,{trainedQA:newQA,updatedAt:new Date().toISOString()});
+                        await fb.setDoc(fb.doc(fb.db,"accounts",a.id),updated);
+                        msg("🗑️ تم حذف السؤال");
+                      }} style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",borderRadius:6,fontSize:".72rem",cursor:"pointer",padding:".25rem .5rem",flexShrink:0,alignSelf:"center"}}>🗑</button>
+                    </div>
+                  );
+                });
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ═══════════════ ACC MODAL ═══════════════ */}
+      {selA&&(
+        <div className="modal-overlay" onClick={closeAcc}>
+          <div className="modal-box" style={{...S.box,maxWidth:580}} onClick={e=>e.stopPropagation()}>
+            {selA.coverImage&&<img src={selA.coverImage} style={{width:"100%",height:160,objectFit:"cover",borderRadius:8,marginBottom:".85rem"}} alt=""/>}
+            <div style={{display:"flex",gap:".85rem",alignItems:"center",marginBottom:".85rem"}}>
+              {selA.avatar&&<img src={selA.avatar} style={{width:56,height:56,borderRadius:"50%",border:"2px solid var(--hl)",objectFit:"cover"}} alt=""/>}
+              <div style={{flex:1}}><div style={{fontSize:"1.15rem",fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{selA.name}</div><div style={{color:"var(--dim)",fontSize:".7rem"}}>{selA.category}{selA.joinedDate&&" · "+fmtDate(selA.joinedDate)}</div></div>
+              <button onClick={e=>shareAcc(selA,e)} style={{background:"rgba(212,165,116,.07)",border:"1px solid rgba(212,165,116,.22)",color:"var(--hl)",padding:".3rem .68rem",borderRadius:6,fontSize:".74rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",display:"flex",alignItems:"center",gap:".28rem",minHeight:36}}>🔗 شارك</button>
+              <button onClick={e=>{e.stopPropagation();setShowQR(selA);}} style={{background:"rgba(255,255,255,.04)",border:"1px solid var(--border)",color:"var(--dim)",padding:".3rem .68rem",borderRadius:6,fontSize:".74rem",fontWeight:600,fontFamily:"'Cairo',sans-serif",display:"flex",alignItems:"center",gap:".28rem",minHeight:36}}>◻️ QR</button>
+            </div>
+            <div style={{color:"var(--dim)",lineHeight:1.68,marginBottom:".85rem",fontSize:".85rem"}}>{selA.description}</div>
+            {selA.links?.length>0&&<div style={{marginBottom:".85rem"}}><div style={{fontWeight:600,marginBottom:".38rem",fontSize:".7rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)"}}>اللينكات</div>{selA.links.map(l=><Lnk key={l.label} l={l}/>)}</div>}
+            {(selA.fixedReply||selA.timesReply||selA.contactReply||(selA.extraReplies&&selA.extraReplies.length>0))&&(
+              <div style={{marginBottom:".85rem"}}>
+                <div style={{fontWeight:600,marginBottom:".65rem",fontSize:".7rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)"}}>الردود الجاهزة</div>
+                <div style={{display:"grid",gap:".5rem"}}>
+                  {selA.fixedReply&&<div style={{background:"rgba(255,255,255,.02)",border:"1px solid var(--border)",borderRadius:6,padding:".68rem"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".32rem"}}><span style={{fontSize:".7rem",color:"var(--hl)",fontWeight:600}}>📌 الرد الثابت</span><CopyBtn text={selA.fixedReply} label="كوبي"/></div><div style={{fontSize:".78rem",color:"var(--text)",lineHeight:1.62,whiteSpace:"pre-wrap"}}>{selA.fixedReply}</div></div>}
+                  {selA.timesReply&&<div style={{background:"rgba(255,255,255,.02)",border:"1px solid var(--border)",borderRadius:6,padding:".68rem"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".32rem"}}><span style={{fontSize:".7rem",color:"var(--hl)",fontWeight:600}}>⏰ المواعيد</span><CopyBtn text={selA.timesReply} label="كوبي"/></div><div style={{fontSize:".78rem",color:"var(--text)",lineHeight:1.62,whiteSpace:"pre-wrap"}}>{selA.timesReply}</div></div>}
+                  {selA.contactReply&&<div style={{background:"rgba(255,255,255,.02)",border:"1px solid var(--border)",borderRadius:6,padding:".68rem"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".32rem"}}><span style={{fontSize:".7rem",color:"var(--hl)",fontWeight:600}}>📞 التواصل</span><CopyBtn text={selA.contactReply} label="كوبي"/></div><div style={{fontSize:".78rem",color:"var(--text)",lineHeight:1.62,whiteSpace:"pre-wrap"}}>{selA.contactReply}</div></div>}
+                  {(selA.extraReplies||[]).map((r,i)=>(
+                    <div key={i} style={{background:"rgba(255,255,255,.02)",border:"1px solid var(--border)",borderRadius:6,padding:".68rem"}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:".32rem"}}><span style={{fontSize:".7rem",color:"var(--hl)",fontWeight:600}}>💬 {r.label||`رد ${i+1}`}</span><CopyBtn text={r.text} label="كوبي"/></div>
+                      <div style={{fontSize:".78rem",color:"var(--text)",lineHeight:1.62,whiteSpace:"pre-wrap"}}>{r.text}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {(selA.galleryImages||[]).length>0&&<GalleryView images={selA.galleryImages} accName={selA.name} onZoom={setLightImg}/>}
+            {offs.filter(o=>o.accountId===selA.id&&!isExp(o.expiryDate)).length>0&&(
+              <div><div style={{fontWeight:600,marginBottom:".6rem",fontSize:".7rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)"}}>العروض</div>{offs.filter(o=>o.accountId===selA.id&&!isExp(o.expiryDate)).map(o=><OCard key={o.id} o={o}/>)}</div>
+            )}
+            {/* ── Q&A SECTION ── */}
+            {((selA.trainedQA||[]).filter(q=>q.q&&q.a).length>0)&&(
+              <div style={{marginTop:".85rem"}}>
+                <div style={{fontWeight:600,marginBottom:".6rem",fontSize:".7rem",letterSpacing:".08em",textTransform:"uppercase",color:"var(--dim)"}}>❓ الأسئلة المحفوظة</div>
+                <div style={{display:"grid",gap:".4rem"}}>
+                  {(selA.trainedQA||[]).filter(q=>q.q&&q.a).map(function(item,i){
+                    return(
+                      <div key={i} style={{background:"rgba(255,255,255,.02)",border:"1px solid var(--border)",borderRadius:8,padding:".65rem .75rem"}}>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:".5rem",marginBottom:".3rem"}}>
+                          <div style={{fontSize:".78rem",fontWeight:600,color:"var(--text)",flex:1}}>❓ {item.q}</div>
+                          <button onClick={async function(){
+                            var fb=window.__fb;if(!fb)return;
+                            var newQA=(selA.trainedQA||[]).filter(function(_,idx){return idx!==i;});
+                            var updated=Object.assign({},selA,{trainedQA:newQA,updatedAt:new Date().toISOString()});
+                            await fb.setDoc(fb.doc(fb.db,"accounts",selA.id),updated);
+                            msg("🗑️ تم حذف السؤال");
+                          }} style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.2)",color:"#f87171",borderRadius:5,fontSize:".68rem",cursor:"pointer",padding:".12rem .38rem",flexShrink:0}}>🗑</button>
+                        </div>
+                        <div style={{fontSize:".75rem",color:"var(--dim)",lineHeight:1.55,paddingRight:"1rem"}}>💡 {item.a}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            <div style={{textAlign:"center",marginTop:"1.2rem"}}><button onClick={closeAcc} style={S.ghost}>إغلاق</button></div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════ QR MODAL ═══════════════ */}
+      {showQR&&(
+        <div className="modal-overlay" onClick={()=>setShowQR(null)}>
+          <div className="modal-box" style={{background:"#0f0f0f",border:"1px solid rgba(212,165,116,.2)",borderRadius:14,padding:"1.6rem",maxWidth:320,textAlign:"center"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",marginBottom:".4rem"}}>{showQR.name}</div>
+            <div style={{fontSize:".7rem",color:"var(--dim)",marginBottom:"1rem"}}>امسح الـ QR للدخول المباشر للأكونت</div>
+            <div style={{display:"flex",justifyContent:"center",marginBottom:"1rem"}}>
+              <div className="qr-wrap">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(window.location.href.split("#")[0]+"#"+encodeURIComponent(showQR.id))}`}
+                  style={{width:180,height:180,display:"block",borderRadius:4}}
+                  alt="QR Code"
+                />
+              </div>
+            </div>
+            <button onClick={()=>{const url=window.location.href.split("#")[0]+"#"+encodeURIComponent(showQR.id);navigator.clipboard.writeText(url).then(()=>msg("🔗 تم كوبي اللينك!"));}} style={{...S.pBtn,width:"100%",marginBottom:".5rem"}}>🔗 كوبي اللينك</button>
+            <button onClick={()=>setShowQR(null)} style={{...S.ghost,width:"100%"}}>إغلاق</button>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════ ACC FORM ═══════════════ */}
+      {showAF&&(
+        <div className="modal-overlay">
+          <div className="modal-box" style={S.box}>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",marginBottom:"1rem",color:"var(--hl)"}}>{eAid?"تعديل الأكونت":"أكونت جديد"}</div>
+            <Lbl t="اسم الأكونت"/><input placeholder="مثال: شيخ المندي" value={af.name} onChange={e=>setAf({...af,name:e.target.value})} style={S.inp}/>
+            <ImgUp label="صورة البروفايل" cur={af.avatar} onDone={u=>setAf(f=>({...f,avatar:u}))}/>
+            <ImgUp label="صورة الغلاف" cur={af.coverImage} onDone={u=>setAf(f=>({...f,coverImage:u}))}/>
+            <GalleryUp images={af.galleryImages} onChange={imgs=>setAf(f=>({...f,galleryImages:imgs}))}/>
+            <div style={{height:".55rem"}}/>
+            <Lbl t="التاجات (مفصولة بفاصلة)"/><input placeholder="مطاعم, فود" value={af.tags} onChange={e=>setAf({...af,tags:e.target.value})} style={S.inp}/>
+            <Lbl t="الفئة"/><select value={af.category} onChange={e=>setAf({...af,category:e.target.value})} style={S.sel}>{["مطاعم","أخرى"].map(c=><option key={c}>{c}</option>)}</select>
+            <Lbl t="الوصف"/><textarea value={af.description} onChange={e=>setAf({...af,description:e.target.value})} style={{...S.inp,minHeight:65,resize:"vertical"}}/>
+            <Lbl t="الحالة"/><select value={af.status} onChange={e=>setAf({...af,status:e.target.value})} style={S.sel}><option>نشط</option><option>متوقف</option></select>
+            <Lbl t="تاريخ الانضمام (اختياري)"/><input type="date" value={af.joinedDate} onChange={e=>setAf({...af,joinedDate:e.target.value})} style={{...S.inp,marginBottom:".85rem"}}/>
+
+            {/* Replies section */}
+            <div style={{borderTop:"1px solid var(--border)",paddingTop:".85rem",marginBottom:".3rem"}}>
+              <div style={{fontSize:".72rem",color:"var(--hl)",fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",marginBottom:".7rem"}}>📋 الردود الجاهزة</div>
+              <Lbl t="الرد الثابت"/><textarea placeholder="أهلا وسهلا..." value={af.fixedReply} onChange={e=>setAf({...af,fixedReply:e.target.value})} style={{...S.inp,minHeight:80,resize:"vertical"}}/>
+              <Lbl t="رد المواعيد"/><textarea placeholder="السبت - الخميس: ١٢ظ - ١٢م" value={af.timesReply} onChange={e=>setAf({...af,timesReply:e.target.value})} style={{...S.inp,minHeight:65,resize:"vertical"}}/>
+              <Lbl t="رد التواصل"/><textarea placeholder="واتساب: 01XXXXXXXXX" value={af.contactReply} onChange={e=>setAf({...af,contactReply:e.target.value})} style={{...S.inp,minHeight:65,resize:"vertical"}}/>
+              <div style={{height:".4rem"}}/>
+              <MultiReplyEditor replies={af.extraReplies} onChange={r=>setAf(f=>({...f,extraReplies:r}))}/>
+            </div>
+
+            {/* Links */}
+            <div style={{borderTop:"1px solid var(--border)",paddingTop:".85rem",marginBottom:".5rem"}}>
+              <div style={{fontSize:".72rem",color:"var(--dim)",fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",marginBottom:".6rem"}}>اللينكات</div>
+              {lnks.map((l,i)=>(
+                <div key={i} style={{display:"grid",gridTemplateColumns:"1fr 2fr 46px 30px",gap:".3rem",marginBottom:".32rem"}}>
+                  {["label","url","icon"].map(k=><input key={k} placeholder={k==="label"?"الاسم":k==="url"?"الرابط":"أيقون"} value={l[k]} onChange={e=>{const n=[...lnks];n[i][k]=e.target.value;setLnks(n);}} style={{padding:".48rem .62rem",borderRadius:6,border:"1px solid rgba(255,255,255,.08)",background:"rgba(255,255,255,.03)",color:"var(--text)",direction:"rtl",fontFamily:"'Cairo',sans-serif",fontSize:".82rem",minHeight:40}}/>)}
+                  <button onClick={()=>setLnks(lnks.filter((_,idx)=>idx!==i))} style={{padding:".46rem",borderRadius:6,border:"1px solid rgba(239,68,68,.2)",background:"rgba(239,68,68,.05)",color:"#f87171",fontSize:".8rem",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+                </div>
+              ))}
+              <button onClick={()=>setLnks([...lnks,{label:"",url:"",icon:""}])} style={{padding:".26rem .7rem",borderRadius:4,border:"1px solid var(--border)",fontWeight:500,fontSize:".72rem",fontFamily:"'Cairo',sans-serif",background:"transparent",color:"var(--dim)",marginBottom:".9rem",minHeight:34}}>+ أضف لينك</button>
+            </div>
+
+            <div style={{display:"flex",gap:".5rem",justifyContent:"flex-end"}}>
+              <button onClick={()=>setShowAF(false)} style={S.ghost}>إلغاء</button>
+              <button className="bh" onClick={saveAcc} disabled={busy} style={{...S.pBtn,opacity:busy?.6:1}}>{busy?"⏳ جاري...":"💾 حفظ"}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════ OFFER FORM ═══════════════ */}
+      {showOF&&(
+        <div className="modal-overlay">
+          <div className="modal-box" style={{...S.box,maxWidth:460}}>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",marginBottom:"1rem",color:"var(--hl)"}}>{eOid?"تعديل العرض":"عرض جديد"}</div>
+            <Lbl t="الأكونت"/><select value={of.accountId} onChange={e=>setOf({...of,accountId:e.target.value})} style={S.sel}><option value="">اختر أكونت</option>{accs.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select>
+            <Lbl t="عنوان العرض"/><input placeholder="مثال: عرض رمضان" value={of.title} onChange={e=>setOf({...of,title:e.target.value})} style={S.inp}/>
+            <ImgUp label="صورة العرض (اختياري)" cur={of.image} onDone={u=>setOf(f=>({...f,image:u}))}/>
+            <Lbl t="رابط العرض (اختياري)"/><input placeholder="https://..." value={of.link} onChange={e=>setOf({...of,link:e.target.value})} style={S.inp}/>
+            <Lbl t="تاريخ الانتهاء (اختياري)"/><input type="date" value={of.expiryDate} onChange={e=>setOf({...of,expiryDate:e.target.value})} style={S.inp}/>
+            <Lbl t="الباج"/><input placeholder="جديد، محدود" value={of.badge} onChange={e=>setOf({...of,badge:e.target.value})} style={S.inp}/>
+            <Lbl t="الوصف القصير"/><textarea value={of.description} onChange={e=>setOf({...of,description:e.target.value})} style={{...S.inp,minHeight:52,resize:"vertical"}}/>
+            <Lbl t="المحتوى الكامل"/><textarea placeholder={"للطلبات: 01031751111\nالعنوان: ...\nhttps://maps.google.com/...\n\n• صينية - ١٢٩٩ ج"} value={of.content||""} onChange={e=>setOf({...of,content:e.target.value})} style={{...S.inp,minHeight:160,resize:"vertical",lineHeight:1.7}}/>
+            <div style={{display:"flex",gap:".5rem",justifyContent:"flex-end"}}>
+              <button onClick={()=>setShowOF(false)} style={S.ghost}>إلغاء</button>
+              <button className="bh" onClick={saveOff} disabled={busy} style={{...S.pBtn,opacity:busy?.6:1}}>{busy?"⏳ جاري...":"💾 حفظ"}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── EXPLAIN FAB ── */}
+      <button className="explain-fab" onClick={()=>setShowExplain(true)}>💡 Explain for me</button>
+
+      {/* ── FOOTER ── */}
+      <div style={{textAlign:"center",padding:"1.2rem",marginTop:".5rem"}}>
+        <div className="made-by">Made by Fares Akram</div>
+      </div>
+      </>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
