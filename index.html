@@ -36,6 +36,42 @@ if('serviceWorker' in navigator){
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{--primary:#0a0a0a;--hl:#d4a574;--hld:#b8915f;--text:#e8e8e8;--dim:#a8a8a8;--card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-top:env(safe-area-inset-top,0px);}
 
+/* ── Splash Screen ── */
+#splash{position:fixed;inset:0;background:#0a0a0a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:opacity .5s ease,visibility .5s ease;}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+#splash img{width:90px;height:90px;border-radius:50%;border:2px solid rgba(212,165,116,.4);object-fit:cover;animation:splashPulse 1.5s ease-in-out infinite;}
+#splash .splash-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:#e8e8e8;letter-spacing:.1em;}
+#splash .splash-sub{font-family:'Cairo',sans-serif;font-size:.65rem;color:#d4a574;letter-spacing:.3em;text-transform:uppercase;}
+#splash .splash-dots{display:flex;gap:.4rem;}
+#splash .splash-dot{width:6px;height:6px;border-radius:50%;background:#d4a574;animation:dotBounce 1.2s ease-in-out infinite;}
+#splash .splash-dot:nth-child(2){animation-delay:.2s;}
+#splash .splash-dot:nth-child(3){animation-delay:.4s;}
+@keyframes splashPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,165,116,.3);}50%{box-shadow:0 0 0 12px rgba(212,165,116,0);}}
+@keyframes dotBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* ── Bottom Nav (mobile only) ── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(8,8,8,0.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid rgba(255,255,255,0.07);padding-bottom:env(safe-area-inset-bottom,0px);height:calc(60px + env(safe-area-inset-bottom,0px));}
+.bottom-nav-inner{display:flex;height:60px;align-items:stretch;}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--dim);font-family:'Cairo',sans-serif;font-size:.52rem;font-weight:600;transition:all .18s;position:relative;padding:0;}
+.bnav-btn.active{color:var(--hl);}
+.bnav-btn .bnav-icon{font-size:1.15rem;line-height:1;}
+.bnav-badge{position:absolute;top:8px;right:calc(50% - 16px);background:#ef4444;color:#fff;font-size:.45rem;font-weight:700;padding:.1rem .28rem;border-radius:10px;min-width:14px;text-align:center;}
+@media(max-width:768px){
+  .bottom-nav{display:block;}
+  .nav-bar{display:none!important;}
+  body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px));}
+}
+
+/* ── Pull to Refresh ── */
+#ptr{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:center;height:0;overflow:hidden;background:rgba(10,10,10,.95);transition:height .2s ease;color:var(--hl);font-family:'Cairo',sans-serif;font-size:.8rem;gap:.5rem;}
+#ptr.visible{height:50px;}
+#ptr .ptr-spin{animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Offline Banner ── */
+#offline-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:500;background:#1a0a0a;border-bottom:1px solid rgba(239,68,68,.3);color:#fca5a5;font-family:'Cairo',sans-serif;font-size:.78rem;text-align:center;padding:.5rem;padding-top:calc(.5rem + env(safe-area-inset-top,0px));}
+#offline-banner.show{display:block;}
+
 /* ── Base ── */
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 body{font-family:'Cairo','Work Sans',sans-serif;direction:rtl;background:var(--primary);min-height:100vh;min-height:-webkit-fill-available;color:var(--text);position:relative;overflow-x:hidden;cursor:none;}
@@ -2467,6 +2503,30 @@ function App(){
           <button className="bh" onClick={()=>setView("landing")} style={NB(false)}>🏠</button>
           <button className="bh" onClick={()=>setView("pub")} style={NB(view==="pub")}>🌐</button>
           {admin?<button className="bh" onClick={()=>setView("admin")} style={NB(view==="admin")}>🛠️</button>:<button className="bh" onClick={()=>setView("login")} style={NB(false)}>🔐</button>}
+        </div>
+      </nav>
+
+      {/* ── Bottom Nav (mobile) ── */}
+      <nav className="bottom-nav">
+        <div className="bottom-nav-inner">
+          <button className={"bnav-btn"+(view==="landing"?" active":"")} onClick={()=>setView("landing")}>
+            <span className="bnav-icon">🏠</span><span>الرئيسية</span>
+          </button>
+          <button className={"bnav-btn"+(view==="pub"?" active":"")} onClick={()=>setView("pub")}>
+            <span className="bnav-icon">🌐</span><span>الأكونتات</span>
+          </button>
+          <button className={"bnav-btn"+(showPublicBot?" active":"")} onClick={()=>setShowPublicBot(!showPublicBot)}>
+            <span className="bnav-icon">💬</span><span>المساعد</span>
+          </button>
+          {admin
+            ?<button className={"bnav-btn"+(view==="admin"?" active":"")} onClick={()=>setView("admin")}>
+                <span className="bnav-icon">🛠️</span><span>الأدمن</span>
+                {urgentCount>0&&<span className="bnav-badge">{urgentCount}</span>}
+              </button>
+            :<button className={"bnav-btn"+(view==="login"?" active":"")} onClick={()=>setView("login")}>
+                <span className="bnav-icon">🔐</span><span>دخول</span>
+              </button>
+          }
         </div>
       </nav>
 
